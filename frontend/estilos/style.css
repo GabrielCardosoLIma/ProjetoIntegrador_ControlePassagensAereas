@@ -1,0 +1,361 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+:root{
+    --white: #ffffff;
+    --alice_blue: #edf5fc9c;
+    --rich_black: #00171f;
+    --prussian_blue: #003459;
+    --cerulean: #007ea7;
+    --picton_blue: #00a8e8;
+    --roboto: 'Roboto', sans-serif;
+}
+
+*{
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+body{
+    font-family: var(--roboto);
+    font-size: 16px;
+    box-sizing: border-box;
+    background-color: var(--alice_blue);
+    display: flex;
+    flex-direction: column;
+}
+
+/*     HEADER     */
+
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--prussian_blue);
+}
+
+header .img{
+    margin-left: 20px;
+    padding: 5px;
+}
+
+header img{
+    width: 120px;
+}
+
+header ul{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 20px;
+}
+
+header li{
+    list-style: none;
+    padding: 5px;
+}
+
+header a{
+    text-decoration: none;
+    padding: 1px;
+    color: var(--white);
+}
+
+header a:hover{
+    color: var(--alice_blue);
+}
+
+li.logout span{
+    color: var(--white);
+    vertical-align: middle;
+    font-size: 16px;
+}
+
+li.logout a{
+    padding-right: 0px;
+}
+
+/*     MAIN     */
+
+main{
+    width: 85%;
+    align-self: center;
+    display: flex;
+}
+
+section{
+    background-color: var(--white);
+    box-shadow: 2px 2px 25px rgba(0, 0, 0, 0.2);
+    margin: 50px 20px;
+    border-radius: 5px;
+    overflow: hidden;
+    color: var(--rich_black);
+}
+
+section h1{
+    padding: 8px;
+    background-color: var(--prussian_blue);
+    color: var(--white);
+}
+
+section.opc{
+    width: 30%;
+    max-height: 250px;
+}
+
+.opc h2{
+    padding: 10px;
+    border-bottom: 1px solid #00345921;
+}
+
+section ul{
+    padding: 8px 0px 8px 10px;
+}
+section li{
+    border-bottom: 1px solid #00345921;
+}
+
+section.opc button{
+    background-color: var(--white);
+    border: none;
+    font-family: var(--roboto);
+    font-size: 15px;
+    padding: 10px 30px 10px 5px;
+}
+
+section.opc button:hover{
+    color: var(--cerulean);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+section span{
+    vertical-align: sub;
+    margin-right: 5px;
+}
+
+section.aeronaves{
+    width: 70%;
+    min-height: 500px;
+    display: block;
+}
+
+section.mapa{
+    width: 70%;
+    min-height: 500px;
+    display: none;
+}
+
+section.voos{
+    width: 70%;
+    min-height: 500px;
+    display: none;
+}
+
+/*     FORMS     */
+
+form{
+    padding: 10px;
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group{
+    display: flex;
+    max-width: 400px;
+    justify-content: space-between;
+}
+
+.form-group input{
+    border: 1px solid var(--rich_black);
+    border-radius: 3px;
+    width: 250px;
+}
+
+section.voos .form-group input{
+    width: 100px;
+}
+
+.btns{
+    width: 400px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-form{
+    width: 120px;
+    border: 1px solid var(--prussian_blue);
+    background-color: var(--prussian_blue);
+    font-family: var(--roboto);
+    padding: 3px;
+    border-radius: 3px;
+    color: var(--white);
+}
+
+.btn-form:hover{
+    background-color: var(--cerulean);
+    cursor: pointer;
+}
+
+/*     TABLES     */
+
+.table-container{
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    padding: 0px 10px;
+    overflow-y: auto; 
+    max-height: 200px;
+    margin-bottom: 20px;
+}
+
+table{
+    border-collapse: collapse;
+}
+
+.table-aeronaves th{
+    padding: 3px 50px;
+    border: 1px solid var(--rich_black);
+    background-color: var(--prussian_blue);
+    color: var(--white);
+}
+
+table td{
+    vertical-align: center;
+    text-align: center;
+    padding: 5px;
+    border: 1px solid var(--rich_black);
+}
+
+.table-voos th{
+    padding: 3px 20px;
+    border: 1px solid var(--rich_black);
+    background-color: var(--prussian_blue);
+    color: var(--white);
+}
+
+tbody:nth-child(odd) {
+    background-color:#00345928;
+}
+
+thead{
+    position: sticky;
+    top: 0;
+}
+
+
+/*     SCROLL     */
+
+.table-container::-webkit-scrollbar {
+    width: 10px; 
+    height: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background-color:#0034593d; 
+    border-radius: 10px; 
+}
+
+/*     AVIAO/ASSENTOS     */
+
+.container-aviao22{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 40px 0px;
+}
+
+.aviao22{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    color: var(--white);
+    text-align: center;
+    background-color: var(--alice_blue);
+    border: 2px solid var(--rich_black);
+    border-radius: 20px 20px 150px 150px;
+    width: 300px;
+    padding: 20px 0px 100px 0px;
+}
+
+.assento{
+    height: 30px;
+    width: 30px;
+    background-color: var(--prussian_blue);
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+}
+
+.assento:hover{
+    cursor: pointer;
+    background-color: var(--cerulean);
+}
+
+.num{
+    color: var(--rich_black);
+    height: 30px;
+    width: 30px;
+    margin: 10px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fileiraB{
+    margin-right: 30px;
+}
+
+
+
+
+
+
+/*     Media Query     */
+
+@media (max-width: 768px) { 
+
+    main{
+        width: 95%;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 100px;
+    }
+    
+    section{
+        margin: 30px 0px 0px 0px;
+    }
+    
+    section.opc{
+        width: 95%;
+        max-height: 250px;
+    }
+    
+    section.aeronaves, section.mapa, section.voos{
+        width: 95%;
+    }
+
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+    main{
+        width: 95%;
+        gap: 30px;
+        margin-bottom: 50px;
+    }
+    
+    section{
+        margin: 30px 0px 0px 0px;
+    }
+    
+    section.opc{
+        width: 250px;
+        max-height: 260px;
+    } 
+}
