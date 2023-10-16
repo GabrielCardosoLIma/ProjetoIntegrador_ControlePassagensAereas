@@ -9,7 +9,7 @@ const cors = require("cors");
 const app = express();
 const port = 3000;
 
-const oracleStr "";
+const oracleStr = " ";
 
 app.use(express.json());
 
