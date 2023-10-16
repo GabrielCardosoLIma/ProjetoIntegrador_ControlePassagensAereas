@@ -9,8 +9,7 @@ const cors = require("cors");
 const app = express();
 const port = 3000;
 
-const oracleStr =
-  "(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=DESKTOP-R73O39J)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=xepdb1)))";
+const oracleStr "";
 
 app.use(express.json());
 
