@@ -26,7 +26,7 @@ O projeto faz uso das seguintes tecnologias:
 O projeto é desenvolvido por uma equipe composta pelos seguintes alunos:
 
 - Gabriel Cardoso
-- Isabela Maria
+- Isabella Maria
 - João Xavier
 - Bruna Barbour
 - Gustavo José
