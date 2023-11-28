@@ -1,0 +1,178 @@
+/* Boas vindas*/
+.bemvindo {
+  font-family: sans-serif;
+  font-size: 25px;
+  margin: 50px 0px;
+}
+
+/* Main*/
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Bilhete */
+
+section {
+  background-color: var(--white);
+  box-shadow: 2px 2px 25px rgba(0, 0, 0, 0.2);
+  border-radius: 40px;
+  overflow: hidden;
+  width: 75%;
+  color: var(--cerulean);
+  display: flex;
+  flex-direction: column;
+}
+
+.titulo {
+  color: white;
+  font-size: 30px;
+  float: left;
+  margin-left: 20px;
+}
+
+img {
+  width: 40px;
+  margin-left: 30px;
+}
+
+.box-superior {
+  background-color: #00a8e8;
+  padding: 15px;
+}
+
+.box-inferior {
+  background-color: #00a8e8;
+  padding: 15px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 10px;
+}
+
+.grid-item {
+  border: 1px solid #ddd;
+  margin: 0px;
+}
+
+.grid-container2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.grid-item2 {
+  margin: 0px;
+}
+
+p {
+  color: black;
+  margin-left: 10px;
+}
+
+.data,
+.hora,
+.origem,
+.destino,
+.assento,
+.nome {
+  margin: 15px 0px 15px 30px;
+}
+
+.codigo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.codigo img {
+  width: 200px;
+  margin: 0px;
+}
+
+.horizontal {
+  display: block;
+}
+
+.vertical {
+  display: none;
+}
+
+.boaviagem {
+  font-size: 20px;
+  margin: 20px 0px;
+}
+
+.label {
+  color: var(--rich_black);
+  font-weight: 600;
+  margin: 0px;
+}
+
+.dados {
+  display: flex;
+  gap: 5px;
+}
+
+@media (max-width: 768px) {
+  section {
+    width: 90%;
+  }
+
+  .titulo {
+    font-size: 24px;
+    margin-left: 15px;
+  }
+
+  .grid-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .horizontal {
+    display: none;
+  }
+
+  .vertical {
+    display: block;
+  }
+
+  .grid-container2 {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .data,
+  .hora,
+  .origem,
+  .destino,
+  .assento,
+  .nome {
+    margin: 5px 0px 0px 30px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+  section {
+    width: 85%;
+  }
+
+  p {
+    color: black;
+    margin-left: 10px;
+  }
+
+  .dados {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+  }
+
+  .dados p {
+    margin: 0px;
+  }
+}

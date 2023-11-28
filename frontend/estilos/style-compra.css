@@ -1,0 +1,188 @@
+/*     MAIN     */
+
+main {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin: 50px;
+  gap: 50px;
+}
+
+#voos-disponiveis {
+  width: 70%;
+  border-radius: 10px;
+  box-shadow: 1px 5px 10px rgba(0, 0, 0, 0.2);
+  background-color: white;
+  display: grid;
+  grid-template-areas:'ida btn' 'volta btn';
+  grid-template-columns: 3fr 1fr;
+  padding: 20px;
+}
+
+.ida{
+  grid-area: ida;
+  border-right: 1px solid rgb(221, 221, 221);
+}
+
+.volta{
+  grid-area: volta;
+  border-top: 1px solid rgb(221, 221, 221);
+  border-right: 1px solid rgb(221, 221, 221);
+}
+
+.comprar{
+  grid-area: btn;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-voos {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.origem,
+.destino {
+  color: var(--rich_black);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 10px 0px;
+}
+
+.sigla {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: var(--prussian_blue);
+}
+
+.horario {
+  padding-top: 30px;
+  font-size: 14px;
+  color: rgb(102, 102, 102);
+}
+
+.origem p,
+.destino p {
+  margin: 0px;
+  padding: 0px;
+}
+
+.seta {
+  padding: 30px;
+  align-self: center;
+  color: var(--rich_black);
+}
+
+#comprar {
+  background-color: var(--gamboge);
+  border: none;
+  border-radius: 30px;
+  padding: 0px 40px;
+  height: 40px;
+}
+
+#comprar:hover {
+  background-color: #efc808ad;
+  cursor: pointer;
+}
+
+.preco {
+  color: var(--prussian_blue);
+  font-weight: 500;
+  padding: 5px;
+}
+
+
+
+/*     Media Query     */
+
+@media (max-width: 768px) {
+  main {
+    margin: 30px 20px;
+    gap: 25px;
+  }
+
+  #voos-disponiveis {
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .container-voos {
+    display: grid;
+    grid-template-areas: "origem seta destino" "preco comprar comprar";
+    gap: 0px;
+  }
+
+  .ida, .volta{
+    border-right: none;
+  }
+
+  .comprar{
+    border-top: 1px solid rgb(221, 221, 221);
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+
+  .origem {
+    grid-area: origem;
+  }
+
+  .destino {
+    grid-area: destino;
+  }
+
+  .sigla {
+    font-size: 16px;
+    letter-spacing: 2px;
+  }
+
+  .horario {
+    font-size: 14px;
+  }
+
+  .origem p,
+  .destino p {
+    font-size: 15px;
+  }
+
+  .seta {
+    padding: 0px;
+    grid-area: seta;
+  }
+
+  #comprar {
+    grid-area: comprar;
+    max-width: 200px;
+  }
+
+  .preco {
+    grid-area: preco;
+  }
+
+  .comprar{
+    padding-top: 15px;
+  }
+
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+  main {
+    margin: 50px;
+    gap: 30px;
+  }
+
+  #voos-disponiveis {
+    width: 95%;
+    padding: 20px;
+  }
+
+}

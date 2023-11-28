@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ATWU - Mapa de Assentos</title>
+    <link rel="stylesheet" href="../../../estilos/style.css" />
+    <link rel="stylesheet" href="../../../estilos/style-mapa.css" />
+    <link
+      rel="shortcut icon"
+      href="../../../imagens/favicon.ico"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
+    <script src="../../../scripts/adm.js"></script>
+    <script src="../../../scripts/gerarmapa.js"></script>
+    <style>
+      .statusError {
+        color: red;
+      }
+      .statusSuccess {
+        color: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="img-logo">
+        <img src="../../../imagens/logo.branco.png" alt="" />
+      </div>
+      <nav>
+        <ul>
+          <li><a href="../../index.html">Home</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="nav-escolha">
+        <div class="voo">
+          <p>São Paulo</p>
+          <span class="material-symbols-outlined seta2"> trending_flat </span>
+          <p>Buenos Aires</p>
+        </div>
+        <div class="txt">
+          <p>Escolha seu assento</p>
+        </div>
+      </section>
+      <section class="mapa-container">
+        <div class="meio">
+          <img class="asaDireita" src="../../../imagens/asaDireita.png" />
+          <div class="mapa" id="gerar-mapa"></div>
+          <img
+            class="asaEsquerda"
+            class="asaEsquerda"
+            src="../../../imagens/asaEsquerda.png"
+          />
+        </div>
+        <div class="cauda">
+          <img src="../../../imagens/cauda.png" />
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="legenda">
+        <div class="disponivel">
+          <div></div>
+          <p>Disponível</p>
+        </div>
+        <div class="ocupado">
+          <div>X</div>
+          <p>Ocupado</p>
+        </div>
+        <div class="selecionado">
+          <div></div>
+          <p>Selecionado</p>
+        </div>
+      </div>
+      <div class="btn">
+        <button>Confirmar</button>
+      </div>
+    </footer>
+  </body>
+</html>

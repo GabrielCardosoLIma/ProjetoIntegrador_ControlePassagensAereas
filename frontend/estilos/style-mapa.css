@@ -1,0 +1,233 @@
+/*     MAIN     */
+
+main {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 100px;
+}
+
+.nav-escolha {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-escolha p {
+  padding: 13px;
+}
+
+.voo {
+  margin-left: 40px;
+  display: flex;
+}
+
+.seta2 {
+  margin: 0px;
+  padding: 0px;
+  padding: 10px;
+}
+
+.txt {
+  color: var(--rich_black);
+  font-weight: 600;
+  font-size: 20px;
+}
+
+/*     MAPA DE ASSENTOS     */
+
+.mapa-container {
+  position: relative;
+  margin: 30px 0px 70px 0px;
+  padding: 50px;
+  align-self: center;
+  width: 80%;
+  background-color: var(--white);
+  box-shadow: 1px 5px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.mapa {
+  padding: 220px 10px 200px 10px;
+  display: flex;
+  flex-direction: row;
+  border-radius: 200px 200px 0px 0px;
+  background-color: #c9e9ff;
+  gap: 3px;
+}
+
+.meio {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.asaDireita,
+.asaEsquerda {
+  margin-top: 400px;
+}
+
+.cauda img {
+  width: 900px;
+  margin-right: 10px;
+}
+
+.seat {
+  width: 30px;
+  height: 30px;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0px;
+  font-size: 13px;
+  background-color: white;
+}
+
+.seat:hover {
+  background-color: var(--cerulean);
+  cursor: pointer;
+  border: none;
+}
+
+.fileiraB,
+.fileiraE {
+  margin-right: 20px;
+}
+
+.seat.selected {
+  background-color: var(--cerulean); /* Cor quando selecionado */
+  color: #fff; /* Cor do texto quando selecionado */
+  border: none;
+}
+
+/*     FOOTER     */
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: var(--white);
+  box-shadow: 10px 3px 8px rgba(0, 0, 0, 0.596);
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.btn {
+  text-align: end;
+  margin-right: 50px;
+}
+
+.btn button {
+  padding: 15px 50px;
+  font-size: 16px;
+  color: var(--rich_black);
+  background-color: var(--gamboge);
+  border: none;
+  border-radius: 30px;
+}
+
+.btn button:hover {
+  background-color: #efc808ad;
+  cursor: pointer;
+}
+
+.disponivel div {
+  width: 30px;
+  height: 30px;
+  border: 1px solid black;
+  border-radius: 3px;
+}
+
+.ocupado div {
+  width: 30px;
+  height: 30px;
+  background-color: gray;
+  color: rgb(51, 51, 51);
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.selecionado div {
+  width: 30px;
+  height: 30px;
+  background-color: var(--cerulean);
+  border-radius: 3px;
+}
+
+.legenda {
+  margin-left: 30px;
+  display: flex;
+  gap: 30px;
+}
+
+.disponivel,
+.ocupado,
+.selecionado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+@media (max-width: 768px) {
+  .nav-escolha {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0px;
+  }
+
+  .nav-escolha p {
+    margin-top: 0px;
+  }
+
+  .voo {
+    margin-left: 0px;
+    display: flex;
+  }
+
+  .txt {
+    font-weight: 600;
+    font-size: 20px;
+    margin: 0px;
+  }
+
+  footer {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn {
+    text-align: center;
+    margin-right: 0px;
+  }
+
+  .btn button {
+    padding: 10px 40px;
+  }
+
+  .ocupado div,
+  .disponivel div,
+  .selecionado div {
+    width: 20px;
+    height: 20px;
+  }
+
+  .legenda {
+    margin-left: 0px;
+    gap: 20px;
+  }
+}

@@ -1,0 +1,301 @@
+/*     HEADER     */
+
+header ul {
+  display: flex;
+  margin-top: 15px;
+  gap: 10px;
+  margin-right: 40px;
+}
+
+/*     CARROSSEL     */
+
+.carousel {
+  position: relative;
+}
+
+.carousel-inner {
+  max-height: 500px;
+}
+
+.boas-vindas {
+  position: absolute;
+  top: 50%;
+  left: 40%;
+  transform: translate(-50%, -50%);
+  color: var(--rich_black);
+  background-color: rgba(255, 255, 255, 0.575);
+  padding: 70px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.308);
+}
+
+.boas-vindas h1 {
+  font-size: 60px;
+  padding: 0px;
+  color: var(--prussian_blue);
+  margin: 0px 0px 20px 0px;
+}
+
+.boas-vindas p {
+  font-size: 22px;
+  margin: 0px 20px;
+  padding: 0px;
+}
+
+/*     MAIN     */
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+/*     BUSCA DE PASSAGENS     */
+
+.busca-voos-container {
+  color: white;
+  display: flex;
+  justify-content: center;
+}
+
+.busca-voos {
+  background-color: var(--prussian_blue);
+  width: 85%;
+  margin: 40px;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.308);
+}
+
+.row-1 {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 40px;
+}
+
+.row-2 {
+  display: flex;
+}
+
+.form-floating {
+  color: var(--rich_black);
+}
+
+.fc-origem {
+  border-radius: 8px 0px 0px 8px;
+}
+
+.ff-destino {
+  margin-right: 20px;
+}
+
+.fc-destino {
+  border-radius: 0px 8px 8px 0px;
+}
+
+.input-date {
+  color: var(--rich_black);
+  padding: 15px;
+}
+
+.fd-ida input {
+  border: none;
+  border-radius: 8px 0px 0px 8px;
+}
+
+.fd-volta input {
+  border: none;
+  border-radius: 0px 8px 8px 0px;
+}
+
+.btn-buscar {
+  color: var(--rich_black);
+  background-color: var(--gamboge);
+  border: none;
+  border-radius: 20px;
+  margin-left: 20px;
+  padding: 10px 20px;
+  height: 40px;
+  display: flex;
+}
+
+.btn-buscar:hover {
+  background-color: #eed451;
+}
+
+/*     CARDS     */
+
+.cards-container {
+  max-width: 1000px;
+  width: 90%;
+  margin-bottom: 50px;
+}
+
+.card-img-top {
+  height: 250px;
+}
+
+/*     Media Query     */
+
+@media (max-width: 768px) {
+  .carousel-inner {
+    max-height: 200px;
+  }
+
+  .boas-vindas {
+    top: 50%;
+    left: 42%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+  }
+
+  .boas-vindas h1 {
+    font-size: 26px;
+    margin: 0px 0px 10px 0px;
+  }
+
+  .boas-vindas p {
+    font-size: 16px;
+    margin: 0px 5px;
+  }
+
+  .busca-voos-container {
+    color: white;
+    display: flex;
+    justify-content: center;
+    width: 95%;
+  }
+
+  .busca-voos {
+    width: 100%;
+    margin: 30px;
+    padding: 30px;
+  }
+
+  .row-1 {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .row-2 {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-floating {
+    color: var(--rich_black);
+  }
+
+  .fc-origem {
+    border-radius: 8px 8px 0px 0px;
+  }
+
+  .ff-destino {
+    margin-right: 0px;
+    margin-bottom: 20px;
+  }
+
+  .fc-destino {
+    border-radius: 0px 0px 8px 8px;
+  }
+
+  .input-date {
+    color: var(--rich_black);
+    padding: 17px;
+  }
+
+  .fd-ida input {
+    border-radius: 8px 8px 0px 0px;
+  }
+
+  .fd-volta input {
+    border-radius: 0px 0px 8px 8px;
+  }
+
+  .btn-buscar {
+    margin-top: 20px;
+    width: 130px;
+  }
+
+  .cards-container {
+    width: 70%;
+    margin-bottom: 50px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+  .carousel-inner {
+    max-height: 350px;
+  }
+
+  .boas-vindas {
+    padding: 30px;
+  }
+
+  .busca-voos-container {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+  }
+
+  .busca-voos {
+    width: 100%;
+    margin: 30px;
+    padding: 30px;
+  }
+
+  .row-1 {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .row-2 {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-floating {
+    color: var(--rich_black);
+  }
+
+  .fc-origem {
+    border-radius: 8px 8px 0px 0px;
+  }
+
+  .ff-destino {
+    margin-right: 0px;
+    margin-bottom: 20px;
+  }
+
+  .fc-destino {
+    border-radius: 0px 0px 8px 8px;
+  }
+
+  .input-date {
+    color: var(--rich_black);
+    padding: 17px;
+  }
+
+  .fd-ida input {
+    border-radius: 8px 8px 0px 0px;
+  }
+
+  .fd-volta input {
+    border-radius: 0px 0px 8px 8px;
+  }
+
+  .btn-buscar {
+    margin-top: 20px;
+    width: 130px;
+  }
+
+  .cards-container {
+    width: 95%;
+    margin-bottom: 50px;
+  }
+}

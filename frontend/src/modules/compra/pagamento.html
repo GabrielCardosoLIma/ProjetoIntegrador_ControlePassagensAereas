@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ATWU | Pagamento</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link rel="shortcut icon" href="imagens/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../../../estilos/style.css" />
+    <link rel="stylesheet" href="../../../estilos/style-pagamento.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="img-logo">
+        <img src="../../../imagens/logo.branco.png" alt="" />
+      </div>
+    </header>
+
+    <main>
+      <section id="dados-voos">
+        <div class="title">Dados da compra</div>
+        <div class="container-voos ida">
+          <div class="origem">
+            <p class="sigla" id="siglaOriIda"></p>
+            <div>
+              <p id="cidOriIda"></p>
+              <p id="paisOriIda"></p>
+            </div>
+            <p class="horario" id="dtOriIda"></p>
+          </div>
+          <span class="material-symbols-outlined seta"> trending_flat </span>
+          <div class="destino">
+            <p class="sigla" id="siglaDestIda"></p>
+            <p id="cidDestIda"></p>
+            <p id="paisDestIda"></p>
+            <p class="horario" id="dtDestIda"></p>
+          </div>
+        </div>
+
+        <div class="container-voos volta">
+          <div class="origem">
+            <p class="sigla" id="siglaOriVolta"></p>
+            <div>
+              <p id="cidOriVolta"></p>
+              <p id="paisOriVolta"></p>
+            </div>
+            <p class="horario" id="dtOriVolta"></p>
+          </div>
+          <span class="material-symbols-outlined seta"> trending_flat </span>
+          <div class="destino">
+            <p class="sigla" id="siglaDestVolta"></p>
+            <p id="cidDestVolta"></p>
+            <p id="paisDestVolta"></p>
+            <p class="horario" id="dtDestVolta"></p>
+          </div>
+        </div>
+        <div class="total">
+          <p>Total</p>
+          <p id="preco"></p>
+        </div>
+      </section>
+
+      <section class="dados-pagamento">
+        <div class="title">Pagamento</div>
+        <form id="formPagamento">
+          <fieldset class="dadosCliente">
+            <legend>Dados do cliente</legend>
+            <div class="form-floating mb-3 i-cont">
+              <input
+                type="text"
+                class="form-control"
+                id="nome"
+                placeholder=""
+              />
+              <span class="material-symbols-outlined" id="iconeVerificado">
+                check
+              </span>
+              <label for="nome">Nome</label>
+              <p class="mgsVal" id="mensagemValidacao"></p>
+            </div>
+            <div class="form-floating i-email">
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                placeholder=""
+              />
+              <span class="material-symbols-outlined" id="iconeVerificadoEmail">
+                check
+              </span>
+              <label for="email">Email</label>
+              <p class="mgsVal" id="mensagemValidacaoEmail"></p>
+            </div>
+          </fieldset>
+          <fieldset class="radio">
+            <legend>Método de pagamento</legend>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="flexRadioDefault"
+                id="cartao"
+                value="cartao"
+                checked
+              />
+              <label class="form-check-label" for="flexRadioDefault">
+                Cartão de crédito
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="flexRadioDefault"
+                id="pix"
+                value="pix"
+              />
+              <label class="form-check-label" for="flexRadioDefault">
+                Pix
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset id="f-cartao">
+            <div class="form-floating mb-3 i-nome">
+              <input
+                type="text"
+                class="form-control"
+                id="nomeCartao"
+                placeholder=""
+              />
+              <span class="material-symbols-outlined" id="iconeVerificadoNomeCartao">
+                check
+              </span>
+              <label for="nomeCartao">Nome como consta no cartão</label>
+              <p class="mgsVal" id="mensagemValidacaoNomeCartao"></p>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="numeroCartao"
+                placeholder=""
+              />
+              <span class="material-symbols-outlined" id="iconeVerificadoNumeroCartao">
+                check
+              </span>
+              <label for="numeroCartao">Número do cartão</label>
+              <p class="mgsVal" id="mensagemValidacaoNumeroCartao"></p>
+            </div>
+            <div class="form-floating mb-3 float val">
+              <input
+                type="text"
+                class="form-control"
+                id="validade"
+                placeholder=""
+              />
+              <span class="material-symbols-outlined" id="iconeVerificadoValidade">
+                check
+              </span>
+              <label for="validade">Data de expiração (MM/AA)</label>
+              <p class="mgsVal" id="mensagemValidacaoValidade"></p>
+            </div>
+            <div class="form-floating mb-3 float cvv">
+              <input type="text" class="form-control" id="cvv" placeholder="" />
+              <span class="material-symbols-outlined" id="iconeVerificadoCVV">
+                check
+              </span>
+              <label for="cvv">CVV</label>
+              <p class="mgsVal" id="mensagemValidacaoCVV"></p>
+            </div>
+          </fieldset>
+
+          <fieldset id="f-pix">
+            <div>
+              <img src="../../../imagens/qr-code.png" alt="" />
+            </div>
+            <p class="cod">Código pix:</p>
+            <p>
+              12md-wdwojybionjbss2<br />595245sdvs-dv41000s52dd<br />dsds5-22202ds526641234
+            </p>
+          </fieldset>
+          <fieldset class="f-btn">
+            <input
+              type="button"
+              class="botao"
+              id="btnConfirmar"
+              value="confirmar"
+            />
+          </fieldset>
+        </form>
+        <div class="mensagem-container">
+          <div class="mensagem">
+            <h2 class="msg"></h2>
+            <p class="txt"></p>
+            <button id="verPassagem" class="botao">Ver passagem</button>
+            <input id="limpar" class="botao" type="reset" value="Recomeçar" />
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <script src="../../../scripts/pagamento.js"></script>
+  </body>
+</html>

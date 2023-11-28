@@ -1,0 +1,248 @@
+/*Estilos para a página do administrador*/
+
+/*     MAIN     */
+
+main {
+  width: 85%;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+}
+
+section {
+  background-color: var(--white);
+  box-shadow: 2px 2px 25px rgba(0, 0, 0, 0.2);
+  margin: 15px;
+  border-radius: 5px;
+  overflow: hidden;
+  color: var(--rich_black);
+}
+
+section h1 {
+  padding: 8px;
+  background-color: var(--prussian_blue);
+  color: var(--white);
+}
+
+section ul {
+  padding: 8px 0px 8px 10px;
+  display: flex;
+  gap: 10px;
+}
+section li {
+  list-style-type: none;
+  border-right: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+section.opc button {
+  background-color: var(--white);
+  border: none;
+  font-family: var(--roboto);
+  font-size: 15px;
+  padding: 10px 30px 10px 5px;
+}
+
+section.opc button:hover {
+  color: var(--cerulean);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+section span {
+  vertical-align: sub;
+  margin-right: 5px;
+}
+
+section.aeronaves {
+  display: none;
+}
+
+section.aeroportos {
+  display: none;
+}
+
+section.trechos {
+  display: none;
+}
+
+section.voos {
+  display: none;
+}
+
+section.assentos {
+  display: none;
+}
+
+/*     FORMS     */
+
+form {
+  padding: 10px;
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  max-width: 450px;
+  justify-content: space-between;
+}
+
+.form-group input {
+  border: 1px solid var(--rich_black);
+  border-radius: 3px;
+  width: 250px;
+  text-align: center;
+}
+
+.btns {
+  width: 450px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-form {
+  width: 120px;
+  border: 1px solid var(--prussian_blue);
+  background-color: var(--prussian_blue);
+  font-family: var(--roboto);
+  padding: 3px;
+  border-radius: 3px;
+  color: var(--white);
+}
+
+.btn-form:hover {
+  background-color: var(--cerulean);
+  cursor: pointer;
+}
+
+select {
+  border: 1px solid var(--rich_black);
+  border-radius: 3px;
+  width: 250px;
+}
+
+option {
+  text-align: center;
+}
+
+/*     TABLES     */
+
+.table-container {
+  overflow-x: auto;
+}
+
+.table {
+  border-collapse: collapse;
+}
+
+.table td,
+.table th {
+  vertical-align: center;
+  text-align: center;
+  padding: 5px 30px;
+  border: 1px solid var(--rich_black);
+}
+
+table td {
+  border: 1px solid var(--rich_black);
+}
+
+table th {
+  border: 1px solid var(--rich_black);
+  background-color: var(--prussian_blue);
+  color: var(--white);
+}
+
+thead {
+  position: sticky;
+  top: 0;
+}
+
+.resp {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-t {
+  padding: 50px;
+}
+
+.delete_icon {
+  width: 20px;
+  cursor: pointer;
+}
+
+.delete_icon:hover {
+  color: #007ea7;
+}
+
+/*     SCROLL     */
+
+.table-container::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background-color: #0034593d;
+  border-radius: 10px;
+}
+
+/*     MEDIA QUERY     */
+
+@media (max-width: 1050px) {
+  main {
+    width: 95%;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 100px;
+  }
+
+  section {
+    margin: 30px 0px 0px 0px;
+  }
+
+  section {
+    background-color: var(--white);
+    box-shadow: 2px 2px 25px rgba(0, 0, 0, 0.2);
+    margin: 15px;
+    border-radius: 5px;
+    overflow: hidden;
+    color: var(--rich_black);
+  }
+
+  section ul {
+    padding: 8px 8px 8px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  section li {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    border-right: none;
+  }
+
+  section.aeronaves,
+  section.trechos,
+  section.voos,
+  section.assentos,
+  section.aeroportos,
+  section.opc {
+    width: 95%;
+  }
+
+  .resp {
+    margin: 10px;
+    display: block;
+  }
+
+  .btns {
+    width: 400px;
+  }
+}

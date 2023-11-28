@@ -1,0 +1,292 @@
+/*     MAIN     */
+
+main {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: start;
+  margin: 50px;
+  gap: 50px;
+}
+
+#dados-voos {
+  width: 35%;
+  border-radius: 10px;
+  box-shadow: 1px 5px 10px rgba(0, 0, 0, 0.2);
+  background-color: white;
+  overflow: hidden;
+}
+
+.volta {
+  border-top: 1px solid rgb(221, 221, 221);
+}
+
+.container-voos {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.origem,
+.destino {
+  color: var(--rich_black);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 10px 0px;
+}
+
+.sigla {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: var(--prussian_blue);
+}
+
+.horario {
+  padding-top: 30px;
+  font-size: 14px;
+  color: rgb(102, 102, 102);
+}
+
+.origem p,
+.destino p {
+  margin: 0px;
+  padding: 0px;
+}
+
+.seta {
+  padding: 30px;
+  align-self: center;
+  color: var(--rich_black);
+}
+
+.title {
+  background-color: var(--prussian_blue);
+  padding: 10px 20px;
+  font-size: 18px;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.val {
+  width: 65%;
+  margin-right: 5%;
+}
+
+.cvv {
+  width: 30%;
+}
+
+.float {
+  float: left;
+}
+
+/*     SECTION DADOS CLIENTES     */
+
+.dados-pagamento {
+  width: 60%;
+  border-radius: 10px;
+  box-shadow: 1px 5px 10px rgba(0, 0, 0, 0.2);
+  background-color: white;
+  overflow: hidden;
+}
+
+form {
+  padding: 10px 30px 20px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+legend {
+  font-size: 18px;
+  color: var(--prussian_blue);
+}
+
+#f-pix {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#f-pix p {
+  text-align: center;
+  margin: 0px;
+}
+
+.cod {
+  font-weight: 600;
+}
+
+.f-btn {
+  display: flex;
+  justify-content: center;
+}
+
+.botao {
+  border: none;
+  padding: 5px 30px;
+  border-radius: 5px;
+  color: white;
+  background-color: var(--prussian_blue);
+}
+
+.botao:hover {
+  background-color: var(--cerulean);
+}
+
+#f-pix {
+  display: none;
+}
+
+.total {
+  display: flex;
+  gap: 10px;
+  padding: 15px 20px 0px 20px;
+  border-top: 1px solid rgb(221, 220, 220);
+  justify-content: space-between;
+  font-size: 20px;
+  color: var(--prussian_blue);
+  font-weight: 600;
+  align-items: center;
+}
+
+#preco {
+  font-size: 16px;
+  color: var(--rich_black);
+}
+
+#btnConfirmar{
+  display: none;
+}
+
+/*     MENSAGEM    */
+
+.mensagem-container {
+  padding: 20px;
+}
+
+.mensagem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  display: none;
+}
+
+.mensagem h2 {
+  font-size: 20px;
+}
+
+.fieldset-desativado {
+  opacity: 0.5;
+}
+
+/*     VALIDAÇÕES     */
+
+.i-cont, .i-email, .i-nome, .val, .cvv{
+  position: relative;
+}
+
+#iconeVerificado, #iconeVerificadoEmail, #iconeVerificadoNomeCartao, #iconeVerificadoNumeroCartao, #iconeVerificadoValidade,#iconeVerificadoCVV {
+  color: rgb(33, 219, 33);
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  display: none;
+}
+
+.mgsVal{
+  color: rgb(255, 39, 39);
+  padding: 5px;
+  font-size: 15px;
+}
+
+
+/*     Media Query     */
+
+@media (max-width: 992px) {
+  main {
+    flex-direction: column;
+    align-items: center;
+    margin: 30px 20px;
+    gap: 25px;
+  }
+
+  #dados-voos {
+    width: 90%;
+  }
+
+  #voos-disponiveis {
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .container-voos {
+    display: grid;
+    grid-template-areas: "origem seta destino" "preco comprar comprar";
+    gap: 0px;
+  }
+
+  .ida,
+  .volta {
+    border-right: none;
+  }
+
+  .origem {
+    grid-area: origem;
+  }
+
+  .destino {
+    grid-area: destino;
+  }
+
+  .sigla {
+    font-size: 16px;
+    letter-spacing: 2px;
+  }
+
+  .horario {
+    font-size: 14px;
+  }
+
+  .origem p,
+  .destino p {
+    font-size: 15px;
+  }
+
+  .seta {
+    padding: 0px;
+    grid-area: seta;
+  }
+
+  .title {
+    font-size: 16px;
+  }
+
+  .val {
+    width: 100%;
+    margin-right: 0%;
+  }
+
+  .cvv {
+    width: 100%;
+  }
+
+  .float {
+    float: none;
+  }
+
+  .dados-pagamento {
+    width: 90%;
+  }
+
+  .mensagem h2 {
+    font-size: 18px;
+  }
+}
