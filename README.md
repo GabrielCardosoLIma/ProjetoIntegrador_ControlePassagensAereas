@@ -1,59 +1,57 @@
-# Projeto Integrador 2 - README
+# Projeto Controle de Passagem Aérea
 
-## Informações do Projeto
+Este repositório contém o código-fonte para um sistema de controle de passagem aérea. Siga as instruções abaixo para configurar e executar o projeto.
 
-O Projeto Integrador 2 é um componente curricular que tem como principal objetivo integrar os conhecimentos adquiridos ao longo do semestre em diversos componentes curriculares. Os alunos envolvidos no projeto têm a oportunidade de aplicar conceitos de programação para a web, banco de dados, processos de Engenharia, estrutura de dados e algoritmos de programação. Além disso, o projeto visa motivar a busca por novos conhecimentos que agregam valor à gestão da equipe, incluindo habilidades como planejamento, desenvolvimento, documentação e apresentação de um projeto, bem como a vivência diária como uma equipe de projeto.
+## Backend
 
-Neste projeto, o papel do professor orientador é atuar como diretor das equipes, oferecendo orientação sobre como as equipes podem alcançar os resultados esperados. O professor acompanhará as equipes na gestão do próprio projeto, esclarecendo dúvidas em relação ao escopo e orientando os grupos na direção a seguir. No entanto, não é papel do professor orientador da disciplina programar junto com a equipe, resolver problemas técnicos ou dúvidas técnicas. As equipes são incentivadas a serem autogerenciáveis no aspecto técnico.
+1. **Clone o repositório:**
+    ```bash
+    git clone https://github.com/GabrielCardosoLIma/PI_Controle_Passagem_Aerea.git
+    ```
 
-## Tecnologias do Projeto
+2. **Navegue até o diretório do backend:**
+    ```bash
+    cd PI_Controle_Passagem_Aerea/backend
+    ```
 
-O projeto faz uso das seguintes tecnologias:
+3. **Instale as dependências:**
+    ```bash
+    npm install
+    ```
 
-### Frontend:
-- HTML
-- CSS
-- JavaScript
+4. **Configure as variáveis de ambiente:**
+   Crie um arquivo `.env` no diretório `backend` e configure as variáveis necessárias para a conexão com o banco de dados.
 
-### Backend:
-- JavaScript/TypeScript
+5. **Compile o TypeScript:**
+    ```bash
+    tsc
+    ```
 
-### Banco de Dados:
-- Oracle
+6. **Inicie o servidor:**
+    ```bash
+    node build/app.js
+    ```
 
-## Alunos Responsáveis pelo Projeto
+    Se visualizar "Servidor rodando... PARABÉNS! Conexão com o Banco feita com sucesso!", a configuração está correta. Certifique-se de criar as tabelas e sequências conforme definido no arquivo `.sql`.
 
-O projeto é desenvolvido por uma equipe composta pelos seguintes alunos:
+## Frontend
 
-- Gabriel Cardoso
-- Isabella Maria
-- João Xavier
-- Bruna Barbour
-- Gustavo José
+1. **Instale o Visual Studio Code:**
+   Certifique-se de ter o [Visual Studio Code](https://code.visualstudio.com/) instalado.
 
-Este projeto é uma oportunidade única para aplicar e integrar conhecimentos de diversas áreas da informática, desenvolver habilidades de trabalho em equipe e gestão de projetos, e demonstrar profissionalismo na execução de um projeto prático. Estamos ansiosos para compartilhar nosso progresso e resultados com a comunidade acadêmica.
+2. **Instale a extensão Live Server:**
+   No VSCode, instale a extensão [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer). Você pode encontrá-la na barra lateral do VSCode, na seção de extensões.
 
-## Comandos Git necessários para o projeto
+3. **Inicie o servidor para o frontend:**
+   Abra o arquivo `index.html` no VSCode e clique em "Go Live" no canto inferior direito da tela.
 
-- `git add .`:
-  Serve para preparar as alterações nos arquivos do seu repositório local para serem registradas no Git.
-  O comando "git add ." adiciona todas as modificações (novos arquivos, alterações e remoções) ao índice do Git, tornando-os prontos para o próximo commit.
+Isso é tudo! Agora você deve ter o sistema em execução localmente. Certifique-se de seguir essas etapas com atenção para evitar problemas de configuração. Se encontrar algum problema, consulte a documentação ou entre em contato com os desenvolvedores.
 
-- `git commit -m "comentário"`:
-  Após usar o git add, você pode usar o git commit para criar um ponto na história do seu projeto com as alterações adicionadas.
-  O argumento -m é usado para adicionar um comentário ou mensagem que descreve as alterações feitas no commit. É importante escrever mensagens claras e informativas.
+---
 
-- `git push`:
-  Este comando é usado para enviar os commits que você fez no repositório local para um repositório remoto, como o GitHub, GitLab, ou Bitbucket.
-  O git push faz com que as alterações que você cometeu no seu repositório local sejam sincronizadas com o repositório remoto, tornando-as acessíveis a outros colaboradores do projeto.
+**Observação:** Certifique-se de que o ambiente Node.js está corretamente configurado em sua máquina antes de iniciar.
 
-- `git pull`:
-  O git pull é usado para atualizar o seu repositório local com as alterações feitas no repositório remoto.
-  Ele combina as alterações do repositório remoto para o seu repositório local, mantendo seu projeto atualizado com as contribuições de outros colaboradores.
-
-Em resumo, o git add prepara as alterações, o git commit as registra no histórico local, o git push envia as alterações para um repositório remoto e o git pull traz as alterações do repositório remoto para o seu repositório local, permitindo uma colaboração eficaz em projetos Git.
-
-## Programas necessários para o projeto
-
-- Git: [https://git-scm.com/downloads](https://git-scm.com/downloads)
-- NodeJs: [https://nodejs.org/pt-br/download](https://nodejs.org/pt-br/download)
+**Links para Download:**
+- [Node.js](https://nodejs.org/)
+- [Visual Studio Code](https://code.visualstudio.com/)
+- [Extensão Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
