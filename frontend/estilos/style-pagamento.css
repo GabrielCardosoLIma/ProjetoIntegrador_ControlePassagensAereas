@@ -158,7 +158,7 @@ legend {
   color: var(--rich_black);
 }
 
-#btnConfirmar{
+#btnConfirmar {
   display: none;
 }
 
@@ -187,11 +187,20 @@ legend {
 
 /*     VALIDAÇÕES     */
 
-.i-cont, .i-email, .i-nome, .val, .cvv{
+.i-cont,
+.i-email,
+.i-nome,
+.val,
+.cvv {
   position: relative;
 }
 
-#iconeVerificado, #iconeVerificadoEmail, #iconeVerificadoNomeCartao, #iconeVerificadoNumeroCartao, #iconeVerificadoValidade,#iconeVerificadoCVV {
+#iconeVerificado,
+#iconeVerificadoEmail,
+#iconeVerificadoNomeCartao,
+#iconeVerificadoNumeroCartao,
+#iconeVerificadoValidade,
+#iconeVerificadoCVV {
   color: rgb(33, 219, 33);
   position: absolute;
   top: 50%;
@@ -200,12 +209,11 @@ legend {
   display: none;
 }
 
-.mgsVal{
+.mgsVal {
   color: rgb(255, 39, 39);
   padding: 5px;
   font-size: 15px;
 }
-
 
 /*     Media Query     */
 

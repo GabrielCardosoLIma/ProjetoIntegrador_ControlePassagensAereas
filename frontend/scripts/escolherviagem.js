@@ -1,3 +1,4 @@
+// Função que faz uma requisição para obter a lista de viagens
 function requestListaDeViagens(body) {
   const requestOptions = {
     method: "POST",
@@ -9,10 +10,13 @@ function requestListaDeViagens(body) {
   );
 }
 
+// Função para exibir as viagens após receber a resposta da requisição
 function exibirViagens() {
+  //faz a requisição da lista de viagens
   requestListaDeViagens(localStorage.getItem("payload"))
     .then((customResponse) => {
       if (customResponse.status === "SUCCESS") {
+        // chama a função para prencheer os voos
         preencherVoos(customResponse.payload);
         console.log(customResponse.payload);
       } else {
@@ -24,6 +28,7 @@ function exibirViagens() {
     });
 }
 
+// Função para preencher os voos disponiveis
 function preencherVoos(dados) {
   const voosDisponiveis = document.getElementById("voos-disponiveis");
 
@@ -53,7 +58,9 @@ function preencherVoos(dados) {
     const divDestino = document.createElement("div");
     divDestino.className = "destino";
     divDestino.innerHTML = `
-      <p class="sigla" id="siglaDest${voo[5]}">${String(voo[15]).toUpperCase()}</p>
+      <p class="sigla" id="siglaDest${voo[5]}">${String(
+      voo[15]
+    ).toUpperCase()}</p>
       <p id="cidDest${voo[5]}">${voo[17]}</p>
       <p id="paisDest${voo[5]}">${voo[18]}</p>
       <p class="horario" id="dtDest${voo[5]}">${formatarDataHora(voo[2])}</p>
@@ -69,7 +76,7 @@ function preencherVoos(dados) {
     buttonComprar.id = "comprar";
     buttonComprar.innerText = "Comprar";
     buttonComprar.type = "button";
-    buttonComprar.onclick = function() {
+    buttonComprar.onclick = function () {
       buscarAssentos(voo);
     };
 
@@ -86,7 +93,7 @@ function preencherVoos(dados) {
   }
 }
 
-// // Função auxiliar para formatar data e hora
+// Função auxiliar para formatar data e hora
 function formatarDataHora(dataString) {
   const data = new Date(dataString);
 
@@ -97,14 +104,16 @@ function formatarDataHora(dataString) {
   const hora = adicionarZero(data.getHours());
   const minuto = adicionarZero(data.getMinutes());
 
+  // retorna a data no formato dd/mm/yyyy hh:mm
   return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
 }
 
+// Função para adicionar um zero à esquerda, se necessário
 function adicionarZero(numero) {
   return numero < 10 ? `0${numero}` : numero;
 }
 
-
+// Função que faz uma requisição para obter o total de assentos
 function requestTotalAssentos(body) {
   const requestOptions = {
     method: "POST",
@@ -116,14 +125,14 @@ function requestTotalAssentos(body) {
   );
 }
 
+// Função para buscar informações sobre os assentos disponíveis para um determinado voo
 function buscarAssentos(voo) {
   requestTotalAssentos({ vooData: voo })
     .then((customResponse) => {
       if (customResponse.status === "SUCCESS") {
         localStorage.setItem("TOTAL_ASSENTOS", customResponse.payload);
         localStorage.setItem("INFO_VOO", voo);
-        window.location.href =
-          "/frontend/src/modules/mapa/mapa-assentos.html";
+        window.location.href = "/frontend/src/modules/mapa/mapa-assentos.html";
       } else {
         console.log(customResponse.message);
       }
@@ -133,6 +142,7 @@ function buscarAssentos(voo) {
     });
 }
 
+// Evento que aguarda o carregamento completo do DOM antes de chamar a função exibirViagens
 document.addEventListener("DOMContentLoaded", async function () {
   exibirViagens();
 });

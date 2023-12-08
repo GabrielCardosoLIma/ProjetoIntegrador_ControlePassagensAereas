@@ -1,5 +1,5 @@
 export type CustomResponse = {
-  status: string,
-  message: string,
-  payload: any
+  status: string;
+  message: string;
+  payload: any;
 };

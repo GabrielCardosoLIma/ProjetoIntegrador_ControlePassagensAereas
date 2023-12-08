@@ -171,10 +171,6 @@ VALUES (SEQ_AERONAVES.nextval, 'Boeing 757', 'Boeing', 2019, 'Icelandair', 180);
 INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, companhia, total_assentos)
 VALUES (SEQ_AERONAVES.nextval, 'Airbus A330neo', 'Airbus', 2018, 'TAP Air Portugal', 260);
 
-
-
-
-
 -- INSERT TABELA AEROPORTOS
 
 INSERT INTO TB_Aeroportos (id_aeroporto, sigla, nome, cidade, pais)
@@ -250,7 +246,7 @@ INSERT INTO TB_Aeroportos (id_aeroporto, sigla, nome, cidade, pais)
 VALUES (SEQ_AEROPORTOS.nextval, 'CAN', 'Guangzhou Baiyun International Airport', 'Guangzhou', 'China');
 
 INSERT INTO TB_Aeroportos (id_aeroporto, sigla, nome, cidade, pais)
-VALUES (SEQ_AEROPORTOS.nextval, 'MAD', 'Adolfo Suárez Madrid–Barajas Airport', 'Madrid', 'Spain');
+VALUES (SEQ_AEROPORTOS.nextval, 'MAD', 'Adolfo Suï¿½rez Madridï¿½Barajas Airport', 'Madrid', 'Spain');
 
 INSERT INTO TB_Aeroportos (id_aeroporto, sigla, nome, cidade, pais)
 VALUES (SEQ_AEROPORTOS.nextval, 'BKK', 'Suvarnabhumi Airport', 'Bangkok', 'Thailand');

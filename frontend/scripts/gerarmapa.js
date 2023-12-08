@@ -1,3 +1,4 @@
+// Função que faz uma requisição para gerar uma referencia do assento
 function requestRefAssento(body) {
   const requestOptions = {
     method: "POST",
@@ -9,6 +10,7 @@ function requestRefAssento(body) {
   );
 }
 
+// Função que faz uma requisição para obter os ids dos assentos
 function requestObterIDs(body) {
   const requestOptions = {
     method: "POST",
@@ -20,6 +22,7 @@ function requestObterIDs(body) {
   );
 }
 
+// Função assincrona para obter os ids dos assentos
 async function obterIDsAssentos() {
   try {
     const body = { ID: localStorage.getItem("INFO_VOO")[7] };
@@ -37,7 +40,7 @@ async function obterIDsAssentos() {
   }
 }
 
-// Adicione esta função para atualizar as referências dos assentos
+// Função que atualiza as referencias dos assentos
 async function atualizarReferenciasAssentos(idAeronave, referenciasAssentos) {
   try {
     const body = { ID: idAeronave, REFERENCIA: referenciasAssentos };
@@ -56,21 +59,27 @@ async function atualizarReferenciasAssentos(idAeronave, referenciasAssentos) {
   }
 }
 
+// evento para criar o mapa de assentos
 document.addEventListener("DOMContentLoaded", async function () {
   try {
+    // obtem o total de assentos
     const totalAssentos = localStorage.getItem("TOTAL_ASSENTOS");
 
     const mapaContainer = document.getElementById("gerar-mapa");
 
+    // obtem o id dos assentos
     const idsAssentos = await obterIDsAssentos();
 
+    // Define o número de linhas e colunas no mapa de assentos
     const rows = 7;
     const columns = Math.ceil(totalAssentos / rows);
 
+    // Loop para criar as fileiras e assentos
     for (let row = "A".charCodeAt(0); row < "A".charCodeAt(0) + rows; row++) {
       const fileira = document.createElement("div");
       fileira.className = "fil";
 
+      // Adiciona classes especiais para as fileiras B e E
       if (String.fromCharCode(row) === "B") {
         fileira.classList.add("fileiraB");
       }
@@ -78,6 +87,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         fileira.classList.add("fileiraE");
       }
 
+      // Loop para criar os assentos em cada fileira
       for (let col = 1; col <= columns; col++) {
         const assento = document.createElement("div");
         assento.className = "seat";
@@ -85,19 +95,24 @@ document.addEventListener("DOMContentLoaded", async function () {
         const i = (row - "A".charCodeAt(0)) * columns + col;
         assento.textContent = `${String.fromCharCode(row)}${col}`;
 
+        // Evento de clique para marcar o assento selecionado
         assento.addEventListener("click", async function () {
           document.querySelectorAll(".seat").forEach(function (seat) {
             seat.classList.remove("selected");
           });
 
+          // Adiciona a classe "selected" ao assento clicado
           this.classList.add("selected");
         });
 
         fileira.appendChild(assento);
         const assentoID = idsAssentos.map((id) => id);
+
+        // Atualiza as referências dos assentos no backend
         atualizarReferenciasAssentos(assentoID[i], assento.textContent);
       }
 
+      // Adiciona a fileira ao mapa
       mapaContainer.appendChild(fileira);
     }
   } catch (error) {

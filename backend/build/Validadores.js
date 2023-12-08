@@ -7,7 +7,9 @@ function aeronaveValida(aero) {
     if (aero.FABRICANTE === undefined) {
         mensagem = "FABRICANTE não informado";
     }
-    if (aero.FABRICANTE !== 'Embraer' && aero.FABRICANTE !== 'Airbus' && aero.FABRICANTE !== 'Boeing') {
+    if (aero.FABRICANTE !== "Embraer" &&
+        aero.FABRICANTE !== "Airbus" &&
+        aero.FABRICANTE !== "Boeing") {
         mensagem = "FABRICANTE deve ser: Embraer, Airbus ou Boeing.";
     }
     if (aero.MODELO === undefined) {
@@ -16,13 +18,15 @@ function aeronaveValida(aero) {
     if (aero.TOTAL_ASSENTOS === undefined) {
         mensagem = "Total de assentos não informado";
     }
-    if ((aero.TOTAL_ASSENTOS !== undefined) && (aero.TOTAL_ASSENTOS < 100 || aero.TOTAL_ASSENTOS > 1000)) {
+    if (aero.TOTAL_ASSENTOS !== undefined &&
+        (aero.TOTAL_ASSENTOS < 100 || aero.TOTAL_ASSENTOS > 1000)) {
         mensagem = "Total de assentos é inválido";
     }
     if (aero.ANO_FABRICACAO === undefined) {
         mensagem = "Ano de fabricação não informado";
     }
-    if ((aero.ANO_FABRICACAO !== undefined) && (aero.ANO_FABRICACAO < 1990 || aero.ANO_FABRICACAO > 2026)) {
+    if (aero.ANO_FABRICACAO !== undefined &&
+        (aero.ANO_FABRICACAO < 1990 || aero.ANO_FABRICACAO > 2026)) {
         mensagem = "Ano de fabricação deve ser entre 1990 e 2026";
     }
     // se passou em toda a validação.

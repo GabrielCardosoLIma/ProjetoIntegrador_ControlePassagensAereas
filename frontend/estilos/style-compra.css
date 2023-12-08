@@ -16,23 +16,23 @@ main {
   box-shadow: 1px 5px 10px rgba(0, 0, 0, 0.2);
   background-color: white;
   display: grid;
-  grid-template-areas:'ida btn' 'volta btn';
+  grid-template-areas: "ida btn" "volta btn";
   grid-template-columns: 3fr 1fr;
   padding: 20px;
 }
 
-.ida{
+.ida {
   grid-area: ida;
   border-right: 1px solid rgb(221, 221, 221);
 }
 
-.volta{
+.volta {
   grid-area: volta;
   border-top: 1px solid rgb(221, 221, 221);
   border-right: 1px solid rgb(221, 221, 221);
 }
 
-.comprar{
+.comprar {
   grid-area: btn;
   display: flex;
   flex-direction: column;
@@ -100,8 +100,6 @@ main {
   padding: 5px;
 }
 
-
-
 /*     Media Query     */
 
 @media (max-width: 768px) {
@@ -122,11 +120,12 @@ main {
     gap: 0px;
   }
 
-  .ida, .volta{
+  .ida,
+  .volta {
     border-right: none;
   }
 
-  .comprar{
+  .comprar {
     border-top: 1px solid rgb(221, 221, 221);
     flex-direction: row;
     justify-content: space-evenly;
@@ -168,10 +167,9 @@ main {
     grid-area: preco;
   }
 
-  .comprar{
+  .comprar {
     padding-top: 15px;
   }
-
 }
 
 @media (min-width: 768px) and (max-width: 992px) {
@@ -184,5 +182,4 @@ main {
     width: 95%;
     padding: 20px;
   }
-
 }

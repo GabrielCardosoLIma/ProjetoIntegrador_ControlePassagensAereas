@@ -1,46 +1,3 @@
-// //Variáveis criadas de forma estática para mudar depois para dinamica com o bd (apagar esse comentario)
-
-// //Variáveis para ida
-// var divIda = document.querySelector(".ida");
-
-// var siglaOriIda = (document.querySelector("#siglaOriIda").innerHTML = "VCP");
-
-// var cidOriIda = (document.querySelector("#cidOriIda").innerHTML = "Campinas");
-// var paisOriIda = (document.querySelector("#paisOriIda").innerHTML = "Brasil");
-// var dtOriIda = (document.querySelector("#dtOriIda").innerHTML =
-//   "25/10/2023 10:30");
-
-// var siglaDestIda = (document.querySelector("#siglaDestIda").innerHTML = "AEP");
-// var cidDestIda = (document.querySelector("#cidDestIda").innerHTML =
-//   "Buenos Aires");
-// var paisDestIda = (document.querySelector("#paisDestIda").innerHTML =
-//   "Argentina");
-// var dtDestIda = (document.querySelector("#dtDestIda").innerHTML =
-//   "25/10/2023 14:25");
-
-// //Variáveis para volta
-// var divVolta = document.querySelector(".volta");
-
-// var siglaOriVolta = (document.querySelector("#siglaOriVolta").innerHTML =
-//   "AEP");
-// var cidOriVolta = (document.querySelector("#cidOriVolta").innerHTML =
-//   "Buenos Aires");
-// var paisOriVolta = (document.querySelector("#paisOriVolta").innerHTML =
-//   "Argentina");
-// var dtOriVolta = (document.querySelector("#dtOriVolta").innerHTML =
-//   "01/11/2023 12:00");
-
-// var siglaDestVolta = (document.querySelector("#siglaDestVolta").innerHTML =
-//   "VCP");
-// var cidDestVolta = (document.querySelector("#cidDestVolta").innerHTML =
-//   "Buenos Aires");
-// var paisDestVolta = (document.querySelector("#paisDestVolta").innerHTML =
-//   "Argentina");
-// var dtDestVolta = (document.querySelector("#dtDestVolta").innerHTML =
-//   "01/11/2023 15:30");
-
-// var preco = (document.querySelector("#preco").innerHTML = "R$2.500,00");
-
 //puxar o valor da pagina anterior (1-ida e volta ou 2- so ida) estático só para simular
 var valorRadio = 2;
 
@@ -325,7 +282,7 @@ document
     radio.addEventListener("change", verificarCamposValidos);
   });
 
-// Função para verificar os campos válidos 
+// Função para verificar os campos válidos
 function verificarCamposValidos() {
   var btnConfirmar = document.querySelector("#btnConfirmar");
 
@@ -362,7 +319,7 @@ function verificarCamposValidos() {
   }
 }
 
-// Função que mostra a mensagem de pagamento aprovado 
+// Função que mostra a mensagem de pagamento aprovado
 function mostrarMensagem() {
   desabilitarElementos();
 

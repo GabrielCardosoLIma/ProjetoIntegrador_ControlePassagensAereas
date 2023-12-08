@@ -3,25 +3,14 @@
 // Funcao que verifica se preencheu o modelo.
 function preencheuModelo() {
   let resultado = false;
-  const modeloInformado = document.getElementById("modelo").value.trim();
+  var modeloInformado = document.getElementById("modelo").value;
 
   if (modeloInformado.length > 0) {
-    // Capitaliza a primeira letra de cada palavra
-    const modeloCapitalizado = modeloInformado
-      .toLowerCase()
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-
-    // Atualiza o valor do campo de entrada com o modelo capitalizado
-    document.getElementById("modelo").value = modeloCapitalizado;
-
     resultado = true;
   }
 
   return resultado;
 }
-
 
 // Função que verifica se selecionou ou não o fabricante.
 function selecionouFabricante() {
@@ -410,7 +399,6 @@ function inserirAeroporto() {
       );
       console.log("Falha grave ao cadastrar." + e);
     });
-  // .finally(() => exibirAeroportos());
 }
 
 // Função que faz uma requisição para obter a lista de aeroportos
@@ -731,7 +719,7 @@ function preencheuIDVoo() {
   return resultado;
 }
 
-// Função que verifica se preencheu id do voo
+// Função que verifica se selecionou o tipo do voo
 function selecionouTipoVoo() {
   let resultado = false;
   var listaTipo = document.getElementById("tipo");
@@ -948,7 +936,7 @@ function preencherTabelaVoo(voos) {
     voo = voos[i];
     console.log("Dados da voo: " + voo);
 
-    // Cria uma nova linha (tr) para a aeronave na tabela
+    // Cria uma nova linha (tr) para o voo na tabela
     if (voo.ID_VOO != undefined) {
       const row = document.createElement("tr");
 
@@ -993,7 +981,7 @@ function preencherTabelaVoo(voos) {
 // Função que exclui um voo usando como base o id do voo
 function excluirVoo(c) {
   console.log("Clicou no excluir aeronave: " + c);
-  // Faz a requisição para excluir a aeronave
+  // Faz a requisição para excluir o voo
   requestExcluirVoo({ ID_VOO: c })
     .then((customResponse) => {
       // Trata a resposta da requisição
@@ -1004,7 +992,6 @@ function excluirVoo(c) {
       }
     })
     .catch((e) => {
-      // Trata os erros durante a requisição
       console.log("Não foi possível excluir." + e);
     });
 }
@@ -1068,7 +1055,6 @@ function requestListaDeAssentos(body) {
 
 // Função que preenche a tabela de assentos
 function preencherTabelaAssentos(Assentos) {
-
   const tblBody = document.getElementById("dados-assentos");
 
   tblBody.innerHTML = "";
@@ -1078,38 +1064,36 @@ function preencherTabelaAssentos(Assentos) {
     assento = Assentos[i];
     console.log("Dados do assento: " + assento);
 
-
     const row = document.createElement("tr");
 
-      if (i % 2 === 0) row.className = "evenRow";
-      else row.className = "oddRow";
+    if (i % 2 === 0) row.className = "evenRow";
+    else row.className = "oddRow";
 
-      // Preenche as células da linha com os dados do assento
-      row.innerHTML = `<td class="leftText">${assento.ID_ASSENTO}</td>
+    // Preenche as células da linha com os dados do assento
+    row.innerHTML = `<td class="leftText">${assento.ID_ASSENTO}</td>
               <td class="leftText">${assento.STATUS}</td>
               <td class="leftText">${assento.REFERENCIA}</td>
               <td class="rightText">${assento.FK_ID_AERONAVE}</td>`;
 
-      // Adiciona a linha à tabela representando o assento
-      tblBody.appendChild(row);
+    // Adiciona a linha à tabela representando o assento
+    tblBody.appendChild(row);
   }
 }
 
 // Função que exibe a lista de assentos
 function exibirAssentos() {
-
   if (!preencheuFkIdAeronave()) {
     showStatusMessage5("Preencha o id da aeronave.", true);
     return;
   }
 
   var pStatus = document.getElementById("status5");
-  pStatus.style.display = 'none';
+  pStatus.style.display = "none";
 
   const fk_id_aeronave = document.getElementById("fk_id_aeronave").value;
   console.log("Entrou no exibir...");
 
-  // Requisição da lista de aeronaves
+  // Requisição da lista de assentos
   requestListaDeAssentos({ FK_ID_AERONAVE: fk_id_aeronave })
     .then((customResponse) => {
       if (customResponse.status === "SUCCESS") {

@@ -9,5 +9,5 @@ dotenv_1.default.config();
 exports.oraConnAttribs = {
     user: process.env.ORACLE_USER,
     password: process.env.ORACLE_PASSWORD,
-    connectionString: process.env.ORACLE_CONNECTIONSTRING
+    connectionString: process.env.ORACLE_CONNECTIONSTRING,
 };

@@ -1,12 +1,18 @@
 import express, { Request, Response } from "express";
 
+// Importações dos tipos
 import { Aeronaves } from "./types/Aeronaves";
 import { Voos } from "./types/Voos";
 import { Trechos } from "./types/Trechos";
 import { Aeroportos } from "./types/Aeroportos";
 
+// Importa os atributos de conexão Oracle, resposta personalizada e funções de conversão
 import { oraConnAttribs } from "./OracleConnAtribs";
+
+// Impotação customResponse
 import { CustomResponse } from "./CustomResponse";
+
+// Importação das funções de conversão
 import {
   rowsToAeronaves,
   rowsToAeroportos,
@@ -16,6 +22,7 @@ import {
 } from "./Conversores";
 import { aeronaveValida } from "./Validadores";
 
+// Importação dos módulos
 const ora = require("oracledb");
 const cors = require("cors");
 
@@ -33,34 +40,37 @@ app.use((req, res, next) => {
   next();
 });
 
+// Rota de teste para verificar se o servidor está respondendo
 app.get("/", (req: Request, res: Response) => {
   res.send("Bem-vindo à minha aplicação!");
 });
 
+// Inicia o servidor na porta especificada
 app.listen(port, () => {
   console.log("Servidor HTTP rodando...");
 });
 
-// servicos de backend
+// Rota para listar as aeronaves
 app.get("/listarAeronaves", async (req: Request, res: Response) => {
   let cr: CustomResponse = { status: "ERROR", message: "", payload: undefined };
   let connection;
   try {
+    // Estabelece a conexão com o banco de dados
     connection = await ora.getConnection(oraConnAttribs);
 
-    // atenção: mudamos a saída para que o oracle entregue um objeto puro em JS no rows.
-    // não mais um array dentro de array.
+    // Executa a consulta SQL para obter todas as aeronaves
     let resultadoConsulta = await connection.execute(
       `SELECT * FROM TB_Aeronaves`
     );
 
     cr.status = "SUCCESS";
     cr.message = "Dados obtidos";
-    // agora sempre vamos converter as linhas do oracle em resultados do nosso TIPO.
+
+    // Verifica se há linhas na consulta e converte para o tipo Aeronaves
     if (resultadoConsulta.rows && resultadoConsulta.rows.length > 0) {
       cr.payload = rowsToAeronaves(resultadoConsulta.rows);
     } else {
-      // o array está vazio
+      // Se não houver linhas, define o payload como um array vazio
       cr.payload = [{}];
     }
   } catch (e) {
@@ -71,39 +81,42 @@ app.get("/listarAeronaves", async (req: Request, res: Response) => {
     }
   } finally {
     if (connection !== undefined) {
+      // Fecha a conexão com o banco de dados, se estiver aberta
       await connection.close();
     }
+    // Envia a resposta (CustomResponse) ao cliente
     res.send(cr);
   }
 });
 
+// Rota para inserir uma nova aeronave
 app.put("/inserirAeronave", async (req: Request, res: Response) => {
-  // definindo um objeto de resposta.
   let cr: CustomResponse = {
     status: "ERROR",
     message: "",
     payload: undefined,
   };
 
-  // UAU! Agora com um tipo definido podemos simplesmente converter tudo que
-  // chega na requisição para um tipo nosso!
+  // Convertendo o corpo da requisição para um tipo Aeronaves
   const aero: Aeronaves = req.body as Aeronaves;
 
-  // antes de prosseguir, vamos validar a aeronave!
-  // se não for válida já descartamos.
+  // validação da aeronave
   let [valida, mensagem] = aeronaveValida(aero);
   if (!valida) {
-    // já devolvemos a resposta com o erro e terminamos o serviço.
+    // // Se não for válida, retornamos a resposta com o erro e encerramos o serviço.
     cr.message = mensagem;
     res.send(cr);
   } else {
-    // continuamos o processo porque passou na validação.
+    // Se não, continuamos o processo porque passou na validação.
     let connection;
     try {
+      // Comando SQL para inserir uma nova aeronave
       const cmdInsertAero = `INSERT INTO TB_Aeronaves 
       (ID_AERONAVE, MODELO, FABRICANTE, ANO_FABRICACAO, COMPANHIA, TOTAL_ASSENTOS)
       VALUES
       (SEQ_AERONAVES.NEXTVAL, :1, :2, :3, :4, :5)`;
+
+      // Dados a serem inseridos na tabela
       const dados = [
         aero.MODELO,
         aero.FABRICANTE,
@@ -112,14 +125,16 @@ app.put("/inserirAeronave", async (req: Request, res: Response) => {
         aero.TOTAL_ASSENTOS,
       ];
 
+      // Estabelece a conexão com o banco de dados
       connection = await ora.getConnection(oraConnAttribs);
+
+      // Comando de inserção
       let resInsert = await connection.execute(cmdInsertAero, dados);
 
-      // importante: efetuar o commit para gravar no Oracle.
+      // commit
       await connection.commit();
 
-      // obter a informação de quantas linhas foram inseridas.
-      // neste caso precisa ser exatamente 1
+      // Obtém a informação de quantas linhas foram inseridas
       const rowsInserted = resInsert.rowsAffected;
       if (rowsInserted !== undefined && rowsInserted === 1) {
         cr.status = "SUCCESS";
@@ -133,42 +148,45 @@ app.put("/inserirAeronave", async (req: Request, res: Response) => {
         cr.message = "Erro ao conectar ao oracle. Sem detalhes";
       }
     } finally {
-      //fechar a conexao.
+      // Fecha a conexão com o banco de dados
       if (connection !== undefined) {
         await connection.close();
       }
+      // Envia a resposta ao cliente
       res.send(cr);
     }
   }
 });
 
+// Rota para excluir a aeronave com base no ID
 app.delete("/excluirAeronave", async (req: Request, res: Response) => {
-  // excluindo a aeronave pelo código dela:
+  // Obtém o ID_AERONAVE do corpo da requisição
   const ID_AERONAVE = req.body.ID_AERONAVE as number;
 
   console.log("ID_AERONAVE recebido: " + ID_AERONAVE);
 
-  // definindo um objeto de resposta.
   let cr: CustomResponse = {
     status: "ERROR",
     message: "",
     payload: undefined,
   };
 
-  // conectando
   let connection;
   try {
+    // Estabelece a conexão com o banco de dados
     connection = await ora.getConnection(oraConnAttribs);
+
+    // Comando SQL para excluir uma aeronave com base no ID
     const cmdDeleteAero = `DELETE TB_Aeronaves WHERE ID_AERONAVE = :1`;
     const dados = [ID_AERONAVE];
 
+    // Executa o comando de exclusão
     let resDelete = await connection.execute(cmdDeleteAero, dados);
 
-    // importante: efetuar o commit para gravar no Oracle.
+    // Commit
     await connection.commit();
 
-    // obter a informação de quantas linhas foram inseridas.
-    // neste caso precisa ser exatamente 1
+    // Obtém a informação de quantas linhas foram excluídas
     const rowsDeleted = resDelete.rowsAffected;
     if (rowsDeleted !== undefined && rowsDeleted === 1) {
       cr.status = "SUCCESS";
@@ -185,87 +203,37 @@ app.delete("/excluirAeronave", async (req: Request, res: Response) => {
       cr.message = "Erro ao conectar ao oracle. Sem detalhes";
     }
   } finally {
-    // fechando a conexao
+    // Fecha a conexão com o banco de dados Oracle, se estiver aberta
     if (connection !== undefined) await connection.close();
 
-    // devolvendo a resposta da requisição.
+    // Envia a resposta ao cliente
     res.send(cr);
   }
 });
 
-app.put("/alterarAeronave", async (req: Request, res: Response) => {
-  // definindo um objeto de resposta.
-  let cr: CustomResponse = {
-    status: "ERROR",
-    message: "",
-    payload: undefined,
-  };
-
-  let connection;
-
-  const aero: Aeronaves = req.body as Aeronaves;
-
-  try {
-    // Construa sua consulta SQL de atualização com valores posicionais
-    const query = `UPDATE TB_AERONAVES 
-                   SET MODELO = :1, 
-                       FABRICANTE = :2, 
-                       ANO_FABRICACAO = :3, 
-                       QTDE_ASSENTOS = :4
-                   WHERE ID_AERONAVE = :5`;
-    const dados = [
-      aero.MODELO,
-      aero.FABRICANTE,
-      aero.ANO_FABRICACAO,
-      aero.TOTAL_ASSENTOS,
-      aero.ID_AERONAVE,
-    ];
-
-    connection = await ora.getConnection(oraConnAttribs);
-    let resInsert = await connection.execute(query, dados);
-
-    await connection.commit();
-
-    const rowsInserted = resInsert.rowsAffected;
-    if (rowsInserted !== undefined && rowsInserted === 1) {
-      cr.status = "SUCCESS";
-      cr.message = "Aeronave alterada.";
-    }
-  } catch (e) {
-    if (e instanceof Error) {
-      cr.message = e.message;
-      console.log(e.message);
-    } else {
-      cr.message = "Erro ao conectar ao oracle. Sem detalhes";
-    }
-  } finally {
-    //fechar a conexao.
-    if (connection !== undefined) {
-      await connection.close();
-    }
-    res.send(cr);
-  }
-});
-
+// Rota que lida com a requisição de listar trechos do banco de dados
 app.get("/listarTrechos", async (req: Request, res: Response) => {
   let cr: CustomResponse = { status: "ERROR", message: "", payload: undefined };
+
   let connection;
+
   try {
+    // Estabelece a conexão com o banco de dados
     connection = await ora.getConnection(oraConnAttribs);
 
-    // atenção: mudamos a saída para que o oracle entregue um objeto puro em JS no rows.
-    // não mais um array dentro de array.
+    // Executa a consulta SQL para obter todos os trechos
     let resultadoConsulta = await connection.execute(
       `SELECT * FROM TB_TRECHOS`
     );
 
     cr.status = "SUCCESS";
     cr.message = "Dados obtidos";
-    // agora sempre vamos converter as linhas do oracle em resultados do nosso TIPO.
+
+    // Converte as linhas do Oracle em objetos do tipo Trechos
     if (resultadoConsulta.rows && resultadoConsulta.rows.length > 0) {
       cr.payload = rowsToTrechos(resultadoConsulta.rows);
     } else {
-      // o array está vazio
+      // array vazio
       cr.payload = [{}];
     }
   } catch (e) {
@@ -275,13 +243,17 @@ app.get("/listarTrechos", async (req: Request, res: Response) => {
       cr.message = "Erro ao conectar ao oracle. Sem detalhes";
     }
   } finally {
+    // Fecha a conexão com o banco de dados Oracle, se estiver aberta
     if (connection !== undefined) {
       await connection.close();
     }
+
+    // Envia a resposta ao cliente
     res.send(cr);
   }
 });
 
+// Rota que lida com a requisição para inserir um novo trecho
 app.put("/inserirTrecho", async (req: Request, res: Response) => {
   // definindo um objeto de resposta.
   let cr: CustomResponse = {
@@ -290,27 +262,28 @@ app.put("/inserirTrecho", async (req: Request, res: Response) => {
     payload: undefined,
   };
 
-  // UAU! Agora com um tipo definido podemos simplesmente converter tudo que
-  // chega na requisição para um tipo nosso!
+  // Convertendo o corpo da requisição para um tipo Trechos
   const trecho: Trechos = req.body as Trechos;
 
-  // continuamos o processo porque passou na validação.
   let connection;
   try {
+    // Constrói a consulta SQL de inserção
     const cmdInsertTre = `INSERT INTO TB_TRECHOS 
       (ID_TRECHO, FK_ID_ORIGEM, FK_ID_DESTINO)
       VALUES
       (:1, :2, :3)`;
     const dados = [trecho.ID_TRECHO, trecho.FK_ID_ORIGEM, trecho.FK_ID_DESTINO];
 
+    // Estabelece a conexão com o banco de dados
     connection = await ora.getConnection(oraConnAttribs);
+
+    // Executa a inserção no banco de dados
     let resInsert = await connection.execute(cmdInsertTre, dados);
 
-    // importante: efetuar o commit para gravar no Oracle.
+    // commit
     await connection.commit();
 
-    // obter a informação de quantas linhas foram inseridas.
-    // neste caso precisa ser exatamente 1
+    // Obtém a informação de quantas linhas foram inseridas
     const rowsInserted = resInsert.rowsAffected;
     if (rowsInserted !== undefined && rowsInserted === 1) {
       cr.status = "SUCCESS";
@@ -324,39 +297,41 @@ app.put("/inserirTrecho", async (req: Request, res: Response) => {
       cr.message = "Erro ao conectar ao oracle. Sem detalhes";
     }
   } finally {
-    //fechar a conexao.
+    // Fecha a conexão com o banco de dados Oracle, se estiver aberta
     if (connection !== undefined) {
       await connection.close();
     }
+    // Envia a resposta ao cliente
     res.send(cr);
   }
 });
 
+// Rota que lida com a requisição de excluir trecho
 app.delete("/excluirTrecho", async (req: Request, res: Response) => {
-  // excluindo a aeronave pelo código dela:
+  // Excluindo o trecho pelo código dele
   const ID_TRECHO = req.body.ID_TRECHO as number;
 
-  // definindo um objeto de resposta.
   let cr: CustomResponse = {
     status: "ERROR",
     message: "",
     payload: undefined,
   };
 
-  // conectando
   let connection;
   try {
+    // Estabelece a conexão com o banco de dados
     connection = await ora.getConnection(oraConnAttribs);
+
+    // Constrói a consulta SQL de exclusão
     const cmdDeleteTre = `DELETE TB_TRECHOS WHERE ID_TRECHO = :1`;
     const dados = [ID_TRECHO];
 
+    // Executa a exclusão no banco de dados
     let resDelete = await connection.execute(cmdDeleteTre, dados);
 
-    // importante: efetuar o commit para gravar no Oracle.
     await connection.commit();
 
-    // obter a informação de quantas linhas foram inseridas.
-    // neste caso precisa ser exatamente 1
+    // Obtém a informação de quantas linhas foram excluídas
     const rowsDeleted = resDelete.rowsAffected;
     if (rowsDeleted !== undefined && rowsDeleted === 1) {
       cr.status = "SUCCESS";
@@ -373,77 +348,33 @@ app.delete("/excluirTrecho", async (req: Request, res: Response) => {
       cr.message = "Erro ao conectar ao oracle. Sem detalhes";
     }
   } finally {
-    // fechando a conexao
+    // Fecha a conexão com o banco de dados
     if (connection !== undefined) await connection.close();
 
-    // devolvendo a resposta da requisição.
+    // Envia a resposta ao cliente
     res.send(cr);
   }
 });
 
-app.put("/alterarTrecho", async (req: Request, res: Response) => {
-  // definindo um objeto de resposta.
-  let cr: CustomResponse = {
-    status: "ERROR",
-    message: "",
-    payload: undefined,
-  };
-
-  let connection;
-
-  const trecho: Trechos = req.body as Trechos;
-
-  try {
-    // Construa sua consulta SQL de atualização com valores posicionais
-    const query = `UPDATE TB_TRECHOS 
-                   SET FK_ID_ORIGEM = :1, 
-                       FK_ID_DESTINO = :2
-                   WHERE ID_TRECHO = :3`;
-    const dados = [trecho.FK_ID_ORIGEM, trecho.FK_ID_DESTINO, trecho.ID_TRECHO];
-
-    connection = await ora.getConnection(oraConnAttribs);
-    let resInsert = await connection.execute(query, dados);
-
-    await connection.commit();
-
-    const rowsInserted = resInsert.rowsAffected;
-    if (rowsInserted !== undefined && rowsInserted === 1) {
-      cr.status = "SUCCESS";
-      cr.message = "Trecho alterado.";
-    }
-  } catch (e) {
-    if (e instanceof Error) {
-      cr.message = e.message;
-      console.log(e.message);
-    } else {
-      cr.message = "Erro ao conectar ao oracle. Sem detalhes";
-    }
-  } finally {
-    //fechar a conexao.
-    if (connection !== undefined) {
-      await connection.close();
-    }
-    res.send(cr);
-  }
-});
-
+// Rota que lida com a requisição de listar os voos
 app.get("/listarVoos", async (req: Request, res: Response) => {
   let cr: CustomResponse = { status: "ERROR", message: "", payload: undefined };
   let connection;
   try {
+    // Estabelece a conexão com o banco de dados Oracle
     connection = await ora.getConnection(oraConnAttribs);
 
-    // atenção: mudamos a saída para que o oracle entregue um objeto puro em JS no rows.
-    // não mais um array dentro de array.
+    // Executa a consulta SQL para obter todos os voos
     let resultadoConsulta = await connection.execute(`SELECT * FROM TB_Voo`);
 
     cr.status = "SUCCESS";
     cr.message = "Dados obtidos";
-    // agora sempre vamos converter as linhas do oracle em resultados do nosso TIPO.
+
+    // Converte as linhas do Oracle em resultados do tipo 'Voos'
     if (resultadoConsulta.rows && resultadoConsulta.rows.length > 0) {
       cr.payload = rowsToVoos(resultadoConsulta.rows);
     } else {
-      // o array está vazio
+      // O array está vazio
       cr.payload = [{}];
     }
   } catch (e) {
@@ -453,31 +384,36 @@ app.get("/listarVoos", async (req: Request, res: Response) => {
       cr.message = "Erro ao conectar ao oracle. Sem detalhes";
     }
   } finally {
+    // Fecha a conexão com o banco de dados
     if (connection !== undefined) {
       await connection.close();
     }
+
+    // Envia a resposta ao cliente
     res.send(cr);
   }
 });
 
+// Definição da rota para inserção de um novo voo
 app.put("/inserirVoo", async (req: Request, res: Response) => {
-  // definindo um objeto de resposta.
   let cr: CustomResponse = {
     status: "ERROR",
     message: "",
     payload: undefined,
   };
 
-  // UAU! Agora com um tipo definido podemos simplesmente converter tudo que
-  // chega na requisição para um tipo nosso!
+  // Convertendo o corpo da requisição para um tipo Voos
   const voo: Voos = req.body as Voos;
 
   let connection;
   try {
+    // Comando SQL para inserir um novo voo na tabela TB_VOO
     const cmdInsertAero = `INSERT INTO TB_VOO 
     (ID_VOO, HORA_DATA_SAIDA_IDA, HORA_DATA_SAIDA_VOLTA, HORA_DATA_CHEGADA_IDA, HORA_DATA_CHEGADA_VOLTA, TIPO, PRECO, FK_ID_AERONAVE, FK_ID_TRECHO)
     VALUES
     (:1, TO_DATE(:2, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(:3, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(:4, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(:5, 'YYYY-MM-DD HH24:MI:SS'), :6, :7, :8, :9)`;
+
+    // Array de dados a serem inseridos, correspondendo aos parâmetros do comando SQL
     const dados = [
       voo.ID_VOO,
       voo.HORA_DATA_SAIDA_IDA,
@@ -490,14 +426,16 @@ app.put("/inserirVoo", async (req: Request, res: Response) => {
       voo.FK_ID_TRECHO,
     ];
 
+    // Conexão com o banco de dados Oracle
     connection = await ora.getConnection(oraConnAttribs);
+
+    // Execução do comando SQL para inserir o novo voo
     let resInsert = await connection.execute(cmdInsertAero, dados);
 
-    // importante: efetuar o commit para gravar no Oracle.
+    // Commit
     await connection.commit();
 
-    // obter a informação de quantas linhas foram inseridas.
-    // neste caso precisa ser exatamente 1
+    // Verificação do número de linhas afetadas pela inserção
     const rowsInserted = resInsert.rowsAffected;
     if (rowsInserted !== undefined && rowsInserted === 1) {
       cr.status = "SUCCESS";
@@ -511,39 +449,43 @@ app.put("/inserirVoo", async (req: Request, res: Response) => {
       cr.message = "Erro ao conectar ao oracle. Sem detalhes";
     }
   } finally {
-    //fechar a conexao.
+    // Fecha a conexão com o banco de dados
     if (connection !== undefined) {
       await connection.close();
     }
+
+    // Envia a resposta ao cliente
     res.send(cr);
   }
 });
 
+// Definição da rota para exclusão de um voo
 app.delete("/excluirVoo", async (req: Request, res: Response) => {
-  // excluindo a aeronave pelo código dela:
+  // excluindo o pelo id dele
   const ID_VOO = req.body.ID_VOO as number;
 
-  // definindo um objeto de resposta.
   let cr: CustomResponse = {
     status: "ERROR",
     message: "",
     payload: undefined,
   };
 
-  // conectando
   let connection;
   try {
+    // Conexão com o banco de dados
     connection = await ora.getConnection(oraConnAttribs);
+
+    // Comando SQL para excluir um voo na tabela TB_VOO
     const cmdDeleteVoo = `DELETE TB_VOO WHERE ID_VOO = :1`;
     const dados = [ID_VOO];
 
+    // Execução do comando SQL para excluir o voo
     let resDelete = await connection.execute(cmdDeleteVoo, dados);
 
-    // importante: efetuar o commit para gravar no Oracle.
+    // Commit
     await connection.commit();
 
-    // obter a informação de quantas linhas foram inseridas.
-    // neste caso precisa ser exatamente 1
+    // Verificação do número de linhas afetadas pela exclusão
     const rowsDeleted = resDelete.rowsAffected;
     if (rowsDeleted !== undefined && rowsDeleted === 1) {
       cr.status = "SUCCESS";
@@ -560,16 +502,16 @@ app.delete("/excluirVoo", async (req: Request, res: Response) => {
       cr.message = "Erro ao conectar ao oracle. Sem detalhes";
     }
   } finally {
-    // fechando a conexao
+    // Fechamento da conexão com o banco de dados
     if (connection !== undefined) await connection.close();
 
-    // devolvendo a resposta da requisição.
+    // Enviando a resposta para o cliente
     res.send(cr);
   }
 });
 
+// Rota para realizar a atualização de informações de um voo
 app.put("/alterarVoos", async (req: Request, res: Response) => {
-  // definindo um objeto de resposta.
   let cr: CustomResponse = {
     status: "ERROR",
     message: "",
@@ -581,7 +523,7 @@ app.put("/alterarVoos", async (req: Request, res: Response) => {
   const voo: Voos = req.body as Voos;
 
   try {
-    // Construa sua consulta SQL de atualização com valores posicionais
+    // Construção da consulta SQL para atualização das informações do voo
     const query = `UPDATE TB_TRECHOS 
                    SET HORA_DATA_CHEGADA_IDA = :1, 
                    HORA_DATA_SAIDA_IDA = :2,
@@ -604,11 +546,16 @@ app.put("/alterarVoos", async (req: Request, res: Response) => {
       voo.ID_VOO,
     ];
 
+    // Conexão com o banco de dados
     connection = await ora.getConnection(oraConnAttribs);
+
+    // Execução da consulta SQL para atualização das informações do voo
     let resInsert = await connection.execute(query, dados);
 
+    // Commit
     await connection.commit();
 
+    // Verificação do número de linhas afetadas pela atualização
     const rowsInserted = resInsert.rowsAffected;
     if (rowsInserted !== undefined && rowsInserted === 1) {
       cr.status = "SUCCESS";
@@ -622,33 +569,37 @@ app.put("/alterarVoos", async (req: Request, res: Response) => {
       cr.message = "Erro ao conectar ao oracle. Sem detalhes";
     }
   } finally {
-    //fechar a conexao.
+    // Fechando a conexão com o banco de dados
     if (connection !== undefined) {
       await connection.close();
     }
+
+    // Enviando a resposta ao cliente
     res.send(cr);
   }
 });
 
+// Rota para obter a lista de aeroportos
 app.get("/listarAeroportos", async (req: Request, res: Response) => {
   let cr: CustomResponse = { status: "ERROR", message: "", payload: undefined };
   let connection;
   try {
+    // Estabelecimento da conexão com o banco de dados
     connection = await ora.getConnection(oraConnAttribs);
 
-    // atenção: mudamos a saída para que o oracle entregue um objeto puro em JS no rows.
-    // não mais um array dentro de array.
+    // Execução da consulta SQL para obter a lista de aeroportos
     let resultadoConsulta = await connection.execute(
       `SELECT * FROM TB_AEROPORTOS`
     );
 
     cr.status = "SUCCESS";
     cr.message = "Dados obtidos";
-    // agora sempre vamos converter as linhas do oracle em resultados do nosso TIPO.
+
+    // Conversão das linhas do Oracle em objetos do tipo Aeroportos
     if (resultadoConsulta.rows && resultadoConsulta.rows.length > 0) {
       cr.payload = rowsToAeroportos(resultadoConsulta.rows);
     } else {
-      // o array está vazio
+      // Array vazio
       cr.payload = [{}];
     }
   } catch (e) {
@@ -658,32 +609,36 @@ app.get("/listarAeroportos", async (req: Request, res: Response) => {
       cr.message = "Erro ao conectar ao oracle. Sem detalhes";
     }
   } finally {
+    // Fechamento da conexão com o banco de dados Oracle, se estiver aberta
     if (connection !== undefined) {
       await connection.close();
     }
+
+    // Envio da resposta ao cliente
     res.send(cr);
   }
 });
 
+// Rota para inserir um novo aeroporto
 app.put("/inserirAeroporto", async (req: Request, res: Response) => {
-  // definindo um objeto de resposta.
   let cr: CustomResponse = {
     status: "ERROR",
     message: "",
     payload: undefined,
   };
 
-  // UAU! Agora com um tipo definido podemos simplesmente converter tudo que
-  // chega na requisição para um tipo nosso!
+  // Conversão do corpo da requisição para o tipo Aeroportos
   const aeroporto: Aeroportos = req.body as Aeroportos;
 
-  // continuamos o processo porque passou na validação.
   let connection;
   try {
+    // Comando SQL para inserir um novo aeroporto na tabela TB_AEROPORTOS
     const cmdInsertAeroporto = `INSERT INTO TB_AEROPORTOS 
       (ID_AEROPORTO, SIGLA, NOME, CIDADE, PAIS)
       VALUES
       (SEQ_AEROPORTOS.NEXTVAL, :1, :2, :3, :4)`;
+
+    // Dados a serem inseridos no novo aeroporto
     const dados = [
       aeroporto.SIGLA,
       aeroporto.NOME,
@@ -691,14 +646,16 @@ app.put("/inserirAeroporto", async (req: Request, res: Response) => {
       aeroporto.PAIS,
     ];
 
+    // Conexão com o banco de dados Oracle
     connection = await ora.getConnection(oraConnAttribs);
+
+    // Execução do comando SQL de inserção
     let resInsert = await connection.execute(cmdInsertAeroporto, dados);
 
-    // importante: efetuar o commit para gravar no Oracle.
+    // Commit
     await connection.commit();
 
-    // obter a informação de quantas linhas foram inseridas.
-    // neste caso precisa ser exatamente 1
+    // Obtem informação sobre quantas linhas foram inseridas
     const rowsInserted = resInsert.rowsAffected;
     if (rowsInserted !== undefined && rowsInserted === 1) {
       cr.status = "SUCCESS";
@@ -712,39 +669,43 @@ app.put("/inserirAeroporto", async (req: Request, res: Response) => {
       cr.message = "Erro ao conectar ao oracle. Sem detalhes";
     }
   } finally {
-    //fechar a conexao.
+    // Fechamento da conexão com o banco de dados
     if (connection !== undefined) {
       await connection.close();
     }
+
+    // Envio da resposta ao cliente
     res.send(cr);
   }
 });
 
+// Rota para excluir um aeroporto pelo nome
 app.delete("/excluirAeroporto", async (req: Request, res: Response) => {
-  // excluindo a aeronave pelo código dela:
+  // Obtenção do nome do aeroporto a ser excluído a partir do corpo da requisição
   const NOME = req.body.NOME as string;
 
-  // definindo um objeto de resposta.
   let cr: CustomResponse = {
     status: "ERROR",
     message: "",
     payload: undefined,
   };
 
-  // conectando
+  // Inicialização da conexão com o banco de dados
   let connection;
   try {
     connection = await ora.getConnection(oraConnAttribs);
+
+    // Comando SQL para excluir um aeroporto
     const cmdDeleteAero = `DELETE TB_AEROPORTOS WHERE NOME = :1`;
     const dados = [NOME];
 
+    // Execução do comando SQL de exclusão
     let resDelete = await connection.execute(cmdDeleteAero, dados);
 
-    // importante: efetuar o commit para gravar no Oracle.
+    // Commit
     await connection.commit();
 
-    // obter a informação de quantas linhas foram inseridas.
-    // neste caso precisa ser exatamente 1
+    // Obtenção da informação sobre quantas linhas foram excluídas
     const rowsDeleted = resDelete.rowsAffected;
     if (rowsDeleted !== undefined && rowsDeleted === 1) {
       cr.status = "SUCCESS";
@@ -761,81 +722,33 @@ app.delete("/excluirAeroporto", async (req: Request, res: Response) => {
       cr.message = "Erro ao conectar ao oracle. Sem detalhes";
     }
   } finally {
-    // fechando a conexao
+    // Fechamento da conexão com o banco de dados
     if (connection !== undefined) await connection.close();
 
-    // devolvendo a resposta da requisição.
+    // Envio da resposta ao cliente
     res.send(cr);
   }
 });
 
-app.put("/alterarAeroporto", async (req: Request, res: Response) => {
-  // definindo um objeto de resposta.
-  let cr: CustomResponse = {
-    status: "ERROR",
-    message: "",
-    payload: undefined,
-  };
-
-  let connection;
-
-  const aeroporto: Aeroportos = req.body as Aeroportos;
-
-  try {
-    // Construa sua consulta SQL de atualização com valores posicionais
-    const query = `UPDATE TB_AEROPORTOS 
-                   SET CIDADE = :1, 
-                   PAIS = :2, 
-                       SIGLA = :3
-                       WHERE NOME = :4`;
-    const dados = [
-      aeroporto.CIDADE,
-      aeroporto.PAIS,
-      aeroporto.SIGLA,
-      aeroporto.NOME,
-    ];
-
-    connection = await ora.getConnection(oraConnAttribs);
-    let resInsert = await connection.execute(query, dados);
-
-    await connection.commit();
-
-    const rowsInserted = resInsert.rowsAffected;
-    if (rowsInserted !== undefined && rowsInserted === 1) {
-      cr.status = "SUCCESS";
-      cr.message = "Aeroporto alterado.";
-    }
-  } catch (e) {
-    if (e instanceof Error) {
-      cr.message = e.message;
-      console.log(e.message);
-    } else {
-      cr.message = "Erro ao conectar ao oracle. Sem detalhes";
-    }
-  } finally {
-    //fechar a conexao.
-    if (connection !== undefined) {
-      await connection.close();
-    }
-    res.send(cr);
-  }
-});
-
+// Rota para listar os trechos de uma viagem com base nas cidades de origem e destino
 app.post("/listarTrechosViagem", async (req: Request, res: Response) => {
   let cr: CustomResponse = { status: "ERROR", message: "", payload: undefined };
+
+  // Inicialização da conexão com o banco de dados
   let connection;
   try {
     connection = await ora.getConnection(oraConnAttribs);
 
+    // Obtenção das cidades de origem e destino a partir do corpo da requisição
     const ORIGEM = req.body.ORIGEM as string;
     const DESTINO = req.body.DESTINO as string;
 
-    // atenção: mudamos a saída para que o oracle entregue um objeto puro em JS no rows.
-    // não mais um array dentro de array.
+    // Consulta SQL para obter o ID do aeroporto de origem
     let resultadoConsultaOrigem = await connection.execute(
       `SELECT ID_AEROPORTO FROM TB_AEROPORTOS WHERE CIDADE = '${ORIGEM}'`
     );
 
+    // Consulta SQL para obter o ID do aeroporto de destino
     let resultadoConsultaDestino = await connection.execute(
       `SELECT ID_AEROPORTO FROM TB_AEROPORTOS WHERE CIDADE = '${DESTINO}'`
     );
@@ -847,12 +760,14 @@ app.post("/listarTrechosViagem", async (req: Request, res: Response) => {
       resultadoConsultaOrigem.rows &&
       resultadoConsultaOrigem.rows.length > 0
     ) {
+      // Atribuição do ID do aeroporto de origem e destino ao payload
       cr.payload = [
         resultadoConsultaOrigem.rows[0],
         resultadoConsultaDestino.rows[0],
       ];
 
       try {
+        // Consulta SQL para obter o ID do trecho com base nos aeroportos de origem e destino
         let resultadoConsultaTrecho = await connection.execute(
           `SELECT ID_TRECHO FROM TB_TRECHOS WHERE FK_ID_ORIGEM = '${cr.payload[0][0]}' AND FK_ID_DESTINO = '${cr.payload[1][0]}'`
         );
@@ -862,11 +777,11 @@ app.post("/listarTrechosViagem", async (req: Request, res: Response) => {
           (row: number[]) => row[0]
         );
 
-        // Atribui ao cr.payload
+        // Atribui os IDs dos trechos ao payload
         cr.payload = trechosSimples;
       } catch (error) {}
     } else {
-      // o array está vazio
+      // Array vazio
       cr.payload = [{}];
     }
   } catch (e) {
@@ -876,26 +791,35 @@ app.post("/listarTrechosViagem", async (req: Request, res: Response) => {
       cr.message = "Erro ao conectar ao oracle. Sem detalhes";
     }
   } finally {
+    // Fechamento da conexão com o banco de dados
     if (connection !== undefined) {
       await connection.close();
     }
+
+    // Envio da resposta ao cliente
     res.send(cr);
   }
 });
 
+// Rota para listar informações completas de viagens com base em uma lista de IDs de trechos
 app.post("/listarViagens", async (req: Request, res: Response) => {
   let cr: CustomResponse = { status: "ERROR", message: "", payload: undefined };
   let connection;
 
   try {
+    // Estabelecimento da conexão com o banco de dados
     connection = await ora.getConnection(oraConnAttribs);
 
+    // Obtenção da lista de IDs de trechos a partir do corpo da requisição
     const listaDeTrecho = req.body as number[];
+
+    // Inicialização de um array para armazenar os resultados completos das consultas
     const resultadosCompletos = [];
 
+    // Loop sobre cada ID de trecho na lista
     for (const idTrecho of listaDeTrecho) {
       try {
-        // Consulta para obter informações do voo e do aeroporto associado ao trecho
+        // Consulta SQL para obter informações do voo e dos aeroportos associados ao trecho
         let resultadoConsultaTrecho = await connection.execute(
           `SELECT V.*, A_ORIGEM.*, A_DESTINO.* 
           FROM TB_VOO V
@@ -905,6 +829,7 @@ app.post("/listarViagens", async (req: Request, res: Response) => {
           WHERE V.FK_ID_TRECHO = ${idTrecho}`
         );
 
+        // Verifica se a consulta retornou resultados
         if (
           resultadoConsultaTrecho.rows &&
           resultadoConsultaTrecho.rows.length > 0
@@ -914,7 +839,6 @@ app.post("/listarViagens", async (req: Request, res: Response) => {
         }
       } catch (error: any) {
         console.error(`Erro ao consultar trecho ${idTrecho}:`, error.message);
-        // Se desejar, você pode lidar com erros aqui
       }
     }
 
@@ -928,21 +852,29 @@ app.post("/listarViagens", async (req: Request, res: Response) => {
       cr.message = "Erro ao conectar ao oracle. Sem detalhes";
     }
   } finally {
+    // Fechamento da conexão com o banco de dados
     if (connection !== undefined) {
       await connection.close();
     }
+
+    // Envio da resposta ao cliente
     res.send(cr);
   }
 });
 
+// Rota para obter o total de assentos disponíveis em uma aeronave com base no ID da aeronave
 app.post("/totalAssentos", async (req: Request, res: Response) => {
   let cr: CustomResponse = { status: "ERROR", message: "", payload: undefined };
+
   let connection;
   try {
+    // Estabelecimento da conexão com o banco de dados
     connection = await ora.getConnection(oraConnAttribs);
 
+    // Obtenção do ID da aeronave a partir do corpo da requisição
     const vooData = req.body.vooData;
 
+    // Execução da consulta SQL para obter o total de assentos da aeronave
     let resultadoConsulta = await connection.execute(
       `SELECT TOTAL_ASSENTOS FROM TB_AERONAVES WHERE ID_AERONAVE = :1`,
       [vooData[7]]
@@ -951,10 +883,12 @@ app.post("/totalAssentos", async (req: Request, res: Response) => {
     cr.status = "SUCCESS";
     cr.message = "Dados obtidos";
 
+    // Verifica se a consulta retornou resultados
     if (resultadoConsulta.rows && resultadoConsulta.rows.length > 0) {
+      // Atribui o total de assentos ao payload da resposta
       cr.payload = resultadoConsulta.rows[0][0];
     } else {
-      // o array está vazio
+      // Array vazio
       cr.payload = undefined;
     }
   } catch (e) {
@@ -964,27 +898,29 @@ app.post("/totalAssentos", async (req: Request, res: Response) => {
       cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
     }
   } finally {
+    // Fechamento da conexão com o banco de dados
     if (connection !== undefined) {
       await connection.close();
     }
 
+    // Envio da resposta ao cliente
     res.send(cr);
   }
 });
 
-// Rota para listar todos os trechos de viagem
+// Rota para obter a lista de assentos associados a uma aeronave com base no ID da aeronave
 app.post("/listarAssentos", async (req: Request, res: Response) => {
-  // Objeto para armazenar a resposta personalizada
   let cr: CustomResponse = { status: "ERROR", message: "", payload: undefined };
   let connection;
 
+  // Obtenção do ID da aeronave
   const ID = req.body.FK_ID_AERONAVE as number;
 
   try {
-    // Conectar ao banco de dados Oracle
+    // Estabelecimento da conexão com o banco de dados
     connection = await ora.getConnection(oraConnAttribs);
 
-    // Consultar todos os assentos na tabela TB_Assento com base no ID da aeronave
+    // Execução da consulta SQL para obter a lista de assentos associados à aeronave
     let resultadoConsulta = await connection.execute(
       `SELECT *
       FROM TB_Assento
@@ -992,27 +928,25 @@ app.post("/listarAssentos", async (req: Request, res: Response) => {
       [ID]
     );
 
-    // Configurar resposta de sucesso
     cr.status = "SUCCESS";
     cr.message = "Dados obtidos";
 
     // Verificar se há resultados para a consulta
     if (resultadoConsulta.rows && resultadoConsulta.rows.length > 0) {
-      // Transformar os resultados em um formato mais adequado, se houver resultados
+      // Transformar os resultados em um formato mais adequado
       cr.payload = rowsToAssentos(resultadoConsulta.rows);
     } else {
       // Configurar payload para um array vazio se não houver resultados
       cr.payload = [];
     }
   } catch (e) {
-    // Tratar erros na conexão ao banco de dados Oracle
     if (e instanceof Error) {
       cr.message = e.message;
     } else {
       cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
     }
   } finally {
-    // Fechar a conexão com o banco de dados, se estiver aberta
+    // Fechar a conexão com o banco de dados
     if (connection !== undefined) {
       await connection.close();
     }
@@ -1021,18 +955,22 @@ app.post("/listarAssentos", async (req: Request, res: Response) => {
   }
 });
 
+// Rota para gerar e atribuir uma referência a um assento com base no ID do assento
 app.post("/gerarReferencia", async (req: Request, res: Response) => {
   let cr: CustomResponse = { status: "ERROR", message: "", payload: undefined };
+
+  // Inicialização da conexão com o banco de dados
   let connection;
   try {
     connection = await ora.getConnection(oraConnAttribs);
 
+    // Obtenção do ID e da nova referência do assento a partir do corpo da requisição
     const ID_ASSENTO = req.body.ID as number;
     const REFERENCIA_ASSENTO = req.body.REFERENCIA as string;
 
     console.log(ID_ASSENTO);
-    // console.log(REFERENCIA_ASSENTO);
 
+    // Execução da atualização do banco de dados para atribuir a nova referência ao assento
     let resultadoAtualizacao = await connection.execute(
       `UPDATE TB_ASSENTO SET REFERENCIA = :1 WHERE ID_ASSENTO = :2`,
       [REFERENCIA_ASSENTO, ID_ASSENTO]
@@ -1045,10 +983,12 @@ app.post("/gerarReferencia", async (req: Request, res: Response) => {
     cr.status = "SUCCESS";
     cr.message = "Dados obtidos";
 
+    // Verificação se há resultados para a consulta
     if (resultadoAtualizacao.rows && resultadoAtualizacao.rows.length > 0) {
+      // Atribuição dos resultados ao payload da resposta
       cr.payload = resultadoAtualizacao.rows;
     } else {
-      // o array está vazio
+      // Array vazio
       cr.payload = undefined;
     }
   } catch (e) {
@@ -1060,23 +1000,29 @@ app.post("/gerarReferencia", async (req: Request, res: Response) => {
       cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
     }
   } finally {
+    // Fechamento da conexão com o banco de dados
     if (connection !== undefined) {
       await connection.close();
     }
 
+    // Envio da resposta ao cliente
     res.send(cr);
     console.log(cr);
   }
 });
 
+// Rota para obter os IDs dos assentos associados a uma aeronave específica
 app.post("/obterIDs", async (req: Request, res: Response) => {
   let cr: CustomResponse = { status: "ERROR", message: "", payload: undefined };
+
   let connection;
   try {
     connection = await ora.getConnection(oraConnAttribs);
 
+    // Obtenção do ID da aeronave a partir do corpo da requisição
     const ID_AERONAVE = req.body.ID;
 
+    // Execução da consulta no banco de dados para obter os IDs dos assentos associados à aeronave
     let resultadoAtualizacao = await connection.execute(
       `SELECT ID_ASSENTO FROM TB_ASSENTO WHERE FK_ID_AERONAVE = :1`,
       [ID_AERONAVE]
@@ -1085,8 +1031,8 @@ app.post("/obterIDs", async (req: Request, res: Response) => {
     cr.status = "SUCCESS";
     cr.message = "Dados obtidos";
 
+    // Verificação se há resultados para a consulta
     if (resultadoAtualizacao.rows && resultadoAtualizacao.rows.length > 0) {
-      // Utilize flat() para converter o array de arrays em um array plano
       cr.payload = resultadoAtualizacao.rows.flat();
     } else {
       // O array está vazio
@@ -1099,10 +1045,12 @@ app.post("/obterIDs", async (req: Request, res: Response) => {
       cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
     }
   } finally {
+    // Fechamento da conexão com o banco de dados
     if (connection !== undefined) {
       await connection.close();
     }
 
+    // Envio da resposta ao cliente
     res.send(cr);
   }
 });
