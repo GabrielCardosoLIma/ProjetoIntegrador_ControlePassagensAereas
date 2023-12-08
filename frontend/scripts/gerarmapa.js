@@ -24,8 +24,16 @@ function requestObterIDs(body) {
 
 // Função assincrona para obter os ids dos assentos
 async function obterIDsAssentos() {
+  const infoVooString = localStorage.getItem("INFO_VOO");
+
+  // Dividir a string usando a vírgula como separador
+  const infoVooArray = infoVooString.split(',');
+
+  // Obter o valor desejado (no caso, o valor no índice 7)
+  const assentoID = infoVooArray[7];
+
   try {
-    const body = { ID: localStorage.getItem("INFO_VOO")[7] };
+    const body = { ID: assentoID };
     const resultado = await requestObterIDs(body);
 
     if (resultado.status === "SUCCESS") {
@@ -92,7 +100,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const assento = document.createElement("div");
         assento.className = "seat";
 
-        const i = (row - "A".charCodeAt(0)) * columns + col;
+        const seatIndex = (row - "A".charCodeAt(0)) * columns + col;
         assento.textContent = `${String.fromCharCode(row)}${col}`;
 
         // Evento de clique para marcar o assento selecionado
@@ -106,10 +114,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
 
         fileira.appendChild(assento);
-        const assentoID = idsAssentos.map((id) => id);
-
-        // Atualiza as referências dos assentos no backend
-        atualizarReferenciasAssentos(assentoID[i], assento.textContent);
+        
+        // Verifica se o índice é válido antes de acessar o array
+        if (seatIndex < idsAssentos.length) {
+          const assentoID = idsAssentos[seatIndex];
+          console.log(assentoID);
+          atualizarReferenciasAssentos(assentoID, assento.textContent);
+        }
       }
 
       // Adiciona a fileira ao mapa

@@ -77,10 +77,6 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="companhia">Companhia:</label><br />
-            <input type="text" id="companhia" name="companhia" />
-          </div>
-          <div class="form-group">
             <label for="anoFab">Ano de fabricação:</label><br />
             <input
               type="text"
@@ -122,7 +118,6 @@
                 <th>Modelo</th>
                 <th>Fabricante</th>
                 <th>Ano Fab.</th>
-                <th>Companhia</th>
                 <th>Qtde de Assentos</th>
                 <th>OPC</th>
               </thead>
@@ -353,6 +348,7 @@
       exibirVoos();
       
 
+      // Função para alternar a visibilidade entre diferentes contêineres
       const containerAero = document.querySelector(".aeronaves");
       containerAero.style.display = "block";
 
@@ -366,15 +362,17 @@
         ];
 
         containers.forEach((item) => {
-          const currentContainer = document.querySelector(item);
-          if (currentContainer === container) {
-            currentContainer.style.display = "block";
+          const containerOn = document.querySelector(item);
+          // Exibir o contêiner atual se for o contêiner desejado, ocultar os outros
+          if (containerOn === container) {
+            containerOn.style.display = "block";
           } else {
-            currentContainer.style.display = "none";
+            containerOn.style.display = "none";
           }
         });
       }
 
+      // Eventos para os botões
       document
         .querySelector("#btnAeronaves")
         .addEventListener("click", function () {

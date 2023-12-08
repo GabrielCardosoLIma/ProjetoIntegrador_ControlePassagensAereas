@@ -25,7 +25,6 @@ CREATE TABLE TB_Aeronaves (
  modelo VARCHAR(30) NOT NULL,
  fabricante VARCHAR(100) NOT NULL,
  ano_fabricacao INT NOT NULL,
- companhia VARCHAR(100) NOT NULL,
  total_assentos INT NOT NULL
 );
 
@@ -108,68 +107,68 @@ BEGIN
 END;
 
 -- INSERT TABELA AERONAVES
-INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, companhia, total_assentos)
-VALUES (SEQ_AERONAVES.nextval, 'Boeing 737', 'Boeing', 2020, 'American Airlines', 150);
+INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, total_assentos)
+VALUES (SEQ_AERONAVES.nextval, 'Boeing 737', 'Boeing', 2020, 150);
 
-INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, companhia, total_assentos)
-VALUES (SEQ_AERONAVES.nextval, 'Airbus A320', 'Airbus', 2019, 'Delta Air Lines', 180);
+INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, total_assentos)
+VALUES (SEQ_AERONAVES.nextval, 'Airbus A320', 'Airbus', 2019, 180);
 
-INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, companhia, total_assentos)
-VALUES (SEQ_AERONAVES.nextval, 'Embraer E190', 'Embraer', 2018, 'United Airlines', 100);
+INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, total_assentos)
+VALUES (SEQ_AERONAVES.nextval, 'Embraer E190', 'Embraer', 2018, 100);
 
-INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, companhia, total_assentos)
-VALUES (SEQ_AERONAVES.nextval, 'Boeing 747', 'Boeing', 2017, 'Lufthansa', 300);
+INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, total_assentos)
+VALUES (SEQ_AERONAVES.nextval, 'Boeing 747', 'Boeing', 2017, 300);
 
-INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, companhia, total_assentos)
-VALUES (SEQ_AERONAVES.nextval, 'Airbus A380', 'Airbus', 2016, 'British Airways', 250);
+INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, total_assentos)
+VALUES (SEQ_AERONAVES.nextval, 'Airbus A380', 'Airbus', 2016, 250);
 
-INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, companhia, total_assentos)
-VALUES (SEQ_AERONAVES.nextval, 'Bombardier CRJ-900', 'Bombardier', 2022, 'Air Canada', 190);
+INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, total_assentos)
+VALUES (SEQ_AERONAVES.nextval, 'Bombardier CRJ-900', 'Bombardier', 2022, 190);
 
-INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, companhia, total_assentos)
-VALUES (SEQ_AERONAVES.nextval, 'Boeing 777', 'Boeing', 2021, 'Emirates', 300);
+INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, total_assentos)
+VALUES (SEQ_AERONAVES.nextval, 'Boeing 777', 'Boeing', 2021, 300);
 
-INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, companhia, total_assentos)
-VALUES (SEQ_AERONAVES.nextval, 'Airbus A330', 'Airbus', 2020, 'Qatar Airways', 250);
+INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, total_assentos)
+VALUES (SEQ_AERONAVES.nextval, 'Airbus A330', 'Airbus', 2020, 250);
 
-INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, companhia, total_assentos)
-VALUES (SEQ_AERONAVES.nextval, 'Embraer E175', 'Embraer', 2019, 'JetBlue Airways', 180);
+INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, total_assentos)
+VALUES (SEQ_AERONAVES.nextval, 'Embraer E175', 'Embraer', 2019, 180);
 
-INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, companhia, total_assentos)
-VALUES (SEQ_AERONAVES.nextval, 'Boeing 787', 'Boeing', 2018, 'ANA All Nippon Airways', 240);
+INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, total_assentos)
+VALUES (SEQ_AERONAVES.nextval, 'Boeing 787', 'Boeing', 2018, 240);
 
-INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, companhia, total_assentos)
-VALUES (SEQ_AERONAVES.nextval, 'Airbus A350', 'Airbus', 2017, 'Singapore Airlines', 300);
+INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, total_assentos)
+VALUES (SEQ_AERONAVES.nextval, 'Airbus A350', 'Airbus', 2017, 300);
 
-INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, companhia, total_assentos)
-VALUES (SEQ_AERONAVES.nextval, 'Bombardier Q400', 'Bombardier', 2016, 'Alaska Airlines', 170);
+INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, total_assentos)
+VALUES (SEQ_AERONAVES.nextval, 'Bombardier Q400', 'Bombardier', 2016, 170);
 
-INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, companhia, total_assentos)
-VALUES (SEQ_AERONAVES.nextval, 'Boeing 767', 'Boeing', 2015, 'Delta Air Lines', 180);
+INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, total_assentos)
+VALUES (SEQ_AERONAVES.nextval, 'Boeing 767', 'Boeing', 2015, 180);
 
-INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, companhia, total_assentos)
-VALUES (SEQ_AERONAVES.nextval, 'Airbus A319', 'Airbus', 2014, 'EasyJet', 140);
+INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, total_assentos)
+VALUES (SEQ_AERONAVES.nextval, 'Airbus A319', 'Airbus', 2014, 140);
 
-INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, companhia, total_assentos)
-VALUES (SEQ_AERONAVES.nextval, 'Embraer E145', 'Embraer', 2013, 'American Eagle', 150);
+INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, total_assentos)
+VALUES (SEQ_AERONAVES.nextval, 'Embraer E145', 'Embraer', 2013, 150);
 
-INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, companhia, total_assentos)
-VALUES (SEQ_AERONAVES.nextval, 'Boeing 737 MAX', 'Boeing', 2022, 'Southwest Airlines', 170);
+INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, total_assentos)
+VALUES (SEQ_AERONAVES.nextval, 'Boeing 737 MAX', 'Boeing', 2022, 170);
 
-INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, companhia, total_assentos)
-VALUES (SEQ_AERONAVES.nextval, 'Airbus A321', 'Airbus', 2021, 'JetBlue Airways', 200);
-
-
-INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, companhia, total_assentos)
-VALUES (SEQ_AERONAVES.nextval, 'Bombardier CRJ-700', 'Bombardier', 2020, 'Delta Connection', 170);
+INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, total_assentos)
+VALUES (SEQ_AERONAVES.nextval, 'Airbus A321', 'Airbus', 2021, 200);
 
 
-INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, companhia, total_assentos)
-VALUES (SEQ_AERONAVES.nextval, 'Boeing 757', 'Boeing', 2019, 'Icelandair', 180);
+INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, total_assentos)
+VALUES (SEQ_AERONAVES.nextval, 'Bombardier CRJ-700', 'Bombardier', 2020, 170);
 
 
-INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, companhia, total_assentos)
-VALUES (SEQ_AERONAVES.nextval, 'Airbus A330neo', 'Airbus', 2018, 'TAP Air Portugal', 260);
+INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, total_assentos)
+VALUES (SEQ_AERONAVES.nextval, 'Boeing 757', 'Boeing', 2019, 180);
+
+
+INSERT INTO TB_Aeronaves (id_aeronave, modelo, fabricante, ano_fabricacao, total_assentos)
+VALUES (SEQ_AERONAVES.nextval, 'Airbus A330neo', 'Airbus', 2018, 260);
 
 -- INSERT TABELA AEROPORTOS
 
@@ -420,298 +419,298 @@ INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_dat
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (1, TO_DATE('01/01/2024 08:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('01/01/2024 12:00', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('02/01/2024 14:45', 'DD/MM/YYYY HH24:MI'), TO_DATE('02/01/2024 18:30', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 1, 1, 500.00);
+        'ida_volta', 1, 1, 500.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (2, TO_DATE('02/01/2024 10:00', 'DD/MM/YYYY HH24:MI'), TO_DATE('02/01/2024 13:30', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('03/01/2024 16:15', 'DD/MM/YYYY HH24:MI'), TO_DATE('03/01/2024 20:00', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 2, 2, 550.00);
+        'ida_volta', 2, 2, 550.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (3, TO_DATE('03/01/2024 12:45', 'DD/MM/YYYY HH24:MI'), TO_DATE('03/01/2024 16:00', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('04/01/2024 18:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('04/01/2024 22:15', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 3, 3, 480.00);
+        'ida_volta', 3, 3, 480.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (4, TO_DATE('05/01/2024 09:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('05/01/2024 13:00', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('06/01/2024 15:45', 'DD/MM/YYYY HH24:MI'), TO_DATE('06/01/2024 19:30', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 4, 4, 520.00);
+        'ida_volta', 4, 4, 520.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (5, TO_DATE('07/01/2024 11:15', 'DD/MM/YYYY HH24:MI'), TO_DATE('07/01/2024 14:30', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('08/01/2024 17:00', 'DD/MM/YYYY HH24:MI'), TO_DATE('08/01/2024 20:45', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 5, 5, 600.00);
+        'ida_volta', 5, 5, 600.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (6, TO_DATE('09/01/2024 13:45', 'DD/MM/YYYY HH24:MI'), TO_DATE('09/01/2024 17:00', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('10/01/2024 19:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('10/01/2024 23:15', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 6, 6, 480.00);
+        'ida_volta', 6, 6, 480.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (7, TO_DATE('11/01/2024 15:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('11/01/2024 18:45', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('12/01/2024 21:15', 'DD/MM/YYYY HH24:MI'), TO_DATE('12/01/2024 01:00', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 7, 7, 550.00);
+        'ida_volta', 7, 7, 550.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (8, TO_DATE('13/01/2024 17:00', 'DD/MM/YYYY HH24:MI'), TO_DATE('13/01/2024 20:15', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('14/01/2024 22:45', 'DD/MM/YYYY HH24:MI'), TO_DATE('15/01/2024 02:30', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 8, 8, 580.00);
+        'ida_volta', 8, 8, 580.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (9, TO_DATE('16/01/2024 18:45', 'DD/MM/YYYY HH24:MI'), TO_DATE('16/01/2024 22:00', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('17/01/2024 00:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('17/01/2024 04:15', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 9, 9, 520.00);
+        'ida_volta', 9, 9, 520.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (10, TO_DATE('18/01/2024 20:15', 'DD/MM/YYYY HH24:MI'), TO_DATE('19/01/2024 00:30', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('19/01/2024 03:00', 'DD/MM/YYYY HH24:MI'), TO_DATE('19/01/2024 06:45', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 10, 10, 650.00);
+        'ida_volta', 10, 10, 650.00);
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (11, TO_DATE('20/01/2024 22:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('21/01/2024 02:45', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('21/01/2024 05:15', 'DD/MM/YYYY HH24:MI'), TO_DATE('21/01/2024 09:00', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 11, 11, 700.00);
+        'ida_volta', 11, 11, 700.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (12, TO_DATE('22/01/2024 01:15', 'DD/MM/YYYY HH24:MI'), TO_DATE('22/01/2024 05:30', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('22/01/2024 08:00', 'DD/MM/YYYY HH24:MI'), TO_DATE('22/01/2024 11:45', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 12, 12, 750.00);
+        'ida_volta', 12, 12, 750.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (13, TO_DATE('23/01/2024 03:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('23/01/2024 07:45', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('23/01/2024 10:15', 'DD/MM/YYYY HH24:MI'), TO_DATE('23/01/2024 14:00', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 13, 13, 800.00);
+        'ida_volta', 13, 13, 800.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (14, TO_DATE('24/01/2024 05:45', 'DD/MM/YYYY HH24:MI'), TO_DATE('24/01/2024 10:00', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('24/01/2024 12:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('24/01/2024 16:15', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 14, 14, 850.00);
+        'ida_volta', 14, 14, 850.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (15, TO_DATE('25/01/2024 08:00', 'DD/MM/YYYY HH24:MI'), TO_DATE('25/01/2024 12:15', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('25/01/2024 14:45', 'DD/MM/YYYY HH24:MI'), TO_DATE('25/01/2024 18:30', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 15, 15, 900.00);
+        'ida_volta', 15, 15, 900.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (16, TO_DATE('26/01/2024 10:15', 'DD/MM/YYYY HH24:MI'), TO_DATE('26/01/2024 14:30', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('26/01/2024 17:00', 'DD/MM/YYYY HH24:MI'), TO_DATE('26/01/2024 20:45', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 16, 16, 950.00);
+        'ida_volta', 16, 16, 950.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (17, TO_DATE('27/01/2024 12:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('27/01/2024 16:45', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('27/01/2024 19:15', 'DD/MM/YYYY HH24:MI'), TO_DATE('27/01/2024 23:00', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 17, 17, 1000.00);
+        'ida_volta', 17, 17, 1000.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (18, TO_DATE('28/01/2024 14:45', 'DD/MM/YYYY HH24:MI'), TO_DATE('28/01/2024 19:00', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('28/01/2024 21:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('29/01/2024 01:15', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 18, 18, 1050.00);
+        'ida_volta', 18, 18, 1050.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (19, TO_DATE('30/01/2024 17:00', 'DD/MM/YYYY HH24:MI'), TO_DATE('30/01/2024 21:15', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('31/01/2024 23:45', 'DD/MM/YYYY HH24:MI'), TO_DATE('01/02/2024 03:30', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 19, 19, 1100.00);
+        'ida_volta', 19, 19, 1100.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (20, TO_DATE('02/02/2024 19:15', 'DD/MM/YYYY HH24:MI'), TO_DATE('02/02/2024 23:30', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('03/02/2024 02:00', 'DD/MM/YYYY HH24:MI'), TO_DATE('03/02/2024 05:45', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 20, 20, 1150.00);
+        'ida_volta', 20, 20, 1150.00);
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (21, TO_DATE('05/02/2024 21:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('06/02/2024 01:45', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('06/02/2024 04:15', 'DD/MM/YYYY HH24:MI'), TO_DATE('06/02/2024 08:00', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 21, 1, 1200.00);
+        'ida_volta', 21, 1, 1200.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (22, TO_DATE('07/02/2024 01:45', 'DD/MM/YYYY HH24:MI'), TO_DATE('07/02/2024 06:00', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('07/02/2024 08:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('07/02/2024 12:15', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 22, 2, 1250.00);
+        'ida_volta', 22, 2, 1250.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (23, TO_DATE('08/02/2024 04:00', 'DD/MM/YYYY HH24:MI'), TO_DATE('08/02/2024 08:15', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('08/02/2024 10:45', 'DD/MM/YYYY HH24:MI'), TO_DATE('08/02/2024 14:30', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 23, 3, 1300.00);
+        'ida_volta', 23, 3, 1300.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (24, TO_DATE('09/02/2024 06:15', 'DD/MM/YYYY HH24:MI'), TO_DATE('09/02/2024 10:30', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('09/02/2024 13:00', 'DD/MM/YYYY HH24:MI'), TO_DATE('09/02/2024 16:45', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 24, 4, 1350.00);
+        'ida_volta', 24, 4, 1350.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (25, TO_DATE('10/02/2024 08:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('10/02/2024 12:45', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('10/02/2024 15:15', 'DD/MM/YYYY HH24:MI'), TO_DATE('10/02/2024 19:00', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 25, 5, 1400.00);
+        'ida_volta', 25, 5, 1400.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (26, TO_DATE('11/02/2024 10:45', 'DD/MM/YYYY HH24:MI'), TO_DATE('11/02/2024 15:00', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('11/02/2024 17:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('11/02/2024 21:15', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 26, 6, 1450.00);
+        'ida_volta', 26, 6, 1450.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (27, TO_DATE('12/02/2024 12:00', 'DD/MM/YYYY HH24:MI'), TO_DATE('12/02/2024 16:15', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('12/02/2024 18:45', 'DD/MM/YYYY HH24:MI'), TO_DATE('12/02/2024 22:30', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 27, 7, 1500.00);
+        'ida_volta', 27, 7, 1500.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (28, TO_DATE('13/02/2024 14:15', 'DD/MM/YYYY HH24:MI'), TO_DATE('13/02/2024 18:30', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('13/02/2024 21:00', 'DD/MM/YYYY HH24:MI'), TO_DATE('14/02/2024 01:00', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 28, 8, 1550.00);
+        'ida_volta', 28, 8, 1550.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (29, TO_DATE('15/02/2024 16:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('15/02/2024 20:45', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('15/02/2024 23:15', 'DD/MM/YYYY HH24:MI'), TO_DATE('16/02/2024 03:00', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 29, 9, 1600.00);
+        'ida_volta', 29, 9, 1600.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (30, TO_DATE('17/02/2024 18:45', 'DD/MM/YYYY HH24:MI'), TO_DATE('17/02/2024 23:00', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('18/02/2024 01:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('18/02/2024 05:15', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 30, 10, 1650.00);
+        'ida_volta', 30, 10, 1650.00);
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (31, TO_DATE('19/02/2024 21:00', 'DD/MM/YYYY HH24:MI'), TO_DATE('20/02/2024 01:15', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('20/02/2024 03:45', 'DD/MM/YYYY HH24:MI'), TO_DATE('20/02/2024 07:30', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 31, 11, 1700.00);
+        'ida_volta', 31, 11, 1700.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (32, TO_DATE('21/02/2024 01:15', 'DD/MM/YYYY HH24:MI'), TO_DATE('21/02/2024 05:30', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('21/02/2024 08:00', 'DD/MM/YYYY HH24:MI'), TO_DATE('21/02/2024 12:00', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 32, 12, 1750.00);
+        'ida_volta', 32, 12, 1750.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (33, TO_DATE('22/02/2024 04:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('22/02/2024 08:45', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('22/02/2024 11:15', 'DD/MM/YYYY HH24:MI'), TO_DATE('22/02/2024 15:00', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 33, 13, 1800.00);
+        'ida_volta', 33, 13, 1800.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (34, TO_DATE('23/02/2024 06:45', 'DD/MM/YYYY HH24:MI'), TO_DATE('23/02/2024 11:00', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('23/02/2024 13:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('23/02/2024 17:15', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 34, 14, 1850.00);
+        'ida_volta', 34, 14, 1850.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (35, TO_DATE('24/02/2024 08:00', 'DD/MM/YYYY HH24:MI'), TO_DATE('24/02/2024 12:15', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('24/02/2024 14:45', 'DD/MM/YYYY HH24:MI'), TO_DATE('24/02/2024 18:30', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 35, 15, 1900.00);
+        'ida_volta', 35, 15, 1900.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (36, TO_DATE('25/02/2024 10:15', 'DD/MM/YYYY HH24:MI'), TO_DATE('25/02/2024 14:30', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('25/02/2024 17:00', 'DD/MM/YYYY HH24:MI'), TO_DATE('25/02/2024 20:45', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 36, 16, 1950.00);
+        'ida_volta', 36, 16, 1950.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (37, TO_DATE('26/02/2024 12:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('26/02/2024 16:45', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('26/02/2024 19:15', 'DD/MM/YYYY HH24:MI'), TO_DATE('26/02/2024 23:00', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 37, 17, 2000.00);
+        'ida_volta', 37, 17, 2000.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (38, TO_DATE('27/02/2024 14:45', 'DD/MM/YYYY HH24:MI'), TO_DATE('27/02/2024 19:00', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('27/02/2024 21:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('28/02/2024 01:15', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 38, 18, 2050.00);
+        'ida_volta', 38, 18, 2050.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (39, TO_DATE('01/03/2024 17:00', 'DD/MM/YYYY HH24:MI'), TO_DATE('01/03/2024 21:15', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('01/03/2024 23:45', 'DD/MM/YYYY HH24:MI'), TO_DATE('02/03/2024 03:30', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 39, 19, 2100.00);
+        'ida_volta', 39, 19, 2100.00);
 
 INSERT INTO TB_Voo (id_voo,hora_data_chegada_ida,hora_data_saida_ida,hora_data_chegada_volta,
 hora_data_saida_volta,tipo,fk_id_trecho,fk_id_aeronave,preco)
 VALUES (40,TO_DATE('03/03/2024 19:15', 'DD/MM/YYYY HH24:MI'),TO_DATE('03/03/2024 23:30', 'DD/MM/YYYY HH24:MI'),
 TO_DATE('04/03/2024 02:00', 'DD/MM/YYYY HH24:MI'),TO_DATE('04/03/2024 05:45', 'DD/MM/YYYY HH24:MI'),
-'IDA_E_VOLTA',1,20,2150.00);
+'ida',1,20,2150.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (41, TO_DATE('05/03/2024 21:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('06/03/2024 01:45', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('06/03/2024 04:15', 'DD/MM/YYYY HH24:MI'), TO_DATE('06/03/2024 08:00', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 2, 1, 2200.00);
+        'ida_volta', 2, 1, 2200.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (42, TO_DATE('07/03/2024 23:45', 'DD/MM/YYYY HH24:MI'), TO_DATE('08/03/2024 04:00', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('08/03/2024 06:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('08/03/2024 10:15', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 3, 12, 2250.00);
+        'ida_volta', 3, 12, 2250.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (43, TO_DATE('09/03/2024 02:00', 'DD/MM/YYYY HH24:MI'), TO_DATE('09/03/2024 06:15', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('09/03/2024 08:45', 'DD/MM/YYYY HH24:MI'), TO_DATE('09/03/2024 12:30', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 4, 13, 2300.00);
+        'ida_volta', 4, 13, 2300.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (44, TO_DATE('10/03/2024 04:15', 'DD/MM/YYYY HH24:MI'), TO_DATE('10/03/2024 08:30', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('10/03/2024 11:00', 'DD/MM/YYYY HH24:MI'), TO_DATE('10/03/2024 14:45', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 4, 14, 2350.00);
+        'ida_volta', 4, 14, 2350.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (45, TO_DATE('11/03/2024 06:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('11/03/2024 10:45', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('11/03/2024 13:15', 'DD/MM/YYYY HH24:MI'), TO_DATE('11/03/2024 17:00', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 5, 15, 2400.00);
+        'ida_volta', 5, 15, 2400.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (46, TO_DATE('12/03/2024 08:45', 'DD/MM/YYYY HH24:MI'), TO_DATE('12/03/2024 13:00', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('12/03/2024 15:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('12/03/2024 19:15', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 6, 16, 2450.00);
+        'ida_volta', 6, 16, 2450.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (47, TO_DATE('13/03/2024 12:00', 'DD/MM/YYYY HH24:MI'), TO_DATE('13/03/2024 16:15', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('13/03/2024 18:45', 'DD/MM/YYYY HH24:MI'), TO_DATE('13/03/2024 22:30', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 7, 17, 2500.00);
+        'ida_volta', 7, 17, 2500.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (48, TO_DATE('14/03/2024 14:15', 'DD/MM/YYYY HH24:MI'), TO_DATE('14/03/2024 18:30', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('14/03/2024 21:00', 'DD/MM/YYYY HH24:MI'), TO_DATE('15/03/2024 01:00', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 8, 18, 2550.00);
+        'ida_volta', 8, 18, 2550.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (49, TO_DATE('16/03/2024 17:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('16/03/2024 21:45', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('17/03/2024 00:15', 'DD/MM/YYYY HH24:MI'), TO_DATE('17/03/2024 04:00', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 9, 19, 2600.00);
+        'ida_volta', 9, 19, 2600.00);
 
 INSERT INTO TB_Voo (id_voo, hora_data_chegada_ida, hora_data_saida_ida, hora_data_chegada_volta,
                     hora_data_saida_volta, tipo, fk_id_trecho, fk_id_aeronave, preco)
 VALUES (50, TO_DATE('18/03/2024 19:45', 'DD/MM/YYYY HH24:MI'), TO_DATE('19/03/2024 00:00', 'DD/MM/YYYY HH24:MI'),
         TO_DATE('19/03/2024 02:30', 'DD/MM/YYYY HH24:MI'), TO_DATE('19/03/2024 06:15', 'DD/MM/YYYY HH24:MI'),
-        'IDA_E_VOLTA', 20, 5, 2650.00);
+        'ida_volta', 20, 5, 2650.00);
 
 -- SELECTS
 

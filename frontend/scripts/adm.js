@@ -23,16 +23,6 @@ function selecionouFabricante() {
   return resultado;
 }
 
-// Função que verifica se preencheu a companhia
-function preencherCompanhia() {
-  let resultado = false;
-  var companhiaInformada = document.getElementById("companhia").value;
-  if (companhiaInformada.length > 0) {
-    resultado = true;
-  }
-  return resultado;
-}
-
 // Função que verifica se preencheu o ano
 function preencheuAno() {
   let resultado = false;
@@ -111,11 +101,6 @@ function inserirAeronave() {
     return;
   }
 
-  if (!preencherCompanhia()) {
-    showStatusMessage("Preencha a companhia da aeronave.", true);
-    return;
-  }
-
   if (!preencheuAno()) {
     showStatusMessage("Preencha o ano de fabricação.", true);
     return;
@@ -140,7 +125,6 @@ function inserirAeronave() {
   const fabricante = document.getElementById("comboFabricantes").value;
   const modelo = document.getElementById("modelo").value;
   const anoFab = document.getElementById("anoFab").value;
-  const companhia = document.getElementById("companhia").value;
   const totalAssentos = document.getElementById("totalAssentos").value;
 
   // Envia uma requisição para cadastrar aeronave, usando a função fetchInserir
@@ -149,7 +133,6 @@ function inserirAeronave() {
     MODELO: modelo,
     TOTAL_ASSENTOS: totalAssentos,
     ANO_FABRICACAO: anoFab,
-    COMPANHIA: companhia,
   })
     .then((customResponse) => {
       // Trata a resposta da requisição (sucesso ou erro)
@@ -223,8 +206,7 @@ function preencherTabela(aeronaves) {
               <td class="leftText">${aeronave.MODELO}</td>
               <td class="leftText">${aeronave.FABRICANTE}</td>
               <td class="rightText">${aeronave.ANO_FABRICACAO}</td>
-              <td class="rightText">${aeronave.COMPANHIA}</td>
-              <td class="rightText">${aeronave.TOTAL_ASSENTOS}</td>
+              <td class="leftText">${aeronave.TOTAL_ASSENTOS}</td>
               <td class="centerText">
                 <span class="material-symbols-outlined delete_icon" onclick="excluirAeronave(${aeronave.ID_AERONAVE});">
                 delete
@@ -881,18 +863,18 @@ function inserirVoo() {
   })
     .then((customResponse) => {
       if (customResponse.status === "SUCCESS") {
-        showStatusMessage3("Trecho cadastrado... ", false);
+        showStatusMessage4("Voo cadastrado... ", false);
         exibirVoos();
       } else {
-        showStatusMessage3(
-          "Erro ao cadastrar trecho...: " + customResponse.message,
+        showStatusMessage4(
+          "Erro ao cadastrar voo...: " + customResponse.message,
           true
         );
         console.log(customResponse.message);
       }
     })
     .catch((e) => {
-      showStatusMessage(
+      showStatusMessage4(
         "Erro técnico ao cadastrar... Contate o suporte.",
         true
       );

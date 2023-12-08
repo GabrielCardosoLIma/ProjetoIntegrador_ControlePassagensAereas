@@ -19,8 +19,7 @@ export function rowsToAeronaves(
         MODELO: registro[1],
         FABRICANTE: registro[2],
         ANO_FABRICACAO: registro[3],
-        COMPANHIA: registro[4],
-        TOTAL_ASSENTOS: registro[5],
+        TOTAL_ASSENTOS: registro[4],
       } as Aeronaves;
 
       // Adiciona o objeto Aeronaves ao array

@@ -15,36 +15,6 @@ main {
   border-radius: 10px;
   box-shadow: 1px 5px 10px rgba(0, 0, 0, 0.2);
   background-color: white;
-  display: grid;
-  grid-template-areas: "ida btn" "volta btn";
-  grid-template-columns: 3fr 1fr;
-  padding: 20px;
-}
-
-.ida {
-  grid-area: ida;
-  border-right: 1px solid rgb(221, 221, 221);
-}
-
-.volta {
-  grid-area: volta;
-  border-top: 1px solid rgb(221, 221, 221);
-  border-right: 1px solid rgb(221, 221, 221);
-}
-
-.comprar {
-  grid-area: btn;
-  display: flex;
-  flex-direction: column;
-  padding: 8px;
-  justify-content: center;
-  align-items: center;
-}
-
-.container-voos {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
 }
 
 .origem,
@@ -54,6 +24,23 @@ main {
   flex-direction: column;
   text-align: center;
   margin: 10px 0px;
+}
+
+.comprar {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  padding-left: 50px;
+  justify-content: center;
+  align-items: center;
+  border-left: 1px solid rgba(168, 165, 165, 0.363);
+}
+
+.container-voos {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px;
 }
 
 .sigla {
@@ -116,19 +103,18 @@ main {
 
   .container-voos {
     display: grid;
-    grid-template-areas: "origem seta destino" "preco comprar comprar";
+    grid-template-areas: "origem seta destino" "comprar comprar comprar";
     gap: 0px;
   }
 
-  .ida,
-  .volta {
-    border-right: none;
-  }
-
   .comprar {
+    grid-area: comprar;
     border-top: 1px solid rgb(221, 221, 221);
     flex-direction: row;
     justify-content: space-evenly;
+    border-left: none;
+    padding: 20px 0px 0px 0px;
+    margin-top: 20px;
   }
 
   .origem {
@@ -137,6 +123,11 @@ main {
 
   .destino {
     grid-area: destino;
+  }
+
+  .seta {
+    padding: 0px;
+    grid-area: seta;
   }
 
   .sigla {
@@ -153,13 +144,7 @@ main {
     font-size: 15px;
   }
 
-  .seta {
-    padding: 0px;
-    grid-area: seta;
-  }
-
   #comprar {
-    grid-area: comprar;
     max-width: 200px;
   }
 

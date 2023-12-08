@@ -98,15 +98,14 @@ app.put("/inserirAeronave", (req, res) => __awaiter(void 0, void 0, void 0, func
         try {
             // Comando SQL para inserir uma nova aeronave
             const cmdInsertAero = `INSERT INTO TB_Aeronaves 
-      (ID_AERONAVE, MODELO, FABRICANTE, ANO_FABRICACAO, COMPANHIA, TOTAL_ASSENTOS)
+      (ID_AERONAVE, MODELO, FABRICANTE, ANO_FABRICACAO, TOTAL_ASSENTOS)
       VALUES
-      (SEQ_AERONAVES.NEXTVAL, :1, :2, :3, :4, :5)`;
+      (SEQ_AERONAVES.NEXTVAL, :1, :2, :3, :4)`;
             // Dados a serem inseridos na tabela
             const dados = [
                 aero.MODELO,
                 aero.FABRICANTE,
                 aero.ANO_FABRICACAO,
-                aero.COMPANHIA,
                 aero.TOTAL_ASSENTOS,
             ];
             // Estabelece a conexão com o banco de dados

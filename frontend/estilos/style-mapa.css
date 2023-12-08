@@ -17,21 +17,11 @@ main {
   padding: 13px;
 }
 
-.voo {
-  margin-left: 40px;
-  display: flex;
-}
-
-.seta2 {
-  margin: 0px;
-  padding: 0px;
-  padding: 10px;
-}
-
 .txt {
   color: var(--rich_black);
   font-weight: 600;
   font-size: 20px;
+  margin-left: 30px;
 }
 
 /*     MAPA DE ASSENTOS     */
