@@ -668,6 +668,98 @@ app.delete("/excluirAeroporto", (req, res) => __awaiter(void 0, void 0, void 0, 
         res.send(cr);
     }
 }));
+// Rota para inserir um novo pagamento na tabela de pagamento
+app.put("/inserirPagamento", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let cr = {
+        status: "ERROR",
+        message: "",
+        payload: undefined,
+    };
+    // Conversão do corpo da requisição para o tipo Pagamento
+    const pagamento = req.body;
+    let connection;
+    try {
+        // Comando SQL para inserir um novo pagamento na tabela TB_PAGAMENTOS
+        const cmdInsertPagamento = `INSERT INTO TB_PAGAMENTO 
+      (ID_PAGAMENTO, METODO, NOME, EMAIL, STATUS)
+      VALUES
+      (SEQ_PAGAMENTO.NEXTVAL, :1, :2, :3, :4)`;
+        // Dados a serem inseridos no novo pagamento
+        const dados = [
+            pagamento.METODO,
+            pagamento.NOME,
+            pagamento.EMAIL,
+            pagamento.STATUS,
+        ];
+        // Conexão com o banco de dados Oracle
+        connection = yield ora.getConnection(OracleConnAtribs_1.oraConnAttribs);
+        // Execução do comando SQL de inserção
+        let resInsert = yield connection.execute(cmdInsertPagamento, dados);
+        // Commit
+        yield connection.commit();
+        // Obtem informação sobre quantas linhas foram inseridas
+        const rowsInserted = resInsert.rowsAffected;
+        if (rowsInserted !== undefined && rowsInserted === 1) {
+            cr.status = "SUCCESS";
+            cr.message = "Pagamento inserido com sucesso.";
+        }
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            cr.message = e.message;
+            console.error(e.message);
+        }
+        else {
+            cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+            console.error("Erro ao conectar ao Oracle:", e);
+        }
+    }
+    finally {
+        // Fechamento da conexão com o banco de dados
+        if (connection !== undefined) {
+            yield connection.close();
+        }
+        // Envio da resposta ao cliente
+        res.send(cr);
+    }
+}));
+// Rota para obter a lista de pagamentos
+app.get("/listarPagamentos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let cr = { status: "ERROR", message: "", payload: undefined };
+    let connection;
+    try {
+        // Estabelecimento da conexão com o banco de dados
+        connection = yield ora.getConnection(OracleConnAtribs_1.oraConnAttribs);
+        // Execução da consulta SQL para obter a lista de pagamentos
+        let resultadoConsulta = yield connection.execute(`SELECT * FROM TB_PAGAMENTO`);
+        cr.status = "SUCCESS";
+        cr.message = "Dados obtidos";
+        // Conversão das linhas do Oracle em objetos do tipo Pagamento
+        if (resultadoConsulta.rows && resultadoConsulta.rows.length > 0) {
+            cr.payload = (0, Conversores_1.rowsToPagamentos)(resultadoConsulta.rows);
+        }
+        else {
+            // Array vazio
+            cr.payload = [{}];
+        }
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            cr.message = e.message;
+        }
+        else {
+            cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+        }
+    }
+    finally {
+        // Fechamento da conexão com o banco de dados Oracle, se estiver aberta
+        if (connection !== undefined) {
+            yield connection.close();
+        }
+        // Envio da resposta ao cliente
+        res.send(cr);
+    }
+}));
 // Rota para listar os trechos de uma viagem com base nas cidades de origem e destino
 app.post("/listarTrechosViagem", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cr = { status: "ERROR", message: "", payload: undefined };
@@ -868,11 +960,9 @@ app.post("/gerarReferencia", (req, res) => __awaiter(void 0, void 0, void 0, fun
         // Obtenção do ID e da nova referência do assento a partir do corpo da requisição
         const ID_ASSENTO = req.body.ID;
         const REFERENCIA_ASSENTO = req.body.REFERENCIA;
-        console.log(ID_ASSENTO);
         // Execução da atualização do banco de dados para atribuir a nova referência ao assento
         let resultadoAtualizacao = yield connection.execute(`UPDATE TB_ASSENTO SET REFERENCIA = :1 WHERE ID_ASSENTO = :2`, [REFERENCIA_ASSENTO, ID_ASSENTO]);
         yield connection.commit();
-        console.log(resultadoAtualizacao.rows);
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";
         // Verificação se há resultados para a consulta
@@ -902,7 +992,6 @@ app.post("/gerarReferencia", (req, res) => __awaiter(void 0, void 0, void 0, fun
         }
         // Envio da resposta ao cliente
         res.send(cr);
-        console.log(cr);
     }
 }));
 // Rota para obter os IDs dos assentos associados a uma aeronave específica
@@ -932,6 +1021,54 @@ app.post("/obterIDs", (req, res) => __awaiter(void 0, void 0, void 0, function* 
         }
         else {
             cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+        }
+    }
+    finally {
+        // Fechamento da conexão com o banco de dados
+        if (connection !== undefined) {
+            yield connection.close();
+        }
+        // Envio da resposta ao cliente
+        res.send(cr);
+    }
+}));
+app.put("/alterarStatusAssento", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let cr = {
+        status: "ERROR",
+        message: "",
+        payload: undefined,
+    };
+    // Conversão do corpo da requisição para o tipo Assento
+    const assento = req.body;
+    let connection;
+    try {
+        // Comando SQL para atualizar o status do assento na tabela TB_ASSENTOS
+        const cmdUpdateAssento = `UPDATE TB_ASSENTO 
+      SET STATUS = :1
+      WHERE REFERENCIA = :2 AND FK_ID_AERONAVE = :3`;
+        // Dados a serem utilizados na atualização
+        const dados = [assento.STATUS, assento.REFERENCIA, assento.ID_AERONAVE];
+        // Conexão com o banco de dados Oracle
+        connection = yield ora.getConnection(OracleConnAtribs_1.oraConnAttribs);
+        // Execução do comando SQL de atualização
+        let resUpdate = yield connection.execute(cmdUpdateAssento, dados);
+        // Commit
+        yield connection.commit();
+        // Obtem informação sobre quantas linhas foram atualizadas
+        const rowsUpdated = resUpdate.rowsAffected;
+        if (rowsUpdated !== undefined && rowsUpdated === 1) {
+            cr.status = "SUCCESS";
+            cr.message = "Status do assento atualizado com sucesso.";
+        }
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            cr.message = e.message;
+            console.error(e.message);
+        }
+        else {
+            cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+            console.error("Erro ao conectar ao Oracle:", e);
         }
     }
     finally {

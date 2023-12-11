@@ -27,7 +27,7 @@ async function obterIDsAssentos() {
   const infoVooString = localStorage.getItem("INFO_VOO");
 
   // Dividir a string usando a vírgula como separador
-  const infoVooArray = infoVooString.split(',');
+  const infoVooArray = infoVooString.split(",");
 
   // Obter o valor desejado (no caso, o valor no índice 7)
   const assentoID = infoVooArray[7];
@@ -67,6 +67,15 @@ async function atualizarReferenciasAssentos(idAeronave, referenciasAssentos) {
   }
 }
 
+//Função para verificar se tem algum assento selecionado e ir para a tela de pagamento
+function Pagamento(){
+  if (localStorage.getItem("assentoSelecionado") !== null && localStorage.getItem("assentoSelecionado") !== "") {
+    window.location.href = "/frontend/src/modules/compra/pagamento.html";
+  } else {
+    window.alert("Selecione um assento antes de prosseguir.");
+  }
+}
+
 // evento para criar o mapa de assentos
 document.addEventListener("DOMContentLoaded", async function () {
   try {
@@ -100,25 +109,35 @@ document.addEventListener("DOMContentLoaded", async function () {
         const assento = document.createElement("div");
         assento.className = "seat";
 
-        const seatIndex = (row - "A".charCodeAt(0)) * columns + col;
+        const seatIndex = (row - "A".charCodeAt(0)) * columns + col - 1;
         assento.textContent = `${String.fromCharCode(row)}${col}`;
 
         // Evento de clique para marcar o assento selecionado
         assento.addEventListener("click", async function () {
+          // Remove a classe "selected" de todos os assentos
           document.querySelectorAll(".seat").forEach(function (seat) {
             seat.classList.remove("selected");
           });
 
           // Adiciona a classe "selected" ao assento clicado
           this.classList.add("selected");
+
+          // Obtém o ID do assento selecionado
+          const seatIndex = (row - "A".charCodeAt(0)) * columns + col - 1;
+          if (seatIndex < idsAssentos.length) {
+            // Armazena a referência do assento no localStorage
+            localStorage.setItem(
+              "assentoSelecionado",
+              `${String.fromCharCode(row)}${col}`
+            );
+          }
         });
 
         fileira.appendChild(assento);
-        
+
         // Verifica se o índice é válido antes de acessar o array
         if (seatIndex < idsAssentos.length) {
           const assentoID = idsAssentos[seatIndex];
-          console.log(assentoID);
           atualizarReferenciasAssentos(assentoID, assento.textContent);
         }
       }

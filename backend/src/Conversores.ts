@@ -3,6 +3,7 @@ import { Aeroportos } from "./types/Aeroportos";
 import { Assentos } from "./types/Assentos";
 import { Voos } from "./types/Voos";
 import { Trechos } from "./types/Trechos";
+import { Pagamento } from "./types/Pagamento";
 
 // Função para converter as linhas de dados em objetos do tipo Aeronaves
 export function rowsToAeronaves(
@@ -132,4 +133,30 @@ export function rowsToAssentos(
   }
   // Retorna o array contendo os objetos Assentos
   return Assentos;
+}
+
+// Função para converter as linhas de dados em objetos do tipo Pagamento
+export function rowsToPagamentos(
+  oracleRows: unknown[] | undefined
+): Array<Pagamento> {
+  // Inicializa um array vazio para armazenar os objetos Pagamento
+  let pagamentos: Array<Pagamento> = [];
+  let pagamento;
+  if (oracleRows !== undefined) {
+    oracleRows.forEach((registro: any) => {
+      // Cria um objeto do tipo Pagamento a partir das propriedades do registro
+      pagamento = {
+        ID_PAGAMENTO: registro[0],
+        METODO: registro[1],
+        NOME: registro[2],
+        EMAIL: registro[3],
+        STATUS: registro[4],
+      } as Pagamento;
+
+      // Adiciona o objeto pagamento ao array
+      pagamentos.push(pagamento);
+    });
+  }
+  // Retorna o array contendo os objetos Pagamento
+  return pagamentos;
 }

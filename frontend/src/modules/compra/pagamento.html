@@ -28,46 +28,22 @@
     <main>
       <section id="dados-voos">
         <div class="title">Dados da compra</div>
-        <div class="container-voos ida">
-          <div class="origem">
-            <p class="sigla" id="siglaOriIda"></p>
-            <div>
-              <p id="cidOriIda"></p>
-              <p id="paisOriIda"></p>
-            </div>
-            <p class="horario" id="dtOriIda"></p>
-          </div>
-          <span class="material-symbols-outlined seta"> trending_flat </span>
-          <div class="destino">
-            <p class="sigla" id="siglaDestIda"></p>
-            <p id="cidDestIda"></p>
-            <p id="paisDestIda"></p>
-            <p class="horario" id="dtDestIda"></p>
-          </div>
+        
+        <!-- Container para voos de ida -->
+        <div class="container-voos ida" id="voos-disponiveis-ida">
+          <!-- Os elementos de voo de ida serão adicionados aqui dinamicamente -->
         </div>
-
-        <div class="container-voos volta">
-          <div class="origem">
-            <p class="sigla" id="siglaOriVolta"></p>
-            <div>
-              <p id="cidOriVolta"></p>
-              <p id="paisOriVolta"></p>
-            </div>
-            <p class="horario" id="dtOriVolta"></p>
-          </div>
-          <span class="material-symbols-outlined seta"> trending_flat </span>
-          <div class="destino">
-            <p class="sigla" id="siglaDestVolta"></p>
-            <p id="cidDestVolta"></p>
-            <p id="paisDestVolta"></p>
-            <p class="horario" id="dtDestVolta"></p>
-          </div>
+        
+        <!-- Container para voos de volta -->
+        <div class="container-voos volta" id="voos-disponiveis-volta">
+          <!-- Os elementos de voo de volta serão adicionados aqui dinamicamente -->
         </div>
+      
         <div class="total">
           <p>Total</p>
           <p id="preco"></p>
         </div>
-      </section>
+      </section>      
 
       <section class="dados-pagamento">
         <div class="title">Pagamento</div>
@@ -195,6 +171,7 @@
               class="botao"
               id="btnConfirmar"
               value="confirmar"
+              onclick="gerarPagamento();"
             />
           </fieldset>
         </form>
@@ -202,7 +179,7 @@
           <div class="mensagem">
             <h2 class="msg"></h2>
             <p class="txt"></p>
-            <button id="verPassagem" class="botao">Ver passagem</button>
+            <button id="verPassagem" class="botao" onclick="Bilhete();">Ver passagem</button>
             <input id="limpar" class="botao" type="reset" value="Recomeçar" />
           </div>
         </div>

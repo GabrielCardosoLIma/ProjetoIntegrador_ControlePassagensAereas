@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.aeroportoValida = exports.aeronaveValida = void 0;
+exports.assentoValida = exports.vooValida = exports.trechoValida = exports.aeroportoValida = exports.aeronaveValida = void 0;
 function aeronaveValida(aero) {
     let valida = false;
     let mensagem = "";
@@ -11,9 +11,6 @@ function aeronaveValida(aero) {
         aero.FABRICANTE !== "Airbus" &&
         aero.FABRICANTE !== "Boeing") {
         mensagem = "FABRICANTE deve ser: Embraer, Airbus ou Boeing.";
-    }
-    if (aero.MODELO === undefined) {
-        mensagem = "Modelo não informado.";
     }
     if (aero.TOTAL_ASSENTOS === undefined) {
         mensagem = "Total de assentos não informado";
@@ -58,3 +55,69 @@ function aeroportoValida(aeroporto) {
     return [valida, mensagem];
 }
 exports.aeroportoValida = aeroportoValida;
+function trechoValida(aeroporto) {
+    let valida = false;
+    let mensagem = "";
+    if (aeroporto.ID_TRECHO === undefined) {
+        mensagem = "ID do trecho não informado.";
+    }
+    if (aeroporto.FK_ID_ORIGEM === undefined) {
+        mensagem = "FK do ID de origem não informada.";
+    }
+    if (aeroporto.FK_ID_DESTINO === undefined) {
+        mensagem = "FK do ID de destino não informada.";
+    }
+    // se passou em toda a validação.
+    if (mensagem === "") {
+        valida = true;
+    }
+    return [valida, mensagem];
+}
+exports.trechoValida = trechoValida;
+function vooValida(aeroporto) {
+    let valida = false;
+    let mensagem = "";
+    if (aeroporto.HORA_DATA_CHEGADA_IDA === undefined) {
+        mensagem = "Data de chegada da ida não informada.";
+    }
+    if (aeroporto.HORA_DATA_SAIDA_IDA === undefined) {
+        mensagem = "Data de saida da ida não informada.";
+    }
+    if (aeroporto.HORA_DATA_CHEGADA_VOLTA === undefined) {
+        mensagem = "Data de chegada da volta não informada.";
+    }
+    if (aeroporto.HORA_DATA_SAIDA_VOLTA === undefined) {
+        mensagem = "Data de saida da volta não informada.";
+    }
+    if (aeroporto.TIPO === undefined) {
+        mensagem = "Tipo de voo não informado.";
+    }
+    if (aeroporto.FK_ID_TRECHO === undefined) {
+        mensagem = "Fk de id do trecho não informado.";
+    }
+    if (aeroporto.FK_ID_AERONAVE === undefined) {
+        mensagem = "Fk de id da aeronave não informada.";
+    }
+    if (aeroporto.PRECO === undefined) {
+        mensagem = "Preço não informado.";
+    }
+    // se passou em toda a validação.
+    if (mensagem === "") {
+        valida = true;
+    }
+    return [valida, mensagem];
+}
+exports.vooValida = vooValida;
+function assentoValida(aeroporto) {
+    let valida = false;
+    let mensagem = "";
+    if (aeroporto.FK_ID_AERONAVE === undefined) {
+        mensagem = "FK de id da aeronave não informada.";
+    }
+    // se passou em toda a validação.
+    if (mensagem === "") {
+        valida = true;
+    }
+    return [valida, mensagem];
+}
+exports.assentoValida = assentoValida;

@@ -29,6 +29,17 @@ document
     });
   });
 
+// Funcao para exibir mensagem de status
+function showStatusMessage5(msg, error) {
+  var pStatus = document.getElementById("status5");
+  if (error === true) {
+    pStatus.className = "statusError";
+  } else {
+    pStatus.className = "statusSuccess";
+  }
+  pStatus.textContent = msg;
+}
+
 // Função para capitalizar a primeira letra e a letra após um espaço
 function capitalizarNome(str) {
   return str.replace(/(?:^|\s)\S/g, function (a) {
@@ -416,3 +427,179 @@ if (confirmarButton) {
 function atualizarPagina() {
   location.reload();
 }
+
+// Função para formatar data e hora
+function formatarDataHora(dataHoraString) {
+  const dataHora = new Date(dataHoraString);
+  return `${dataHora.toLocaleDateString()} ${dataHora.toLocaleTimeString()}`;
+}
+
+// Função para enviar uma requisição PUT para cadastrar um pagamento
+function fetchInserirPagamento(body) {
+  const requestOptions = {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  };
+
+  return fetch("http://localhost:3000/inserirPagamento", requestOptions)
+    .then((response) => response.json())
+    .catch((error) => {
+      // Trata os erros durante a requisição
+      showStatusMessage(
+        "Erro técnico ao cadastrar pagamento. Contate o suporte.",
+        true
+      );
+      console.log("Falha grave ao cadastrar pagamento." + error);
+    });
+}
+
+// Função para chamar a rota de alteração de assento
+function alterarAssento(referenciaAssento, idAeronave) {
+  const ID_AERONAVE = parseInt(idAeronave);
+
+  const requestOptions = {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ REFERENCIA: referenciaAssento, STATUS: "Ocupado", ID_AERONAVE: ID_AERONAVE }),
+  };
+
+  return fetch("http://localhost:3000/alterarStatusAssento", requestOptions)
+    .then((response) => response.json())
+    .catch((error) => {
+      // Trata os erros durante a requisição
+      showStatusMessage(
+        "Erro técnico ao alterar o status do assento. Contate o suporte.",
+        true
+      );
+      console.log("Falha grave ao alterar o status do assento." + error);
+    });
+}
+
+// Função para gerar o pagamento e chamar a rota de alteração de assento
+function gerarPagamento() {
+  // Método de pagamento
+  const metodoPagamento = document.querySelector(
+    'input[name="flexRadioDefault"]:checked'
+  ).value;
+
+  // Dados do cliente
+  const nomeCliente = document.getElementById("nome").value;
+  const emailCliente = document.getElementById("email").value;
+
+  const statusPagamento = "Confirmado";
+
+  // Armazena o nome do passageiro no localStorage
+  localStorage.setItem('NOME_PASSAGEIRO', nomeCliente);
+
+  // Envia uma requisição para cadastrar o pagamento, usando a função fetchInserirPagamento
+  fetchInserirPagamento({
+    METODO: metodoPagamento,
+    NOME: nomeCliente,
+    EMAIL: emailCliente,
+    STATUS: statusPagamento,
+  }).then((customResponse) => {
+    // Trata a resposta da requisição (sucesso ou erro)
+    if (customResponse && customResponse.status === "SUCCESS") {
+      // Chama a rota de alteração de assento passando a referência do assento selecionado
+      const referenciaAssento = localStorage.getItem('assentoSelecionado');
+      const INFO_VOO = localStorage.getItem('INFO_VOO');
+      if (referenciaAssento) {
+        const idAeronave = INFO_VOO.split(",")[6];
+        alterarAssento(referenciaAssento, idAeronave).then((response) => {
+          if (response && response.status === "SUCCESS") {
+            showStatusMessage("Pagamento e status do assento atualizados com sucesso.", false);
+            // Outras ações após o cadastro do pagamento e alteração do assento (se necessário)
+          } else {
+            showStatusMessage(
+              "Erro ao alterar o status do assento: " +
+                (response ? response.message : "Erro desconhecido"),
+              true
+            );
+            console.log(
+              response ? response.message : "Erro desconhecido"
+            );
+          }
+        });
+      } else {
+        showStatusMessage("Referência do assento não encontrada.", true);
+      }
+    } else {
+      showStatusMessage(
+        "Erro ao cadastrar pagamento: " +
+          (customResponse ? customResponse.message : "Erro desconhecido"),
+        true
+      );
+      console.log(
+        customResponse ? customResponse.message : "Erro desconhecido"
+      );
+    }
+  });
+}
+
+function Bilhete(){
+  window.location.href = "/frontend/src/modules/compra/bilhete.html";
+}
+
+// Função para preencher os dados de ida a partir do localStorage
+function preencherDadosIda() {
+  // Obtém os dados de ida do localStorage
+  const dadosIdaString = localStorage.getItem("INFO_VOO");
+
+  // Verifica se existem dados no localStorage
+  if (dadosIdaString) {
+    const dadosIda = dadosIdaString.split(",");
+
+    // Criação do container de voos
+    const divContainerVoosIda = document.createElement("div");
+    divContainerVoosIda.className = "container-voos ida";
+
+    // Criação dos elementos dentro do container
+    const divOrigem = document.createElement("div");
+    divOrigem.className = "origem";
+    divOrigem.innerHTML = `
+      <p class="sigla" id="siglaOriIda">${dadosIda[10].toUpperCase()}</p>
+      <div>
+        <p id="cidOriIda">${dadosIda[12]}</p>
+        <p id="paisOriIda">${dadosIda[13]}</p>
+      </div>
+      <p class="horario" id="dtOriIda">${formatarDataHora(dadosIda[1])}</p>
+    `;
+
+    const spanSeta = document.createElement("span");
+    spanSeta.className = "material-symbols-outlined seta";
+    spanSeta.innerText = " trending_flat ";
+
+    const divDestino = document.createElement("div");
+    divDestino.className = "destino";
+    divDestino.innerHTML = `
+      <p class="sigla" id="siglaDestIda">${String(
+        dadosIda[15]
+      ).toUpperCase()}</p>
+      <p id="cidDestIda">${dadosIda[17]}</p>
+      <p id="paisDestIda">${dadosIda[18]}</p>
+      <p class="horario" id="dtDestIda">${formatarDataHora(dadosIda[2])}</p>
+    `;
+
+    // Adiciona os elementos criados à estrutura
+    divContainerVoosIda.appendChild(divOrigem);
+    divContainerVoosIda.appendChild(spanSeta);
+    divContainerVoosIda.appendChild(divDestino);
+
+    // Obtém o elemento onde os voos de ida devem ser adicionados
+    const voosDisponiveisIda = document.getElementById("voos-disponiveis-ida");
+
+    // Adiciona o container de voos de ida ao elemento correspondente
+    voosDisponiveisIda.appendChild(divContainerVoosIda);
+
+    // Adiciona o preço à estrutura
+    const precoElement = document.getElementById("preco");
+    const preco = parseFloat(dadosIda[8]);
+    precoElement.innerText = `R$ ${preco.toFixed(2)}`;
+  }
+}
+
+// Chama a função para preencher os dados de ida ao carregar a página
+document.addEventListener("DOMContentLoaded", async function () {
+  preencherDadosIda();
+});

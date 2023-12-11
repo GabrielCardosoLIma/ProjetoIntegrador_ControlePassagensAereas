@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.rowsToAssentos = exports.rowsToTrechos = exports.rowsToVoos = exports.rowsToAeroportos = exports.rowsToAeronaves = void 0;
+exports.rowsToPagamentos = exports.rowsToAssentos = exports.rowsToTrechos = exports.rowsToVoos = exports.rowsToAeroportos = exports.rowsToAeronaves = void 0;
 // Função para converter as linhas de dados em objetos do tipo Aeronaves
 function rowsToAeronaves(oracleRows) {
     // Inicializa um array vazio para armazenar os objetos Aeronaves
@@ -116,3 +116,26 @@ function rowsToAssentos(oracleRows) {
     return Assentos;
 }
 exports.rowsToAssentos = rowsToAssentos;
+// Função para converter as linhas de dados em objetos do tipo Pagamento
+function rowsToPagamentos(oracleRows) {
+    // Inicializa um array vazio para armazenar os objetos Pagamento
+    let pagamentos = [];
+    let pagamento;
+    if (oracleRows !== undefined) {
+        oracleRows.forEach((registro) => {
+            // Cria um objeto do tipo Pagamento a partir das propriedades do registro
+            pagamento = {
+                ID_PAGAMENTO: registro[0],
+                METODO: registro[1],
+                NOME: registro[2],
+                EMAIL: registro[3],
+                STATUS: registro[4],
+            };
+            // Adiciona o objeto pagamento ao array
+            pagamentos.push(pagamento);
+        });
+    }
+    // Retorna o array contendo os objetos Pagamento
+    return pagamentos;
+}
+exports.rowsToPagamentos = rowsToPagamentos;
