@@ -181,6 +181,11 @@ thead {
   color: #007ea7;
 }
 
+.tb-c-voos {
+  overflow-x: auto;
+  max-width: 95%;
+}
+
 /*     SCROLL     */
 
 .table-container::-webkit-scrollbar {
@@ -191,6 +196,10 @@ thead {
 .table-container::-webkit-scrollbar-thumb {
   background-color: #0034593d;
   border-radius: 10px;
+}
+
+.hidden{
+  display: none;
 }
 
 /*     MEDIA QUERY     */
@@ -205,9 +214,6 @@ thead {
 
   section {
     margin: 30px 0px 0px 0px;
-  }
-
-  section {
     background-color: var(--white);
     box-shadow: 2px 2px 25px rgba(0, 0, 0, 0.2);
     margin: 15px;

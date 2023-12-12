@@ -47,7 +47,7 @@ app.get("/listarAeronaves", (req, res) => __awaiter(void 0, void 0, void 0, func
         // Estabelece a conexão com o banco de dados
         connection = yield ora.getConnection(OracleConnAtribs_1.oraConnAttribs);
         // Executa a consulta SQL para obter todas as aeronaves
-        let resultadoConsulta = yield connection.execute(`SELECT * FROM TB_Aeronaves`);
+        let resultadoConsulta = yield connection.execute(`SELECT * FROM TB_Aeronaves ORDER BY id_aeronave DESC`);
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";
         // Verifica se há linhas na consulta e converte para o tipo Aeronaves
@@ -197,7 +197,7 @@ app.get("/listarTrechos", (req, res) => __awaiter(void 0, void 0, void 0, functi
         // Estabelece a conexão com o banco de dados
         connection = yield ora.getConnection(OracleConnAtribs_1.oraConnAttribs);
         // Executa a consulta SQL para obter todos os trechos
-        let resultadoConsulta = yield connection.execute(`SELECT * FROM TB_TRECHOS`);
+        let resultadoConsulta = yield connection.execute(`SELECT * FROM TB_TRECHOS ORDER BY id_trecho DESC`);
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";
         // Converte as linhas do Oracle em objetos do tipo Trechos
@@ -242,8 +242,8 @@ app.put("/inserirTrecho", (req, res) => __awaiter(void 0, void 0, void 0, functi
         const cmdInsertTre = `INSERT INTO TB_TRECHOS 
       (ID_TRECHO, FK_ID_ORIGEM, FK_ID_DESTINO)
       VALUES
-      (:1, :2, :3)`;
-        const dados = [trecho.ID_TRECHO, trecho.FK_ID_ORIGEM, trecho.FK_ID_DESTINO];
+      (SEQ_TRECHOS.NEXTVAL,:1, :2)`;
+        const dados = [trecho.FK_ID_ORIGEM, trecho.FK_ID_DESTINO];
         // Estabelece a conexão com o banco de dados
         connection = yield ora.getConnection(OracleConnAtribs_1.oraConnAttribs);
         // Executa a inserção no banco de dados
@@ -330,7 +330,7 @@ app.get("/listarVoos", (req, res) => __awaiter(void 0, void 0, void 0, function*
         // Estabelece a conexão com o banco de dados Oracle
         connection = yield ora.getConnection(OracleConnAtribs_1.oraConnAttribs);
         // Executa a consulta SQL para obter todos os voos
-        let resultadoConsulta = yield connection.execute(`SELECT * FROM TB_Voo`);
+        let resultadoConsulta = yield connection.execute(`SELECT * FROM TB_Voo ORDER BY id_voo desc`);
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";
         // Converte as linhas do Oracle em resultados do tipo 'Voos'
@@ -372,20 +372,19 @@ app.put("/inserirVoo", (req, res) => __awaiter(void 0, void 0, void 0, function*
     try {
         // Comando SQL para inserir um novo voo na tabela TB_VOO
         const cmdInsertAero = `INSERT INTO TB_VOO 
-    (ID_VOO, HORA_DATA_SAIDA_IDA, HORA_DATA_SAIDA_VOLTA, HORA_DATA_CHEGADA_IDA, HORA_DATA_CHEGADA_VOLTA, TIPO, PRECO, FK_ID_AERONAVE, FK_ID_TRECHO)
+    (ID_VOO, HORA_DATA_SAIDA_IDA, HORA_DATA_SAIDA_VOLTA, HORA_DATA_CHEGADA_IDA, HORA_DATA_CHEGADA_VOLTA, TIPO, FK_ID_TRECHO ,FK_ID_AERONAVE,PRECO)
     VALUES
-    (:1, TO_DATE(:2, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(:3, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(:4, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(:5, 'YYYY-MM-DD HH24:MI:SS'), :6, :7, :8, :9)`;
+    (SEQ_VOOS.nextval, TO_DATE(:1, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(:2, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(:3, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(:4, 'YYYY-MM-DD HH24:MI:SS'), :5, :6, :7, :8)`;
         // Array de dados a serem inseridos, correspondendo aos parâmetros do comando SQL
         const dados = [
-            voo.ID_VOO,
             voo.HORA_DATA_SAIDA_IDA,
             voo.HORA_DATA_SAIDA_VOLTA,
             voo.HORA_DATA_CHEGADA_IDA,
             voo.HORA_DATA_CHEGADA_VOLTA,
             voo.TIPO,
-            voo.PRECO,
-            voo.FK_ID_AERONAVE,
             voo.FK_ID_TRECHO,
+            voo.FK_ID_AERONAVE,
+            voo.PRECO,
         ];
         // Conexão com o banco de dados Oracle
         connection = yield ora.getConnection(OracleConnAtribs_1.oraConnAttribs);
@@ -466,69 +465,6 @@ app.delete("/excluirVoo", (req, res) => __awaiter(void 0, void 0, void 0, functi
         res.send(cr);
     }
 }));
-// Rota para realizar a atualização de informações de um voo
-app.put("/alterarVoos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let cr = {
-        status: "ERROR",
-        message: "",
-        payload: undefined,
-    };
-    let connection;
-    const voo = req.body;
-    try {
-        // Construção da consulta SQL para atualização das informações do voo
-        const query = `UPDATE TB_TRECHOS 
-                   SET HORA_DATA_CHEGADA_IDA = :1, 
-                   HORA_DATA_SAIDA_IDA = :2,
-                   HORA_DATA_CHEGADA_VOLTA = :3,
-                   HORA_DATA_SAIDA_VOLTA = :4,
-                   TIPO = :5,
-                   FK_ID_TRECHO = :6,
-                   FK_ID_AERONAVE = :7,
-                   PRECO = :8
-                   WHERE ID_VOO = :9`;
-        const dados = [
-            voo.HORA_DATA_CHEGADA_IDA,
-            voo.HORA_DATA_SAIDA_IDA,
-            voo.HORA_DATA_CHEGADA_VOLTA,
-            voo.HORA_DATA_SAIDA_VOLTA,
-            voo.TIPO,
-            voo.FK_ID_TRECHO,
-            voo.FK_ID_AERONAVE,
-            voo.PRECO,
-            voo.ID_VOO,
-        ];
-        // Conexão com o banco de dados
-        connection = yield ora.getConnection(OracleConnAtribs_1.oraConnAttribs);
-        // Execução da consulta SQL para atualização das informações do voo
-        let resInsert = yield connection.execute(query, dados);
-        // Commit
-        yield connection.commit();
-        // Verificação do número de linhas afetadas pela atualização
-        const rowsInserted = resInsert.rowsAffected;
-        if (rowsInserted !== undefined && rowsInserted === 1) {
-            cr.status = "SUCCESS";
-            cr.message = "Trecho alterado.";
-        }
-    }
-    catch (e) {
-        if (e instanceof Error) {
-            cr.message = e.message;
-            console.log(e.message);
-        }
-        else {
-            cr.message = "Erro ao conectar ao oracle. Sem detalhes";
-        }
-    }
-    finally {
-        // Fechando a conexão com o banco de dados
-        if (connection !== undefined) {
-            yield connection.close();
-        }
-        // Enviando a resposta ao cliente
-        res.send(cr);
-    }
-}));
 // Rota para obter a lista de aeroportos
 app.get("/listarAeroportos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let cr = { status: "ERROR", message: "", payload: undefined };
@@ -537,7 +473,7 @@ app.get("/listarAeroportos", (req, res) => __awaiter(void 0, void 0, void 0, fun
         // Estabelecimento da conexão com o banco de dados
         connection = yield ora.getConnection(OracleConnAtribs_1.oraConnAttribs);
         // Execução da consulta SQL para obter a lista de aeroportos
-        let resultadoConsulta = yield connection.execute(`SELECT * FROM TB_AEROPORTOS`);
+        let resultadoConsulta = yield connection.execute(`SELECT * FROM TB_AEROPORTOS ORDER BY id_aeroporto desc`);
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";
         // Conversão das linhas do Oracle em objetos do tipo Aeroportos

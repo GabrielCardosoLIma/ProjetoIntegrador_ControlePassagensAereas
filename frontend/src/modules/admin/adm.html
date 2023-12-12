@@ -181,10 +181,6 @@
         <h1>Trechos</h1>
         <form id="cadastroTrechos">
           <div class="form-group">
-            <label for="id_trecho">ID do trecho: </label><br />
-            <input type="number" id="id_trecho" name="id_trecho" />
-          </div>
-          <div class="form-group">
             <label for="origem">ID Aeroporto Origem: </label><br />
             <input type="number" id="origem" name="origem" />
           </div>
@@ -260,10 +256,6 @@
         <h1>Voos</h1>
         <form id="cadastroTrechos">
           <div class="form-group">
-            <label for="id_voo">ID Voo:</label><br />
-            <input type="number" id="id_voo" name="id_voo" />
-          </div>
-          <div class="form-group">
             <label for="tipo">Tipo:</label><br />
             <select name="tipo" id="tipo">
               <option value="0" selected>Selecione o tipo</option>
@@ -272,7 +264,7 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="saida">Data saída: </label><br />
+            <label for="saida">Data saída (ida): </label><br />
             <input
               type="datetime-local"
               placeholder="2023-12-06T07:30"
@@ -283,7 +275,7 @@
             />
           </div>
           <div class="form-group">
-            <label for="chegada">Data chegada:</label><br />
+            <label for="chegada">Data chegada (ida):</label><br />
             <input
               type="datetime-local"
               placeholder="2023-12-06T07:30"
@@ -292,6 +284,30 @@
               type="text"
               id="chegada"
               name="chegada"
+            />
+          </div>
+          <div class="form-group" id="div-saida-volta">
+            <label for="saida-volta">Data saída (volta):</label><br />
+            <input
+              type="datetime-local"
+              placeholder="2023-12-06T07:30"
+              min="2023-11-07T00:00"
+              max="2030-06-14T00:00"
+              type="text"
+              id="saida-volta"
+              name="saida-volta"
+            />
+          </div>
+          <div class="form-group" id="div-chegada-volta">
+            <label for="chegada-volta">Data chegada (volta):</label><br />
+            <input
+              type="datetime-local"
+              placeholder="2023-12-06T07:30"
+              min="2023-11-07T00:00"
+              max="2030-06-14T00:00"
+              type="text"
+              id="chegada-volta"
+              name="chegada-volta"
             />
           </div>
           <div class="form-group">
@@ -321,13 +337,15 @@
           <p id="status4" class="statusError"></p>
         </form>
         <div class="resp">
-          <div class="table-container">
+          <div class="table-container tb-c-voos">
             <table class="table-voos table">
               <thead>
                 <th>ID</th>
                 <th>Tipo</th>
-                <th>Data de Saída</th>
-                <th>Data de Chegada</th>
+                <th>Data de Saída (ida)</th>
+                <th>Data de Chegada (ida)</th>
+                <th>Data de Saída (volta)</th>
+                <th>Data de Chegada (volta)</th>
                 <th>Trecho</th>
                 <th>Aeronave</th>
                 <th>Preço</th>
@@ -346,7 +364,6 @@
       exibirAeroportos();
       exibirTrechos();
       exibirVoos();
-      
 
       // Função para alternar a visibilidade entre diferentes contêineres
       const containerAero = document.querySelector(".aeronaves");
@@ -405,6 +422,23 @@
           const containerAssentos = document.querySelector(".assentos");
           toggleContainer(containerAssentos);
         });
+
+      // Para alternar o aparecimento conforme o tipo de voo (ida ou ida-volta)
+      document.addEventListener("DOMContentLoaded", function () {
+        const tipoSelect = document.getElementById("tipo");
+        const saida = document.getElementById("div-saida-volta");
+        const chegada = document.getElementById("div-chegada-volta");
+
+        tipoSelect.addEventListener("change", function () {
+          if (tipoSelect.value === "ida") {
+            saida.classList.add('hidden');
+            chegada.classList.add('hidden');
+          } else {
+            saida.classList.remove('hidden');
+            chegada.classList.remove('hidden');
+          }
+        });
+      });
     </script>
   </body>
 </html>

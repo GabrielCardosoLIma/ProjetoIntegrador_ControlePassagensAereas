@@ -485,16 +485,6 @@ function exibirAeroportos() {
 
 /*--------------- TABELA DE TRECHOS ------------------------- */
 
-// Função que verifica se preencheu o id do trecho
-function preencheuID() {
-  let resultado = false;
-  const idInformado = document.getElementById("id_trecho").value;
-  if (idInformado.length > 0) {
-    resultado = true;
-  }
-  return resultado;
-}
-
 // Função que verifica se preencheu a origem
 function preencheuOrigem() {
   let resultado = false;
@@ -541,10 +531,6 @@ function fetchInserirTrecho(body) {
 
 // Função para inserir um trecho
 function inserirTrecho() {
-  if (!preencheuID()) {
-    showStatusMessage3("Preencha o ID do trecho.", true);
-    return;
-  }
 
   if (!preencheuOrigem()) {
     showStatusMessage3("Preencha o ID do aeroporto de origem.", true);
@@ -557,13 +543,11 @@ function inserirTrecho() {
   }
 
   // Após os campos serem validados, o trecho será cadastrado
-  const id_trecho = document.getElementById("id_trecho").value;
   const origem = document.getElementById("origem").value;
   const destino = document.getElementById("destino").value;
 
   // Envia uma requisição para cadastrar trecho
   fetchInserirTrecho({
-    ID_TRECHO: id_trecho,
     FK_ID_ORIGEM: origem,
     FK_ID_DESTINO: destino,
   })
@@ -691,16 +675,6 @@ function exibirTrechos() {
 
 /*--------------- TABELA DE VOOS ------------------------- */
 
-// Função que verifica se preencheu id do voo
-function preencheuIDVoo() {
-  let resultado = false;
-  const idInformado = document.getElementById("id_voo").value;
-  if (idInformado.length > 0) {
-    resultado = true;
-  }
-  return resultado;
-}
-
 // Função que verifica se selecionou o tipo do voo
 function selecionouTipoVoo() {
   let resultado = false;
@@ -788,10 +762,6 @@ function fetchInserirVoo(body) {
 
 // Função para inserir um voo
 function inserirVoo() {
-  if (!preencheuIDVoo()) {
-    showStatusMessage4("Preencha o id do voo.", true);
-    return;
-  }
 
   if (!selecionouTipoVoo()) {
     showStatusMessage4("Selecione o tipo de voo.", true);
@@ -824,26 +794,37 @@ function inserirVoo() {
   }
 
   function formatarDataHora(input) {
+    // Verifique se o input é nulo ou vazio
+    if (!input) {
+      return null; 
+    }
+  
     // Criar um objeto Date com base na string de entrada
     const dataHora = new Date(input);
-
+  
+    // Verificar se o objeto Date é válido
+    if (isNaN(dataHora.getTime())) {
+      return null; 
+    }
+  
     // Extrair componentes de data e hora
     const ano = dataHora.getFullYear();
-    const mes = String(dataHora.getMonth() + 1).padStart(2, "0"); // Adicionar zero à esquerda se necessário
+    const mes = String(dataHora.getMonth() + 1).padStart(2, "0");
     const dia = String(dataHora.getDate()).padStart(2, "0");
     const hora = String(dataHora.getHours()).padStart(2, "0");
     const minutos = String(dataHora.getMinutes()).padStart(2, "0");
-
+  
     // Formatar a string de saída
     const saida = `${ano}-${mes}-${dia} ${hora}:${minutos}:00`;
-
+  
     return saida;
   }
 
   // Após os campos serem validados e a data e hora formatados, a aeronave será cadastrada
-  const id_voo = document.getElementById("id_voo").value;
   const saida = document.getElementById("saida").value;
   const chegada = document.getElementById("chegada").value;
+  const saida_vt = document.getElementById("saida-volta").value;
+  const chegada_vt = document.getElementById("chegada-volta").value;
   const id_trecho = document.getElementById("id_trechoVoo").value;
   const id_aeronave = document.getElementById("id_aeronave").value;
   const tipo = document.getElementById("tipo").value;
@@ -851,11 +832,10 @@ function inserirVoo() {
 
   // Envia uma requisição para cadastrar voo, usando a função fetchInserirVoo
   fetchInserirVoo({
-    ID_VOO: id_voo,
-    HORA_DATA_CHEGADA_IDA: formatarDataHora(chegada),
     HORA_DATA_SAIDA_IDA: formatarDataHora(saida),
-    HORA_DATA_CHEGADA_VOLTA: formatarDataHora(chegada),
-    HORA_DATA_SAIDA_VOLTA: formatarDataHora(saida),
+    HORA_DATA_SAIDA_VOLTA: formatarDataHora(saida_vt),
+    HORA_DATA_CHEGADA_IDA: formatarDataHora(chegada),
+    HORA_DATA_CHEGADA_VOLTA: formatarDataHora(chegada_vt),
     TIPO: tipo,
     FK_ID_TRECHO: id_trecho,
     FK_ID_AERONAVE: id_aeronave,
@@ -936,13 +916,19 @@ function preencherTabelaVoo(voos) {
         // Formatar a string de saída
         const saida = `${ano}-${mes}-${dia} ${hora}:${minutos}:00`;
 
+        if (input === null) {
+          return " - ";
+        }
+
         return saida;
       }
 
       row.innerHTML = ` <td>${voo.ID_VOO}</td>
             <td>${voo.TIPO}</td>
             <td>${formatarDataHora(voo.HORA_DATA_SAIDA_IDA)}</td>
+            <td>${formatarDataHora(voo.HORA_DATA_CHEGADA_IDA)}</td>
             <td>${formatarDataHora(voo.HORA_DATA_SAIDA_VOLTA)}</td>
+            <td>${formatarDataHora(voo.HORA_DATA_CHEGADA_VOLTA)}</td>
             <td>${voo.FK_ID_TRECHO}</td>
             <td>${voo.FK_ID_AERONAVE}</td>
             <td>${voo.PRECO}</td>

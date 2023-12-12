@@ -61,7 +61,7 @@ app.get("/listarAeronaves", async (req: Request, res: Response) => {
 
     // Executa a consulta SQL para obter todas as aeronaves
     let resultadoConsulta = await connection.execute(
-      `SELECT * FROM TB_Aeronaves`
+      `SELECT * FROM TB_Aeronaves ORDER BY id_aeronave DESC`
     );
 
     cr.status = "SUCCESS";
@@ -223,7 +223,7 @@ app.get("/listarTrechos", async (req: Request, res: Response) => {
 
     // Executa a consulta SQL para obter todos os trechos
     let resultadoConsulta = await connection.execute(
-      `SELECT * FROM TB_TRECHOS`
+      `SELECT * FROM TB_TRECHOS ORDER BY id_trecho DESC`
     );
 
     cr.status = "SUCCESS";
@@ -266,13 +266,14 @@ app.put("/inserirTrecho", async (req: Request, res: Response) => {
   const trecho: Trechos = req.body as Trechos;
 
   let connection;
+
   try {
     // Constrói a consulta SQL de inserção
     const cmdInsertTre = `INSERT INTO TB_TRECHOS 
       (ID_TRECHO, FK_ID_ORIGEM, FK_ID_DESTINO)
       VALUES
-      (:1, :2, :3)`;
-    const dados = [trecho.ID_TRECHO, trecho.FK_ID_ORIGEM, trecho.FK_ID_DESTINO];
+      (SEQ_TRECHOS.NEXTVAL,:1, :2)`;
+    const dados = [trecho.FK_ID_ORIGEM, trecho.FK_ID_DESTINO];
 
     // Estabelece a conexão com o banco de dados
     connection = await ora.getConnection(oraConnAttribs);
@@ -365,7 +366,7 @@ app.get("/listarVoos", async (req: Request, res: Response) => {
     connection = await ora.getConnection(oraConnAttribs);
 
     // Executa a consulta SQL para obter todos os voos
-    let resultadoConsulta = await connection.execute(`SELECT * FROM TB_Voo`);
+    let resultadoConsulta = await connection.execute(`SELECT * FROM TB_Voo ORDER BY id_voo desc`);
 
     cr.status = "SUCCESS";
     cr.message = "Dados obtidos";
@@ -409,21 +410,20 @@ app.put("/inserirVoo", async (req: Request, res: Response) => {
   try {
     // Comando SQL para inserir um novo voo na tabela TB_VOO
     const cmdInsertAero = `INSERT INTO TB_VOO 
-    (ID_VOO, HORA_DATA_SAIDA_IDA, HORA_DATA_SAIDA_VOLTA, HORA_DATA_CHEGADA_IDA, HORA_DATA_CHEGADA_VOLTA, TIPO, PRECO, FK_ID_AERONAVE, FK_ID_TRECHO)
+    (ID_VOO, HORA_DATA_SAIDA_IDA, HORA_DATA_SAIDA_VOLTA, HORA_DATA_CHEGADA_IDA, HORA_DATA_CHEGADA_VOLTA, TIPO, FK_ID_TRECHO ,FK_ID_AERONAVE,PRECO)
     VALUES
-    (:1, TO_DATE(:2, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(:3, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(:4, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(:5, 'YYYY-MM-DD HH24:MI:SS'), :6, :7, :8, :9)`;
+    (SEQ_VOOS.nextval, TO_DATE(:1, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(:2, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(:3, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(:4, 'YYYY-MM-DD HH24:MI:SS'), :5, :6, :7, :8)`;
 
     // Array de dados a serem inseridos, correspondendo aos parâmetros do comando SQL
     const dados = [
-      voo.ID_VOO,
       voo.HORA_DATA_SAIDA_IDA,
       voo.HORA_DATA_SAIDA_VOLTA,
       voo.HORA_DATA_CHEGADA_IDA,
       voo.HORA_DATA_CHEGADA_VOLTA,
       voo.TIPO,
-      voo.PRECO,
-      voo.FK_ID_AERONAVE,
       voo.FK_ID_TRECHO,
+      voo.FK_ID_AERONAVE,
+      voo.PRECO,
     ];
 
     // Conexão com o banco de dados Oracle
@@ -510,75 +510,6 @@ app.delete("/excluirVoo", async (req: Request, res: Response) => {
   }
 });
 
-// Rota para realizar a atualização de informações de um voo
-app.put("/alterarVoos", async (req: Request, res: Response) => {
-  let cr: CustomResponse = {
-    status: "ERROR",
-    message: "",
-    payload: undefined,
-  };
-
-  let connection;
-
-  const voo: Voos = req.body as Voos;
-
-  try {
-    // Construção da consulta SQL para atualização das informações do voo
-    const query = `UPDATE TB_TRECHOS 
-                   SET HORA_DATA_CHEGADA_IDA = :1, 
-                   HORA_DATA_SAIDA_IDA = :2,
-                   HORA_DATA_CHEGADA_VOLTA = :3,
-                   HORA_DATA_SAIDA_VOLTA = :4,
-                   TIPO = :5,
-                   FK_ID_TRECHO = :6,
-                   FK_ID_AERONAVE = :7,
-                   PRECO = :8
-                   WHERE ID_VOO = :9`;
-    const dados = [
-      voo.HORA_DATA_CHEGADA_IDA,
-      voo.HORA_DATA_SAIDA_IDA,
-      voo.HORA_DATA_CHEGADA_VOLTA,
-      voo.HORA_DATA_SAIDA_VOLTA,
-      voo.TIPO,
-      voo.FK_ID_TRECHO,
-      voo.FK_ID_AERONAVE,
-      voo.PRECO,
-      voo.ID_VOO,
-    ];
-
-    // Conexão com o banco de dados
-    connection = await ora.getConnection(oraConnAttribs);
-
-    // Execução da consulta SQL para atualização das informações do voo
-    let resInsert = await connection.execute(query, dados);
-
-    // Commit
-    await connection.commit();
-
-    // Verificação do número de linhas afetadas pela atualização
-    const rowsInserted = resInsert.rowsAffected;
-    if (rowsInserted !== undefined && rowsInserted === 1) {
-      cr.status = "SUCCESS";
-      cr.message = "Trecho alterado.";
-    }
-  } catch (e) {
-    if (e instanceof Error) {
-      cr.message = e.message;
-      console.log(e.message);
-    } else {
-      cr.message = "Erro ao conectar ao oracle. Sem detalhes";
-    }
-  } finally {
-    // Fechando a conexão com o banco de dados
-    if (connection !== undefined) {
-      await connection.close();
-    }
-
-    // Enviando a resposta ao cliente
-    res.send(cr);
-  }
-});
-
 // Rota para obter a lista de aeroportos
 app.get("/listarAeroportos", async (req: Request, res: Response) => {
   let cr: CustomResponse = { status: "ERROR", message: "", payload: undefined };
@@ -589,7 +520,7 @@ app.get("/listarAeroportos", async (req: Request, res: Response) => {
 
     // Execução da consulta SQL para obter a lista de aeroportos
     let resultadoConsulta = await connection.execute(
-      `SELECT * FROM TB_AEROPORTOS`
+      `SELECT * FROM TB_AEROPORTOS ORDER BY id_aeroporto desc`
     );
 
     cr.status = "SUCCESS";
