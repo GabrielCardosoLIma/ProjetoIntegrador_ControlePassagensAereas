@@ -22,6 +22,20 @@ function BuscarViagens() {
   localStorage.setItem("dataIda", dataIda);
   localStorage.setItem("dataVolta", dataVolta);
 
+  // Obtém o valor do tipo de viagem selecionado
+  const tipoViagem = document.querySelector(
+    'input[name="inlineRadioOptions"]:checked'
+  ).value;
+
+  // Armazena o tipo de viagem no Local Storage
+  if (tipoViagem === "1") {
+    // Se for "1", armazena como "ida_volta"
+    localStorage.setItem("tipoViagem", "ida_volta");
+  } else if (tipoViagem === "2") {
+    // Se for "2", armazena como "ida"
+    localStorage.setItem("tipoViagem", "ida");
+  }
+
   // requisição para listar os trechos de viagem
   requestListaDeTrechosViagem({ ORIGEM: origem, DESTINO: destino })
     .then((customResponse) => {

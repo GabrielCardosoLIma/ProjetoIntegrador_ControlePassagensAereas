@@ -28,6 +28,16 @@ function exibirViagens() {
     });
 }
 
+// Função para formatar a data do voo sem o horário
+function formatarDataVoo(dataVoo) {
+  const data = new Date(dataVoo);
+  const ano = data.getFullYear();
+  const mes = (data.getMonth() + 1).toString().padStart(2, "0");
+  const dia = data.getDate().toString().padStart(2, "0");
+
+  return `${ano}-${mes}-${dia}`;
+}
+
 // Função para preencher os voos disponiveis
 function preencherVoos(dados) {
   const voosDisponiveis = document.getElementById("voos-disponiveis");
@@ -35,61 +45,75 @@ function preencherVoos(dados) {
   for (let i = 0; i < dados.length; i++) {
     const voo = dados[i];
 
-    // Criação do container de voos
-    const divContainerVoos = document.createElement("div");
-    divContainerVoos.className = `container-voos ${voo[5]}`;
+    // Verifica as condições necessárias para exibir o voo
+    if (
+      formatarDataVoo(voo[2]) === localStorage.getItem("dataIda") &&
+      formatarDataVoo(voo[4]) === localStorage.getItem("dataVolta") &&
+      voo[5] === localStorage.getItem("tipoViagem")
+    ) {
+      // Criação do container de voos
+      const divContainerVoos = document.createElement("div");
+      divContainerVoos.className = `container-voos ${voo[5]}`;
 
-    // Criação dos elementos dentro do container
-    const divOrigem = document.createElement("div");
-    divOrigem.className = "origem";
-    divOrigem.innerHTML = `
-      <p class="sigla" id="siglaOri${voo[5]}">${voo[10].toUpperCase()}</p>
-      <div>
-        <p id="cidOri${voo[5]}">${voo[12]}</p>
-        <p id="paisOri${voo[5]}">${voo[13]}</p>
-      </div>
-      <p class="horario" id="dtOri${voo[5]}">${formatarDataHora(voo[1])}</p>
-    `;
+      // Criação dos elementos dentro do container
+      const divOrigem = document.createElement("div");
+      divOrigem.className = "origem";
+      divOrigem.innerHTML = `
+        <p class="sigla" id="siglaOri${voo[5]}">${voo[10].toUpperCase()}</p>
+        <div>
+          <p id="cidOri${voo[5]}">${voo[12]}</p>
+          <p id="paisOri${voo[5]}">${voo[13]}</p>
+        </div>
+        <p class="horario" id="dtOri${voo[5]}">${formatarDataHora(voo[1])}</p>
+      `;
 
-    const spanSeta = document.createElement("span");
-    spanSeta.className = "material-symbols-outlined seta";
-    spanSeta.innerText = " trending_flat ";
+      const spanSeta = document.createElement("span");
+      spanSeta.className = "material-symbols-outlined seta";
+      spanSeta.innerText = " trending_flat ";
 
-    const divDestino = document.createElement("div");
-    divDestino.className = "destino";
-    divDestino.innerHTML = `
-      <p class="sigla" id="siglaDest${voo[5]}">${String(
-      voo[15]
-    ).toUpperCase()}</p>
-      <p id="cidDest${voo[5]}">${voo[17]}</p>
-      <p id="paisDest${voo[5]}">${voo[18]}</p>
-      <p class="horario" id="dtDest${voo[5]}">${formatarDataHora(voo[2])}</p>
-    `;
+      const divDestino = document.createElement("div");
+      divDestino.className = "destino";
+      divDestino.innerHTML = `
+        <p class="sigla" id="siglaDest${voo[5]}">${String(
+        voo[15]
+      ).toUpperCase()}</p>
+        <p id="cidDest${voo[5]}">${voo[17]}</p>
+        <p id="paisDest${voo[5]}">${voo[18]}</p>
+        <p class="horario" id="dtDest${voo[5]}">${formatarDataHora(voo[2])}</p>
+      `;
 
-    const divComprar = document.createElement("div");
-    divComprar.className = "comprar";
-    const divPreco = document.createElement("div");
-    divPreco.className = "preco";
-    divPreco.innerText = `R$ ${voo[8].toFixed(2)}`;
+      const divComprar = document.createElement("div");
+      divComprar.className = "comprar";
+      const divPreco = document.createElement("div");
+      divPreco.className = "preco";
+      divPreco.innerText = `R$ ${voo[8].toFixed(2)}`;
 
-    const buttonComprar = document.createElement("button");
-    buttonComprar.id = "comprar";
-    buttonComprar.innerText = "Comprar";
-    buttonComprar.type = "button";
-    buttonComprar.onclick = function () {
-      buscarAssentos(voo);
-    };
+      const buttonComprar = document.createElement("button");
+      buttonComprar.id = "comprar";
+      buttonComprar.innerText = "Comprar";
+      buttonComprar.type = "button";
+      buttonComprar.onclick = function () {
+        buscarAssentos(voo);
+      };
 
-    // Adiciona os elementos criados à estrutura
-    divComprar.appendChild(divPreco);
-    divComprar.appendChild(buttonComprar);
+      // Adiciona os elementos criados à estrutura
+      divComprar.appendChild(divPreco);
+      divComprar.appendChild(buttonComprar);
 
-    divContainerVoos.appendChild(divOrigem);
-    divContainerVoos.appendChild(spanSeta);
-    divContainerVoos.appendChild(divDestino);
-    divContainerVoos.appendChild(divComprar);
+      divContainerVoos.appendChild(divOrigem);
+      divContainerVoos.appendChild(spanSeta);
+      divContainerVoos.appendChild(divDestino);
+      divContainerVoos.appendChild(divComprar);
 
-    voosDisponiveis.appendChild(divContainerVoos);
+      voosDisponiveis.appendChild(divContainerVoos);
+    } 
+    // else if (
+    //   formatarDataVoo(voo[2]) === localStorage.getItem("dataIda") &&
+    //   formatarDataVoo(voo[4]) === localStorage.getItem("dataVolta") &&
+    //   voo[5] === localStorage.getItem("tipoViagem")
+    // ) {
+      
+    // }
   }
 }
 
