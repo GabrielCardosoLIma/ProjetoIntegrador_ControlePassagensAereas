@@ -79,6 +79,7 @@ main {
   border-radius: 8px;
   padding: 20px;
   box-shadow: 1px 5px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 50px;
 }
 
 .ida{
@@ -102,6 +103,11 @@ main {
   align-items: center;
   grid-area: comprar;
   border-left: 1px solid rgba(124, 124, 124, 0.26);
+}
+
+.sugestoes{
+  color: var(--prussian_blue);
+  margin-bottom: 30px;
 }
 
 /*     Media Query     */

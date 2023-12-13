@@ -2,7 +2,7 @@
 .bemvindo {
   font-family: sans-serif;
   font-size: 25px;
-  margin: 50px 0px;
+  margin-top: 30px;
 }
 
 /* Main*/
@@ -12,6 +12,7 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 30px;
 }
 
 /* Bilhete */

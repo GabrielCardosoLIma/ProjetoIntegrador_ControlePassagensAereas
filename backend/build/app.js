@@ -775,8 +775,8 @@ app.post("/listarViagens", (req, res) => __awaiter(void 0, void 0, void 0, funct
                 // Verifica se a consulta retornou resultados
                 if (resultadoConsultaTrecho.rows &&
                     resultadoConsultaTrecho.rows.length > 0) {
-                    // Adiciona o resultado ao array
-                    resultadosCompletos.push(resultadoConsultaTrecho.rows[0]);
+                    // Adiciona todos os resultados ao array
+                    resultadosCompletos.push(...resultadoConsultaTrecho.rows);
                 }
             }
             catch (error) {
@@ -940,6 +940,43 @@ app.post("/obterIDs", (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const ID_AERONAVE = req.body.ID;
         // Execução da consulta no banco de dados para obter os IDs dos assentos associados à aeronave
         let resultadoAtualizacao = yield connection.execute(`SELECT ID_ASSENTO FROM TB_ASSENTO WHERE FK_ID_AERONAVE = :1`, [ID_AERONAVE]);
+        cr.status = "SUCCESS";
+        cr.message = "Dados obtidos";
+        // Verificação se há resultados para a consulta
+        if (resultadoAtualizacao.rows && resultadoAtualizacao.rows.length > 0) {
+            cr.payload = resultadoAtualizacao.rows.flat();
+        }
+        else {
+            // O array está vazio
+            cr.payload = undefined;
+        }
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            cr.message = e.message;
+        }
+        else {
+            cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+        }
+    }
+    finally {
+        // Fechamento da conexão com o banco de dados
+        if (connection !== undefined) {
+            yield connection.close();
+        }
+        // Envio da resposta ao cliente
+        res.send(cr);
+    }
+}));
+app.post("/obterReferencias", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let cr = { status: "ERROR", message: "", payload: undefined };
+    let connection;
+    try {
+        connection = yield ora.getConnection(OracleConnAtribs_1.oraConnAttribs);
+        // Obtenção do ID da aeronave a partir do corpo da requisição
+        const ID_AERONAVE = req.body.ID;
+        // Execução da consulta no banco de dados para obter os IDs dos assentos associados à aeronave
+        let resultadoAtualizacao = yield connection.execute(`SELECT REFERENCIA FROM TB_ASSENTO WHERE FK_ID_AERONAVE = :1 AND STATUS = 'Ocupado'`, [ID_AERONAVE]);
         cr.status = "SUCCESS";
         cr.message = "Dados obtidos";
         // Verificação se há resultados para a consulta

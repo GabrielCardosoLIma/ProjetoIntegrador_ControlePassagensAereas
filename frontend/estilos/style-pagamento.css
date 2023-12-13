@@ -17,18 +17,45 @@ main {
   overflow: hidden;
 }
 
-.volta {
-  border-top: 1px solid rgb(221, 221, 221);
-}
-
 .container-voos {
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
 
-.origem,
-.destino {
+.volta {
+  border-top: 1px solid rgb(221, 221, 221);
+}
+
+.total{
+  color: var(--prussian_blue);
+  font-weight: 800;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px 10px 20px;
+  border-top: 1px solid rgb(221, 221, 221);
+}
+
+.preco{
+  margin: 0px;
+}
+
+.p-total{
+  font-size: 20px;
+  margin: 0px;
+}
+
+.origem-ida,
+.destino-ida {
+  color: var(--rich_black);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 10px 0px;
+}
+
+.origem-volta, .destino-volta{
   color: var(--rich_black);
   display: flex;
   flex-direction: column;
@@ -49,8 +76,14 @@ main {
   color: rgb(102, 102, 102);
 }
 
-.origem p,
-.destino p {
+.origem-ida p,
+.destino-ida p {
+  margin: 0px;
+  padding: 0px;
+}
+
+.origem-volta p,
+.destino-volta p {
   margin: 0px;
   padding: 0px;
 }
@@ -67,19 +100,6 @@ main {
   font-size: 18px;
   color: white;
   margin-bottom: 10px;
-}
-
-.val {
-  width: 65%;
-  margin-right: 5%;
-}
-
-.cvv {
-  width: 30%;
-}
-
-.float {
-  float: left;
 }
 
 /*     SECTION DADOS CLIENTES     */
@@ -141,23 +161,6 @@ legend {
   display: none;
 }
 
-.total {
-  display: flex;
-  gap: 10px;
-  padding: 15px 20px 0px 20px;
-  border-top: 1px solid rgb(221, 220, 220);
-  justify-content: space-between;
-  font-size: 20px;
-  color: var(--prussian_blue);
-  font-weight: 600;
-  align-items: center;
-}
-
-#preco {
-  font-size: 16px;
-  color: var(--rich_black);
-}
-
 #btnConfirmar {
   display: none;
 }
@@ -186,6 +189,19 @@ legend {
 }
 
 /*     VALIDAÇÕES     */
+
+.val {
+  width: 65%;
+  margin-right: 5%;
+}
+
+.cvv {
+  width: 30%;
+}
+
+.float {
+  float: left;
+}
 
 .i-cont,
 .i-email,

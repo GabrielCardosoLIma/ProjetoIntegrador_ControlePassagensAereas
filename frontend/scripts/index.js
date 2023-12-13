@@ -20,7 +20,6 @@ function BuscarViagens() {
 
   // Armazena as datas no Local Storage para uso posterior
   localStorage.setItem("dataIda", dataIda);
-  localStorage.setItem("dataVolta", dataVolta);
 
   // Obtém o valor do tipo de viagem selecionado
   const tipoViagem = document.querySelector(
@@ -31,9 +30,11 @@ function BuscarViagens() {
   if (tipoViagem === "1") {
     // Se for "1", armazena como "ida_volta"
     localStorage.setItem("tipoViagem", "ida_volta");
+    localStorage.setItem("dataVolta", dataVolta);
   } else if (tipoViagem === "2") {
     // Se for "2", armazena como "ida"
     localStorage.setItem("tipoViagem", "ida");
+    localStorage.setItem("dataVolta", null);
   }
 
   // requisição para listar os trechos de viagem

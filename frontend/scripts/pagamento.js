@@ -461,7 +461,11 @@ function alterarAssento(referenciaAssento, idAeronave) {
   const requestOptions = {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ REFERENCIA: referenciaAssento, STATUS: "Ocupado", ID_AERONAVE: ID_AERONAVE }),
+    body: JSON.stringify({
+      REFERENCIA: referenciaAssento,
+      STATUS: "Ocupado",
+      ID_AERONAVE: ID_AERONAVE,
+    }),
   };
 
   return fetch("http://localhost:3000/alterarStatusAssento", requestOptions)
@@ -490,7 +494,7 @@ function gerarPagamento() {
   const statusPagamento = "Confirmado";
 
   // Armazena o nome do passageiro no localStorage
-  localStorage.setItem('NOME_PASSAGEIRO', nomeCliente);
+  localStorage.setItem("NOME_PASSAGEIRO", nomeCliente);
 
   // Envia uma requisição para cadastrar o pagamento, usando a função fetchInserirPagamento
   fetchInserirPagamento({
@@ -502,13 +506,17 @@ function gerarPagamento() {
     // Trata a resposta da requisição (sucesso ou erro)
     if (customResponse && customResponse.status === "SUCCESS") {
       // Chama a rota de alteração de assento passando a referência do assento selecionado
-      const referenciaAssento = localStorage.getItem('assentoSelecionado');
-      const INFO_VOO = localStorage.getItem('INFO_VOO');
+      const referenciaAssento = localStorage.getItem("assentoSelecionado");
+      const INFO_VOO = localStorage.getItem("INFO_VOO");
       if (referenciaAssento) {
-        const idAeronave = INFO_VOO.split(",")[6];
+        const idAeronave = INFO_VOO.split(",")[7];
+        console.log(idAeronave);
         alterarAssento(referenciaAssento, idAeronave).then((response) => {
           if (response && response.status === "SUCCESS") {
-            showStatusMessage("Pagamento e status do assento atualizados com sucesso.", false);
+            showStatusMessage(
+              "Pagamento e status do assento atualizados com sucesso.",
+              false
+            );
             // Outras ações após o cadastro do pagamento e alteração do assento (se necessário)
           } else {
             showStatusMessage(
@@ -516,9 +524,7 @@ function gerarPagamento() {
                 (response ? response.message : "Erro desconhecido"),
               true
             );
-            console.log(
-              response ? response.message : "Erro desconhecido"
-            );
+            console.log(response ? response.message : "Erro desconhecido");
           }
         });
       } else {
@@ -537,65 +543,120 @@ function gerarPagamento() {
   });
 }
 
-function Bilhete(){
+function Bilhete() {
   window.location.href = "/frontend/src/modules/compra/bilhete.html";
 }
 
 // Função para preencher os dados de ida a partir do localStorage
 function preencherDadosIda() {
   // Obtém os dados de ida do localStorage
-  const dadosIdaString = localStorage.getItem("INFO_VOO");
+  const dadosString = localStorage.getItem("INFO_VOO");
 
   // Verifica se existem dados no localStorage
-  if (dadosIdaString) {
-    const dadosIda = dadosIdaString.split(",");
+  if (dadosString) {
+    const dados = dadosString.split(",");
+    const divDadosCompra = document.querySelector("#dados-voos");
 
-    // Criação do container de voos
+    // Criação do container de ida
     const divContainerVoosIda = document.createElement("div");
     divContainerVoosIda.className = "container-voos ida";
 
-    // Criação dos elementos dentro do container
+    // Criação do container de volta
+    const divContainerVoosVolta = document.createElement("div");
+    divContainerVoosVolta.className = "container-voos volta";
+
+    // Criação do container de preço
+    const divPreco = document.createElement("div");
+    divPreco.className = "total";
+
+    divDadosCompra.appendChild(divContainerVoosIda);
+    divDadosCompra.appendChild(divContainerVoosVolta);
+    divDadosCompra.appendChild(divPreco);
+
+    // Criação dos elementos dentro da divIda
     const divOrigem = document.createElement("div");
-    divOrigem.className = "origem";
+    divOrigem.className = "origem-ida";
     divOrigem.innerHTML = `
-      <p class="sigla" id="siglaOriIda">${dadosIda[10].toUpperCase()}</p>
+      <p class="sigla" id="siglaOriIda">${dados[10].toUpperCase()}</p>
       <div>
-        <p id="cidOriIda">${dadosIda[12]}</p>
-        <p id="paisOriIda">${dadosIda[13]}</p>
+        <p id="cidOriIda">${dados[12]}</p>
+        <p id="paisOriIda">${dados[13]}</p>
       </div>
-      <p class="horario" id="dtOriIda">${formatarDataHora(dadosIda[1])}</p>
+      <p class="horario" id="dtOriIda">${formatarDataHora(dados[2])}</p>
     `;
 
     const spanSeta = document.createElement("span");
     spanSeta.className = "material-symbols-outlined seta";
-    spanSeta.innerText = " trending_flat ";
+    spanSeta.innerText = "trending_flat";
 
     const divDestino = document.createElement("div");
-    divDestino.className = "destino";
+    divDestino.className = "destino-ida";
     divDestino.innerHTML = `
       <p class="sigla" id="siglaDestIda">${String(
-        dadosIda[15]
+        dados[15]
       ).toUpperCase()}</p>
-      <p id="cidDestIda">${dadosIda[17]}</p>
-      <p id="paisDestIda">${dadosIda[18]}</p>
-      <p class="horario" id="dtDestIda">${formatarDataHora(dadosIda[2])}</p>
+      <p id="cidDestIda">${dados[17]}</p>
+      <p id="paisDestIda">${dados[18]}</p>
+      <p class="horario" id="dtDestIda">${formatarDataHora(dados[1])}</p>
     `;
 
-    // Adiciona os elementos criados à estrutura
     divContainerVoosIda.appendChild(divOrigem);
     divContainerVoosIda.appendChild(spanSeta);
     divContainerVoosIda.appendChild(divDestino);
 
-    // Obtém o elemento onde os voos de ida devem ser adicionados
-    const voosDisponiveisIda = document.getElementById("voos-disponiveis-ida");
+    // Criação dos elementos dentro da divVolta
+    const divOrigemVolta = document.createElement("div");
+    divOrigemVolta.className = "origem-volta";
+    divOrigemVolta.innerHTML = `
+    <p class="sigla" id="siglaDestIda">${String(dados[15]).toUpperCase()}</p>
+    <p id="cidDestIda">${dados[17]}</p>
+    <p id="paisDestIda">${dados[18]}</p>
+    <p class="horario" id="dtDestIda">${formatarDataHora(dados[4])}</p>
+    `;
 
-    // Adiciona o container de voos de ida ao elemento correspondente
-    voosDisponiveisIda.appendChild(divContainerVoosIda);
+    const spanSetaVolta = document.createElement("span");
+    spanSetaVolta.className = "material-symbols-outlined seta";
+    spanSetaVolta.innerText = "trending_flat";
 
-    // Adiciona o preço à estrutura
-    const precoElement = document.getElementById("preco");
-    const preco = parseFloat(dadosIda[8]);
+    const divDestinoVolta = document.createElement("div");
+    divDestinoVolta.className = "destino-volta";
+    divDestinoVolta.innerHTML = `
+    <p class="sigla" id="siglaOriIda">${dados[10].toUpperCase()}</p>
+    <div>
+      <p id="cidOriIda">${dados[12]}</p>
+      <p id="paisOriIda">${dados[13]}</p>
+    </div>
+    <p class="horario" id="dtOriIda">${formatarDataHora(dados[3])}</p>
+    `;
+
+    divContainerVoosVolta.appendChild(divOrigemVolta);
+    divContainerVoosVolta.appendChild(spanSetaVolta);
+    divContainerVoosVolta.appendChild(divDestinoVolta);
+
+    // Criando os elementos da divPreco
+    const precoElement = document.createElement("div");
+    precoElement.className = "preco";
+    const preco = parseFloat(dados[8]);
     precoElement.innerText = `R$ ${preco.toFixed(2)}`;
+
+    const pTotal = document.createElement("p");
+    pTotal.className = "p-total";
+    pTotal.innerHTML = "Total";
+
+    divPreco.appendChild(pTotal);
+    divPreco.appendChild(precoElement);
+
+    // Verifica o tipo de viagem na localStorage
+    const tipoViagem = localStorage.getItem("tipoViagem");
+
+    // Decide se deve mostrar ou ocultar a div volta
+    if (tipoViagem === "ida") {
+      // Oculta a div volta
+      divContainerVoosVolta.style.display = "none";
+    } else if (tipoViagem === "ida_volta") {
+      // Mostra a div volta
+      divContainerVoosVolta.style.display = "flex";
+    }
   }
 }
 

@@ -22,15 +22,34 @@ function requestObterIDs(body) {
   );
 }
 
+// Função que faz uma requisição para obter as ref dos assentos
+function requestObterReferencias(body) {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  };
+  return fetch("http://localhost:3000/obterReferencias", requestOptions).then(
+    (T) => T.json()
+  );
+}
+
 // Função assincrona para obter os ids dos assentos
 async function obterIDsAssentos() {
   const infoVooString = localStorage.getItem("INFO_VOO");
+  let assentoID = 0;
 
   // Dividir a string usando a vírgula como separador
   const infoVooArray = infoVooString.split(",");
 
-  // Obter o valor desejado (no caso, o valor no índice 7)
-  const assentoID = infoVooArray[7];
+  // Obter o valor desejado
+  if (localStorage.getItem("tipoViagem") === "ida_volta") {
+    assentoID = infoVooArray[7];
+  } else {
+    assentoID = infoVooArray[7];
+  }
+
+  console.log(assentoID);
 
   try {
     const body = { ID: assentoID };
@@ -40,6 +59,39 @@ async function obterIDsAssentos() {
       return resultado.payload;
     } else {
       console.error("Erro ao obter IDs dos assentos:", resultado.message);
+      return []; // Retorna um array vazio em caso de erro
+    }
+  } catch (error) {
+    console.error("Erro na requisição:", error);
+    return []; // Retorna um array vazio em caso de erro
+  }
+}
+
+// Função assincrona para obter as ref dos assentos
+async function obterReferenciasAssentos() {
+  const infoVooString = localStorage.getItem("INFO_VOO");
+  let assentoID = 0;
+
+  // Dividir a string usando a vírgula como separador
+  const infoVooArray = infoVooString.split(",");
+
+  // Obter o valor desejado
+  if (localStorage.getItem("tipoViagem") === "ida_volta") {
+    assentoID = infoVooArray[7];
+  } else {
+    assentoID = infoVooArray[7];
+  }
+
+  console.log(assentoID);
+
+  try {
+    const body = { ID: assentoID };
+    const resultado = await requestObterReferencias(body);
+
+    if (resultado.status === "SUCCESS") {
+      return resultado.payload;
+    } else {
+      console.error("Erro ao obter as ref dos assentos:", resultado.message);
       return []; // Retorna um array vazio em caso de erro
     }
   } catch (error) {
@@ -68,8 +120,11 @@ async function atualizarReferenciasAssentos(idAeronave, referenciasAssentos) {
 }
 
 //Função para verificar se tem algum assento selecionado e ir para a tela de pagamento
-function Pagamento(){
-  if (localStorage.getItem("assentoSelecionado") !== null && localStorage.getItem("assentoSelecionado") !== "") {
+function Pagamento() {
+  if (
+    localStorage.getItem("assentoSelecionado") !== null &&
+    localStorage.getItem("assentoSelecionado") !== ""
+  ) {
     window.location.href = "/frontend/src/modules/compra/pagamento.html";
   } else {
     window.alert("Selecione um assento antes de prosseguir.");
@@ -86,6 +141,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // obtem o id dos assentos
     const idsAssentos = await obterIDsAssentos();
+    console.log(idsAssentos);
+
+    // obtem as ref dos assentos
+    const referenciasAssentos = await obterReferenciasAssentos();
+    console.log(referenciasAssentos);
 
     // Define o número de linhas e colunas no mapa de assentos
     const rows = 7;
@@ -107,10 +167,20 @@ document.addEventListener("DOMContentLoaded", async function () {
       // Loop para criar os assentos em cada fileira
       for (let col = 1; col <= columns; col++) {
         const assento = document.createElement("div");
-        assento.className = "seat";
+        // assento.className = "seat";
 
         const seatIndex = (row - "A".charCodeAt(0)) * columns + col - 1;
         assento.textContent = `${String.fromCharCode(row)}${col}`;
+
+        // Verifica se a referência do assento está no array de referências
+        if (
+          referenciasAssentos !== undefined &&
+          referenciasAssentos.includes(assento.textContent)
+        ) {
+          assento.classList.add("ocupado");
+        } else {
+          assento.className = "seat";
+        }
 
         // Evento de clique para marcar o assento selecionado
         assento.addEventListener("click", async function () {
@@ -138,6 +208,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         // Verifica se o índice é válido antes de acessar o array
         if (seatIndex < idsAssentos.length) {
           const assentoID = idsAssentos[seatIndex];
+          console.log(assentoID);
+          console.log(assento.textContent);
           atualizarReferenciasAssentos(assentoID, assento.textContent);
         }
       }

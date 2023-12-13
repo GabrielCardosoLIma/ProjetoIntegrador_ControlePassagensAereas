@@ -366,7 +366,9 @@ app.get("/listarVoos", async (req: Request, res: Response) => {
     connection = await ora.getConnection(oraConnAttribs);
 
     // Executa a consulta SQL para obter todos os voos
-    let resultadoConsulta = await connection.execute(`SELECT * FROM TB_Voo ORDER BY id_voo desc`);
+    let resultadoConsulta = await connection.execute(
+      `SELECT * FROM TB_Voo ORDER BY id_voo desc`
+    );
 
     cr.status = "SUCCESS";
     cr.message = "Dados obtidos";
@@ -866,8 +868,8 @@ app.post("/listarViagens", async (req: Request, res: Response) => {
           resultadoConsultaTrecho.rows &&
           resultadoConsultaTrecho.rows.length > 0
         ) {
-          // Adiciona o resultado ao array
-          resultadosCompletos.push(resultadoConsultaTrecho.rows[0]);
+          // Adiciona todos os resultados ao array
+          resultadosCompletos.push(...resultadoConsultaTrecho.rows);
         }
       } catch (error: any) {
         console.error(`Erro ao consultar trecho ${idTrecho}:`, error.message);
@@ -1052,6 +1054,49 @@ app.post("/obterIDs", async (req: Request, res: Response) => {
     // Execução da consulta no banco de dados para obter os IDs dos assentos associados à aeronave
     let resultadoAtualizacao = await connection.execute(
       `SELECT ID_ASSENTO FROM TB_ASSENTO WHERE FK_ID_AERONAVE = :1`,
+      [ID_AERONAVE]
+    );
+
+    cr.status = "SUCCESS";
+    cr.message = "Dados obtidos";
+
+    // Verificação se há resultados para a consulta
+    if (resultadoAtualizacao.rows && resultadoAtualizacao.rows.length > 0) {
+      cr.payload = resultadoAtualizacao.rows.flat();
+    } else {
+      // O array está vazio
+      cr.payload = undefined;
+    }
+  } catch (e) {
+    if (e instanceof Error) {
+      cr.message = e.message;
+    } else {
+      cr.message = "Erro ao conectar ao Oracle. Sem detalhes";
+    }
+  } finally {
+    // Fechamento da conexão com o banco de dados
+    if (connection !== undefined) {
+      await connection.close();
+    }
+
+    // Envio da resposta ao cliente
+    res.send(cr);
+  }
+});
+
+app.post("/obterReferencias", async (req: Request, res: Response) => {
+  let cr: CustomResponse = { status: "ERROR", message: "", payload: undefined };
+
+  let connection;
+  try {
+    connection = await ora.getConnection(oraConnAttribs);
+
+    // Obtenção do ID da aeronave a partir do corpo da requisição
+    const ID_AERONAVE = req.body.ID;
+
+    // Execução da consulta no banco de dados para obter os IDs dos assentos associados à aeronave
+    let resultadoAtualizacao = await connection.execute(
+      `SELECT REFERENCIA FROM TB_ASSENTO WHERE FK_ID_AERONAVE = :1 AND STATUS = 'Ocupado'`,
       [ID_AERONAVE]
     );
 
