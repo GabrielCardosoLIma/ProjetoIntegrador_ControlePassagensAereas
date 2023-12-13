@@ -10,11 +10,12 @@ main {
   gap: 50px;
 }
 
-#voos-disponiveis {
+.voos-disponiveis {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
   width: 70%;
   border-radius: 10px;
-  box-shadow: 1px 5px 10px rgba(0, 0, 0, 0.2);
-  background-color: white;
 }
 
 .origem,
@@ -24,23 +25,6 @@ main {
   flex-direction: column;
   text-align: center;
   margin: 10px 0px;
-}
-
-.comprar {
-  display: flex;
-  flex-direction: column;
-  padding: 8px;
-  padding-left: 50px;
-  justify-content: center;
-  align-items: center;
-  border-left: 1px solid rgba(168, 165, 165, 0.363);
-}
-
-.container-voos {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 20px;
 }
 
 .sigla {
@@ -68,7 +52,7 @@ main {
   color: var(--rich_black);
 }
 
-#comprar {
+#comprar, .btn-comprar{
   background-color: var(--gamboge);
   border: none;
   border-radius: 30px;
@@ -76,7 +60,7 @@ main {
   height: 40px;
 }
 
-#comprar:hover {
+#comprar:hover, .btn-comprar:hover {
   background-color: #efc808ad;
   cursor: pointer;
 }
@@ -87,6 +71,39 @@ main {
   padding: 5px;
 }
 
+.container-voos {
+  display: grid;
+  grid-template-areas: 'ida comprar' 'volta comprar';
+  grid-template-columns: 2.5fr 1fr;
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 1px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.ida{
+  display: flex;
+  justify-content: space-evenly;
+  grid-area: ida;
+}
+
+.volta{
+  display: flex;
+  justify-content: space-evenly;
+  grid-area: volta;
+  border-top: 1px solid rgba(124, 124, 124, 0.26);
+}
+
+.comprar {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  justify-content: center;
+  align-items: center;
+  grid-area: comprar;
+  border-left: 1px solid rgba(124, 124, 124, 0.26);
+}
+
 /*     Media Query     */
 
 @media (max-width: 768px) {
@@ -95,16 +112,16 @@ main {
     gap: 25px;
   }
 
-  #voos-disponiveis {
+  .voos-disponiveis {
     width: 95%;
     display: flex;
     flex-direction: column;
   }
 
   .container-voos {
-    display: grid;
-    grid-template-areas: "origem seta destino" "comprar comprar comprar";
-    gap: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .comprar {
@@ -117,12 +134,17 @@ main {
     margin-top: 20px;
   }
 
-  .origem {
-    grid-area: origem;
+  .origem, .destino {
+    padding: 0px;
+    margin: 0px;
   }
 
-  .destino {
-    grid-area: destino;
+  .ida{
+    padding-bottom: 10px;
+  }
+
+  .volta{
+    padding-top: 10px;
   }
 
   .seta {
@@ -144,16 +166,12 @@ main {
     font-size: 15px;
   }
 
-  #comprar {
+  #comprar, .btn-comprar {
     max-width: 200px;
   }
 
   .preco {
     grid-area: preco;
-  }
-
-  .comprar {
-    padding-top: 15px;
   }
 }
 
@@ -163,7 +181,7 @@ main {
     gap: 30px;
   }
 
-  #voos-disponiveis {
+  .voos-disponiveis {
     width: 95%;
     padding: 20px;
   }

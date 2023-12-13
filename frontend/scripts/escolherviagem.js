@@ -40,81 +40,122 @@ function formatarDataVoo(dataVoo) {
 
 // Função para preencher os voos disponiveis
 function preencherVoos(dados) {
-  const voosDisponiveis = document.getElementById("voos-disponiveis");
+  // Criação da seção voos-disponiveis
+  const sectionVoosDisponiveis = document.createElement("section");
+  sectionVoosDisponiveis.className = "voos-disponiveis";
 
   for (let i = 0; i < dados.length; i++) {
     const voo = dados[i];
 
-    // Verifica as condições necessárias para exibir o voo
-    if (
-      formatarDataVoo(voo[2]) === localStorage.getItem("dataIda") &&
-      formatarDataVoo(voo[4]) === localStorage.getItem("dataVolta") &&
-      voo[5] === localStorage.getItem("tipoViagem")
-    ) {
-      // Criação do container de voos
-      const divContainerVoos = document.createElement("div");
-      divContainerVoos.className = `container-voos ${voo[5]}`;
+    // Criação da div container-voos
+    const divContainerVoos = document.createElement("div");
+    divContainerVoos.className = "container-voos";
 
-      // Criação dos elementos dentro do container
-      const divOrigem = document.createElement("div");
-      divOrigem.className = "origem";
-      divOrigem.innerHTML = `
-        <p class="sigla" id="siglaOri${voo[5]}">${voo[10].toUpperCase()}</p>
-        <div>
-          <p id="cidOri${voo[5]}">${voo[12]}</p>
-          <p id="paisOri${voo[5]}">${voo[13]}</p>
-        </div>
-        <p class="horario" id="dtOri${voo[5]}">${formatarDataHora(voo[1])}</p>
-      `;
+    // Criação da div ida
+    const divIda = document.createElement("div");
+    divIda.className = "ida";
 
-      const spanSeta = document.createElement("span");
-      spanSeta.className = "material-symbols-outlined seta";
-      spanSeta.innerText = " trending_flat ";
+    // Criação da div origem e destino dentro da div ida
+    const divOrigemIda = document.createElement("div");
+    divOrigemIda.className = "origem";
+    divOrigemIda.innerHTML = `
+      <p class="sigla" id="siglaOri${voo[5]}">${voo[10].toUpperCase()}</p>
+      <div>
+        <p id="cidOri${voo[5]}">${voo[12]}</p>
+        <p id="paisOri${voo[5]}">${voo[13]}</p>
+      </div>
+      <p class="horario" id="dtOri${voo[5]}">${formatarDataHora(voo[1])}</p>
+    `;
 
-      const divDestino = document.createElement("div");
-      divDestino.className = "destino";
-      divDestino.innerHTML = `
-        <p class="sigla" id="siglaDest${voo[5]}">${String(
-        voo[15]
-      ).toUpperCase()}</p>
-        <p id="cidDest${voo[5]}">${voo[17]}</p>
-        <p id="paisDest${voo[5]}">${voo[18]}</p>
-        <p class="horario" id="dtDest${voo[5]}">${formatarDataHora(voo[2])}</p>
-      `;
+    const divDestinoIda = document.createElement("div");
+    divDestinoIda.className = "destino";
+    divDestinoIda.innerHTML = `
+      <p class="sigla" id="siglaDest${voo[5]}">${String(voo[15]).toUpperCase()}</p>
+      <p id="cidDest${voo[5]}">${voo[17]}</p>
+      <p id="paisDest${voo[5]}">${voo[18]}</p>
+      <p class="horario" id="dtDest${voo[5]}">${formatarDataHora(voo[2])}</p>
+    `;
 
-      const divComprar = document.createElement("div");
-      divComprar.className = "comprar";
-      const divPreco = document.createElement("div");
-      divPreco.className = "preco";
-      divPreco.innerText = `R$ ${voo[8].toFixed(2)}`;
+    // Adiciona div origem e destino à div ida
+    divIda.appendChild(divOrigemIda);
+    divIda.appendChild(divDestinoIda);
 
-      const buttonComprar = document.createElement("button");
-      buttonComprar.id = "comprar";
-      buttonComprar.innerText = "Comprar";
-      buttonComprar.type = "button";
-      buttonComprar.onclick = function () {
-        buscarAssentos(voo);
-      };
+    // Criação da div volta
+    const divVolta = document.createElement("div");
+    divVolta.className = "volta";
 
-      // Adiciona os elementos criados à estrutura
-      divComprar.appendChild(divPreco);
-      divComprar.appendChild(buttonComprar);
+    // Criação da div origem e destino dentro da div volta
+    const divOrigemVolta = document.createElement("div");
+    divOrigemVolta.className = "origem";
+    divOrigemVolta.innerHTML = `
+      <p class="sigla" id="siglaOriVolta${voo[5]}">${voo[15].toUpperCase()}</p>
+      <div>
+        <p id="cidOriVolta${voo[5]}">${voo[17]}</p>
+        <p id="paisOriVolta${voo[5]}">${voo[18]}</p>
+      </div>
+      <p class="horario" id="dtOriVolta${voo[5]}">${formatarDataHora(voo[4])}</p>
+    `;
 
-      divContainerVoos.appendChild(divOrigem);
-      divContainerVoos.appendChild(spanSeta);
-      divContainerVoos.appendChild(divDestino);
-      divContainerVoos.appendChild(divComprar);
+    const divDestinoVolta = document.createElement("div");
+    divDestinoVolta.className = "destino";
+    divDestinoVolta.innerHTML = `
+      <p class="sigla" id="siglaDestVolta${voo[5]}">${voo[10].toUpperCase()}</p>
+      <p id="cidDestVolta${voo[5]}">${voo[12]}</p>
+      <p id="paisDestVolta${voo[5]}">${voo[13]}</p>
+      <p class="horario" id="dtDestVolta${voo[5]}">${formatarDataHora(voo[3])}</p>
+    `;
 
-      voosDisponiveis.appendChild(divContainerVoos);
-    } 
-    // else if (
-    //   formatarDataVoo(voo[2]) === localStorage.getItem("dataIda") &&
-    //   formatarDataVoo(voo[4]) === localStorage.getItem("dataVolta") &&
-    //   voo[5] === localStorage.getItem("tipoViagem")
-    // ) {
-      
-    // }
+    // Adiciona div origem e destino à div volta
+    divVolta.appendChild(divOrigemVolta);
+    divVolta.appendChild(divDestinoVolta);
+
+    // Criação da div comprar
+    const divComprar = document.createElement("div");
+    divComprar.className = "comprar";
+
+    // Criação da div preco e do botão dentro da div comprar
+    const divPreco = document.createElement("div");
+    divPreco.className = "preco";
+    divPreco.innerText = `R$ ${voo[8].toFixed(2)}`;
+
+    const buttonComprar = document.createElement("button");
+    buttonComprar.className = 'btn-comprar'
+    buttonComprar.id = `comprar${i}`; // Utiliza um ID único para cada botão
+    buttonComprar.innerText = "Comprar";
+    buttonComprar.type = "button";
+    buttonComprar.onclick = function () {
+      buscarAssentos(voo);
+    };
+
+    // Adiciona div preco e botão à div comprar
+    divComprar.appendChild(divPreco);
+    divComprar.appendChild(buttonComprar);
+
+    // Adiciona div ida, volta e comprar à div container-voos
+    divContainerVoos.appendChild(divIda);
+    divContainerVoos.appendChild(divVolta);
+    divContainerVoos.appendChild(divComprar);
+
+    // Adiciona div container-voos à seção voos-disponiveis
+    sectionVoosDisponiveis.appendChild(divContainerVoos);
+
+    // Verifica o tipo de viagem na localStorage
+    const tipoViagem = localStorage.getItem("tipoViagem");
+
+    // Decide se deve mostrar ou ocultar a div volta
+    if (tipoViagem === "ida") {
+      // Oculta a div volta
+      divVolta.style.display = "none";
+    } else if (tipoViagem === "ida_volta") {
+      // Mostra a div volta
+      divVolta.style.display = "flex";
+    }
+
   }
+
+  // Adiciona a seção voos-disponiveis à main
+  const mainElement = document.querySelector("main");
+  mainElement.appendChild(sectionVoosDisponiveis);
 }
 
 // Função auxiliar para formatar data e hora
