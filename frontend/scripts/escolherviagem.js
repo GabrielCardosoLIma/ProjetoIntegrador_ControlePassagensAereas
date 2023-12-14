@@ -108,8 +108,12 @@ function preencherVoos(dados) {
         <p id="cidOri${voo[5]}">${voo[12]}</p>
         <p id="paisOri${voo[5]}">${voo[13]}</p>
       </div>
-      <p class="horario" id="dtOri${voo[5]}">${formatarDataHora(voo[1])}</p>
+      <p class="horario" id="dtOri${voo[5]}">${formatarDataHora(voo[2])}</p>
     `;
+
+    const spanSeta = document.createElement("span");
+    spanSeta.className = "material-symbols-outlined seta";
+    spanSeta.innerText = "trending_flat";
 
     const divDestinoIda = document.createElement("div");
     divDestinoIda.className = "destino";
@@ -119,11 +123,12 @@ function preencherVoos(dados) {
     ).toUpperCase()}</p>
       <p id="cidDest${voo[5]}">${voo[17]}</p>
       <p id="paisDest${voo[5]}">${voo[18]}</p>
-      <p class="horario" id="dtDest${voo[5]}">${formatarDataHora(voo[2])}</p>
+      <p class="horario" id="dtDest${voo[5]}">${formatarDataHora(voo[1])}</p>
     `;
 
     // Adiciona div origem e destino à div ida
     divIda.appendChild(divOrigemIda);
+    divIda.appendChild(spanSeta);
     divIda.appendChild(divDestinoIda);
 
     // Criação da div volta
@@ -144,6 +149,10 @@ function preencherVoos(dados) {
     )}</p>
     `;
 
+    const spanSeta2 = document.createElement("span");
+    spanSeta2.className = "material-symbols-outlined seta";
+    spanSeta2.innerText = "trending_flat";
+
     const divDestinoVolta = document.createElement("div");
     divDestinoVolta.className = "destino";
     divDestinoVolta.innerHTML = `
@@ -157,6 +166,7 @@ function preencherVoos(dados) {
 
     // Adiciona div origem e destino à div volta
     divVolta.appendChild(divOrigemVolta);
+    divVolta.appendChild(spanSeta2);
     divVolta.appendChild(divDestinoVolta);
 
     // Criação da div comprar
@@ -218,7 +228,7 @@ function preencherVoos(dados) {
       if (flag === 0) {
         // Adiciona um h2 com o texto "Sugestões" à divVoosNaoAtendem
         const h2Sugestoes = document.createElement("h2");
-        h2Sugestoes.className = 'sugestoes';
+        h2Sugestoes.className = "sugestoes";
         h2Sugestoes.innerText = "Sugestões";
         divVoosNaoAtendem.appendChild(h2Sugestoes);
         flag = 1;

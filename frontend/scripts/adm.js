@@ -531,7 +531,6 @@ function fetchInserirTrecho(body) {
 
 // Função para inserir um trecho
 function inserirTrecho() {
-
   if (!preencheuOrigem()) {
     showStatusMessage3("Preencha o ID do aeroporto de origem.", true);
     return;
@@ -762,7 +761,6 @@ function fetchInserirVoo(body) {
 
 // Função para inserir um voo
 function inserirVoo() {
-
   if (!selecionouTipoVoo()) {
     showStatusMessage4("Selecione o tipo de voo.", true);
     return;
@@ -796,27 +794,27 @@ function inserirVoo() {
   function formatarDataHora(input) {
     // Verifique se o input é nulo ou vazio
     if (!input) {
-      return null; 
+      return null;
     }
-  
+
     // Criar um objeto Date com base na string de entrada
     const dataHora = new Date(input);
-  
+
     // Verificar se o objeto Date é válido
     if (isNaN(dataHora.getTime())) {
-      return null; 
+      return null;
     }
-  
+
     // Extrair componentes de data e hora
     const ano = dataHora.getFullYear();
     const mes = String(dataHora.getMonth() + 1).padStart(2, "0");
     const dia = String(dataHora.getDate()).padStart(2, "0");
     const hora = String(dataHora.getHours()).padStart(2, "0");
     const minutos = String(dataHora.getMinutes()).padStart(2, "0");
-  
+
     // Formatar a string de saída
     const saida = `${ano}-${mes}-${dia} ${hora}:${minutos}:00`;
-  
+
     return saida;
   }
 

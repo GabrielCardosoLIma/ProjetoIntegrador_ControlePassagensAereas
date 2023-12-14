@@ -592,9 +592,7 @@ function preencherDadosIda() {
     const divDestino = document.createElement("div");
     divDestino.className = "destino-ida";
     divDestino.innerHTML = `
-      <p class="sigla" id="siglaDestIda">${String(
-        dados[15]
-      ).toUpperCase()}</p>
+      <p class="sigla" id="siglaDestIda">${String(dados[15]).toUpperCase()}</p>
       <p id="cidDestIda">${dados[17]}</p>
       <p id="paisDestIda">${dados[18]}</p>
       <p class="horario" id="dtDestIda">${formatarDataHora(dados[1])}</p>

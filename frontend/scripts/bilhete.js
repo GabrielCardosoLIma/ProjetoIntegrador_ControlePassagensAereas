@@ -61,7 +61,8 @@ function preencherBilheteVolta() {
     const dadosVoo = infoVoo.split(",");
 
     // Preencher os campos do HTML com as informações do localStorage
-    document.querySelector(".nome-volta p:last-child").innerText = nomePassageiro;
+    document.querySelector(".nome-volta p:last-child").innerText =
+      nomePassageiro;
     document.querySelector(".assento-volta p:last-child").innerText =
       assentoSelecionado;
     document.querySelector(".data-volta p:last-child").innerText = formatarData(
@@ -73,12 +74,10 @@ function preencherBilheteVolta() {
       dadosVoo[17];
     document.querySelector(".origem-volta .dados p:last-child").innerText =
       dadosVoo[18];
-    document.querySelector(".hora-volta p:last-child").innerText = formatarHorario(
-      dadosVoo[4]
-    );
-    document.querySelector(".destino-volta .dados p:nth-child(1)").innerText = String(
-      dadosVoo[10]
-    ).toUpperCase();
+    document.querySelector(".hora-volta p:last-child").innerText =
+      formatarHorario(dadosVoo[4]);
+    document.querySelector(".destino-volta .dados p:nth-child(1)").innerText =
+      String(dadosVoo[10]).toUpperCase();
     document.querySelector(".destino-volta .dados p:nth-child(2)").innerText =
       dadosVoo[12];
     document.querySelector(".destino-volta .dados p:last-child").innerText =
@@ -92,7 +91,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   preencherBilhete();
 });
 
-
 // Verifica o tipo de viagem na localStorage
 const tipoViagem = localStorage.getItem("tipoViagem");
 const divVolta = document.querySelector(".volta");
@@ -100,8 +98,8 @@ const divVolta = document.querySelector(".volta");
 // Decide se deve mostrar ou ocultar a div volta
 if (tipoViagem === "ida") {
   document.addEventListener("DOMContentLoaded", async function () {
-    divVolta.style.display = 'none';
+    divVolta.style.display = "none";
   });
-} else{
+} else {
   preencherBilheteVolta();
 }
